@@ -68,7 +68,7 @@ last_updated: 2026-07-26
       "phase": "on_active",
       "target_domain": "economy",
       "port": "apply_region_modifier",
-      "parameters": {"modifier_id": "econ_modifier.timber_shortage", "scene_id": "region.whisper_forest", "duration_game_minutes": 4320}
+      "parameters": {"modifier_id": "econ_modifier.timber_shortage", "scene_id": "region.twilight_whisper_forest", "duration_game_minutes": 4320}
     },
     {
       "consequence_id": "cq.reopen_forest_road",

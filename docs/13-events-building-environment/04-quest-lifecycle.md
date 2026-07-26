@@ -69,7 +69,7 @@ last_updated: 2026-07-26
     {
       "objective_id": "obj.reach_collapse_site",
       "objective_type": "reach_location",
-      "parameters": {"destination_id": "semantic.silver_ember_mine.collapse_site"},
+      "parameters": {"destination_id": "node_semantic.mine.supported_work_face"},
       "required_count": 1,
       "completed_count": 1,
       "state": "completed"

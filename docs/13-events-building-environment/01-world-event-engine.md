@@ -63,12 +63,12 @@ last_updated: 2026-07-26
   "state": "active",
   "scope": {
     "scope_kind": "area",
-    "scene_id": "region.whisper_forest",
+    "scene_id": "region.twilight_whisper_forest",
     "bounds_wu": [512, 512, 1536, 1536]
   },
   "parameters": {
     "spread_rate_per_game_hour": 2,
-    "ignition_point": {"scene_id": "region.whisper_forest", "x_wu": 900.0, "y_wu": 700.0}
+    "ignition_point": {"scene_id": "region.twilight_whisper_forest", "x_wu": 900.0, "y_wu": 700.0}
   },
   "scheduled_start_game_time": 12600,
   "deadline_game_time": 13320,

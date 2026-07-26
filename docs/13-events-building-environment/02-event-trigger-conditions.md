@@ -64,13 +64,13 @@ last_updated: 2026-07-26
   "condition": {
     "kind": "all_of",
     "clauses": [
-      {"kind": "projection_equals", "path": "weather.region.whisper_forest.weather_id", "value": "weather.thunderstorm"},
-      {"kind": "projection_at_least", "path": "environment.region.whisper_forest.dryness_0_to_1", "value": 0.7}
+      {"kind": "projection_equals", "path": "weather.region.twilight_whisper_forest.weather_id", "value": "weather.thunderstorm"},
+      {"kind": "projection_at_least", "path": "environment.region.twilight_whisper_forest.dryness_0_to_1", "value": 0.7}
     ]
   },
   "activation_chance_0_to_1": 0.25,
   "cooldown_game_minutes": 4320,
-  "exclusion_tags": ["regional_disaster.whisper_forest"]
+  "exclusion_tags": ["regional_disaster.twilight_whisper_forest"]
 }
 ```
 
@@ -83,7 +83,7 @@ last_updated: 2026-07-26
   "weight_cap": 12,
   "crisis_active_count": 0,
   "cooldowns": [
-    {"event_template_id": "event.disaster.forest_fire", "scene_id": "region.whisper_forest", "expires_at_game_time": 17640}
+    {"event_template_id": "event.disaster.forest_fire", "scene_id": "region.twilight_whisper_forest", "expires_at_game_time": 17640}
   ],
   "last_calm_window_start_game_time": 8640
 }

@@ -90,14 +90,14 @@ Reverse Entry 示例（重开被洪水封锁的道路）：
 {
   "schema_version": 1,
   "diff_entry_id": "01K1AB2CD3EF4GH5JK6MNP7QSK",
-  "scene_id": "region.whisper_forest",
+  "scene_id": "region.twilight_whisper_forest",
   "revision": 5388,
   "game_time": 28800,
   "diff_kind": "environment_blockade",
   "source": {
     "command_id": null,
     "world_event_id": "01K1AB2CD3EF4GH5JK6MNP7QRS",
-    "domain_event_id": "01K1AB2CD3EF4GH5JK6MNP7QSL"
+    "domain_event_id": "01K1AB2CD3EF4GH5JK6MNP7QS8"
   },
   "subject_id": "01K1AB2CD3EF4GH5JK6MNP7QSM",
   "reverses_entry_id": "01K1AB2CD3EF4GH5JK6MNP7QSN",
