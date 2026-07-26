@@ -48,21 +48,17 @@ last_updated: 2026-07-26
 
 ## 5. 数据与接口
 
-`DES-MAP-002`：Semantic layer 以 version `1` 的 canonical manifest 提供可执行节点。`point` 是 Anchor/交互中心；Exit 额外提供本 Scene 的 `approach_point`、本 Scene 接收反向转场的 `arrival_point`，以及冗余但必须与 pair 校验一致的 `target_arrival_point`：
+`DES-MAP-002`：Semantic layer 以 version `1` 的 canonical manifest 提供可执行节点。下列 JSON 是默认 topology 的唯一权威 registry；后续表格仅由该 JSON 派生，不得反向覆盖 registry。`point` 是 Anchor/交互中心；Exit 额外提供本 Scene 的 `approach_point`、本 Scene 接收反向转场的 `arrival_point`，以及冗余但必须与 pair 校验一致的 `target_arrival_point`：
 
 ```json
 {
   "semantic_schema_version": 1,
   "nodes": [
     {
-      "semantic_node_id": "semantic_anchor.crown_creek.crown_square",
-      "node_type": "anchor",
+      "id": "semantic_anchor.crown_creek.crown_square",
+      "kind": "anchor",
       "scene_id": "region.crown_creek_town",
-      "point": {
-        "scene_id": "region.crown_creek_town",
-        "x_wu": 2048,
-        "y_wu": 2048
-      },
+      "point": {"scene_id": "region.crown_creek_town", "x_wu": 2048, "y_wu": 2048},
       "approach_point": null,
       "arrival_point": null,
       "arrival_fallback_points": [],
@@ -79,32 +75,116 @@ last_updated: 2026-07-26
       "availability_condition_id": null
     },
     {
-      "semantic_node_id": "semantic_exit.crown_creek.north_forest_gate",
-      "node_type": "exit",
+      "id": "semantic_anchor.twilight_whisper.oathkeeper_camp",
+      "kind": "anchor",
+      "scene_id": "region.twilight_whisper_forest",
+      "point": {"scene_id": "region.twilight_whisper_forest", "x_wu": 2048, "y_wu": 3584},
+      "approach_point": null,
+      "arrival_point": null,
+      "arrival_fallback_points": [],
+      "pair_node_id": null,
+      "target_scene_id": null,
+      "target_arrival_point": null,
+      "profile_constraints": {
+        "required_tags": ["ground"],
+        "max_radius_wu": 16,
+        "min_clearance_wu": 2
+      },
+      "enabled": true,
+      "reachability_policy": "required",
+      "availability_condition_id": null
+    },
+    {
+      "id": "semantic_anchor.silver_ash.entry_shed",
+      "kind": "anchor",
+      "scene_id": "region.silver_ash_mine",
+      "point": {"scene_id": "region.silver_ash_mine", "x_wu": 2688, "y_wu": 1536},
+      "approach_point": null,
+      "arrival_point": null,
+      "arrival_fallback_points": [],
+      "pair_node_id": null,
+      "target_scene_id": null,
+      "target_arrival_point": null,
+      "profile_constraints": {
+        "required_tags": ["ground"],
+        "max_radius_wu": 16,
+        "min_clearance_wu": 2
+      },
+      "enabled": true,
+      "reachability_policy": "required",
+      "availability_condition_id": null
+    },
+    {
+      "id": "semantic_exit.crown_creek.north_forest_gate",
+      "kind": "exit",
       "scene_id": "region.crown_creek_town",
-      "point": {
-        "scene_id": "region.crown_creek_town",
-        "x_wu": 2048,
-        "y_wu": 96
-      },
-      "approach_point": {
-        "scene_id": "region.crown_creek_town",
-        "x_wu": 2048,
-        "y_wu": 160
-      },
-      "arrival_point": {
-        "scene_id": "region.crown_creek_town",
-        "x_wu": 2048,
-        "y_wu": 128
-      },
+      "point": {"scene_id": "region.crown_creek_town", "x_wu": 2048, "y_wu": 96},
+      "approach_point": {"scene_id": "region.crown_creek_town", "x_wu": 2048, "y_wu": 160},
+      "arrival_point": {"scene_id": "region.crown_creek_town", "x_wu": 2048, "y_wu": 128},
       "arrival_fallback_points": [],
       "pair_node_id": "semantic_exit.twilight_whisper_forest.south_path",
       "target_scene_id": "region.twilight_whisper_forest",
-      "target_arrival_point": {
-        "scene_id": "region.twilight_whisper_forest",
-        "x_wu": 2048,
-        "y_wu": 3968
+      "target_arrival_point": {"scene_id": "region.twilight_whisper_forest", "x_wu": 2048, "y_wu": 3968},
+      "profile_constraints": {
+        "required_tags": ["ground"],
+        "max_radius_wu": 16,
+        "min_clearance_wu": 2
       },
+      "enabled": true,
+      "reachability_policy": "required",
+      "availability_condition_id": null
+    },
+    {
+      "id": "semantic_exit.twilight_whisper_forest.south_path",
+      "kind": "exit",
+      "scene_id": "region.twilight_whisper_forest",
+      "point": {"scene_id": "region.twilight_whisper_forest", "x_wu": 2048, "y_wu": 4000},
+      "approach_point": {"scene_id": "region.twilight_whisper_forest", "x_wu": 2048, "y_wu": 3936},
+      "arrival_point": {"scene_id": "region.twilight_whisper_forest", "x_wu": 2048, "y_wu": 3968},
+      "arrival_fallback_points": [],
+      "pair_node_id": "semantic_exit.crown_creek.north_forest_gate",
+      "target_scene_id": "region.crown_creek_town",
+      "target_arrival_point": {"scene_id": "region.crown_creek_town", "x_wu": 2048, "y_wu": 128},
+      "profile_constraints": {
+        "required_tags": ["ground"],
+        "max_radius_wu": 16,
+        "min_clearance_wu": 2
+      },
+      "enabled": true,
+      "reachability_policy": "required",
+      "availability_condition_id": null
+    },
+    {
+      "id": "semantic_exit.crown_creek.west_mine_road",
+      "kind": "exit",
+      "scene_id": "region.crown_creek_town",
+      "point": {"scene_id": "region.crown_creek_town", "x_wu": 96, "y_wu": 2048},
+      "approach_point": {"scene_id": "region.crown_creek_town", "x_wu": 160, "y_wu": 2048},
+      "arrival_point": {"scene_id": "region.crown_creek_town", "x_wu": 128, "y_wu": 2048},
+      "arrival_fallback_points": [],
+      "pair_node_id": "semantic_exit.silver_ash_mine.east_entry",
+      "target_scene_id": "region.silver_ash_mine",
+      "target_arrival_point": {"scene_id": "region.silver_ash_mine", "x_wu": 2944, "y_wu": 1536},
+      "profile_constraints": {
+        "required_tags": ["ground"],
+        "max_radius_wu": 16,
+        "min_clearance_wu": 2
+      },
+      "enabled": true,
+      "reachability_policy": "required",
+      "availability_condition_id": null
+    },
+    {
+      "id": "semantic_exit.silver_ash_mine.east_entry",
+      "kind": "exit",
+      "scene_id": "region.silver_ash_mine",
+      "point": {"scene_id": "region.silver_ash_mine", "x_wu": 3008, "y_wu": 1536},
+      "approach_point": {"scene_id": "region.silver_ash_mine", "x_wu": 2912, "y_wu": 1536},
+      "arrival_point": {"scene_id": "region.silver_ash_mine", "x_wu": 2944, "y_wu": 1536},
+      "arrival_fallback_points": [],
+      "pair_node_id": "semantic_exit.crown_creek.west_mine_road",
+      "target_scene_id": "region.crown_creek_town",
+      "target_arrival_point": {"scene_id": "region.crown_creek_town", "x_wu": 128, "y_wu": 2048},
       "profile_constraints": {
         "required_tags": ["ground"],
         "max_radius_wu": 16,
@@ -118,9 +198,15 @@ last_updated: 2026-07-26
 }
 ```
 
+每条 record 必须且只能包含以上 14 个字段（decoder 采用 `additionalProperties=false`）。严格 decoder 以 `kind` 分支：
+
+- `kind=anchor`：`point` 与 `profile_constraints` 非 null；`approach_point`、`arrival_point`、`pair_node_id`、`target_scene_id`、`target_arrival_point` 必须为 null，`arrival_fallback_points` 必须为空数组。
+- `kind=exit`：`point`、`approach_point`、`arrival_point`、`pair_node_id`、`target_scene_id`、`target_arrival_point` 与 `profile_constraints` 均非 null；`arrival_fallback_points` 是有序 WorldPoint 数组，默认四条 Exit 均为空。
+- 任意非 null WorldPoint 的 `scene_id` 必须匹配字段所属 frame：`point/approach_point/arrival_point` 匹配 record `scene_id`，`target_arrival_point` 匹配 `target_scene_id`。
+
 `reachability_policy` 只允许 `required/conditional`。Condition registry 只接受 Stable Catalog ID，并通过纯函数 `evaluate_availability(condition_id, revision) -> available | unavailable | evaluation_error` 求值；不得嵌入自由文本表达式或读取图片。
 
-默认 topology version `1` 的三个 Anchor 均使用 `profile_constraints={required_tags:[ground],max_radius_wu:16,min_clearance_wu:2}`、`enabled=true`、`reachability_policy=required`、`availability_condition_id=null`，坐标如下：
+以下均为 canonical registry 的 derived human view。默认 topology version `1` 的三个 Anchor 均使用 `profile_constraints={required_tags:[ground],max_radius_wu:16,min_clearance_wu:2}`、`enabled=true`、`reachability_policy=required`、`availability_condition_id=null`，坐标如下：
 
 | Scene ID | Bounds (`wu`) | Required Anchor | `point (x,y)` |
 |---|---:|---|---:|
@@ -137,7 +223,7 @@ last_updated: 2026-07-26
 | `semantic_exit.crown_creek.west_mine_road` | `region.crown_creek_town` | `region.silver_ash_mine` / `semantic_exit.silver_ash_mine.east_entry` | `(96,2048)` | `(160,2048)` | `(128,2048)` | `(2944,1536)` | `180°` |
 | `semantic_exit.silver_ash_mine.east_entry` | `region.silver_ash_mine` | `region.crown_creek_town` / `semantic_exit.crown_creek.west_mine_road` | `(3008,1536)` | `(2912,1536)` | `(2944,1536)` | `(128,2048)` | `0°` |
 
-对任意 source Exit `s` 与 `t=registry[s.pair_node_id]`，pair consistency 必须断言：
+对任意 source Exit `s` 与 `t=registry_by_id[s.pair_node_id]`，pair consistency 必须断言：
 
 ```text
 s.target_scene_id == t.scene_id

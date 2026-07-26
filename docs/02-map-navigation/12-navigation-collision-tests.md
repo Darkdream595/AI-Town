@@ -73,6 +73,8 @@ last_updated: 2026-07-26
 | `map_fixture.astar_minimum_edge` | road `800`、modifier `250`、zero additive | orth `200`、diag `283`、A*=Dijkstra |
 | `map_fixture.dependency_closure` | merged/missing/changed dependency blobs | verified / failed / invalidated |
 
+Semantic acceptance runner 必须先解析 `DOC-MAP-002` 的 canonical JSON manifest，按 record `id` 建立只读索引，再解析本节的 machine fixture；禁止从后续 Markdown 表格重建 registry。Availability case 的 `policy_fixture` 只在隔离 fixture copy 上覆盖指定 record，不修改 canonical manifest。
+
 Semantic availability fixture：
 
 | Case | Node policy/state | Condition result | Expected |
@@ -93,27 +95,132 @@ Exit pair consistency fixture：
 
 每行同时断言 `source.target_scene_id == target.scene_id`、`source.target_arrival_point == target.arrival_point`；成功 Transition Event 的 `to` 坐标必须等于表中 Expected Target arrival。
 
-Typed CriticalRoute schema：
+Typed Semantic acceptance fixture：
 
 ```json
 {
-  "route_id": "critical_route.crown_creek.square_to_forest_gate",
-  "scene_id": "region.crown_creek_town",
-  "from": {
-    "semantic_node_id": "semantic_anchor.crown_creek.crown_square",
-    "point_role": "point"
+  "fixture_id": "map_fixture.semantic_registry_v1",
+  "registry_contract": {
+    "source_doc_id": "DOC-MAP-002",
+    "semantic_schema_version": 1,
+    "expected_nodes": 7,
+    "expected_anchors": 3,
+    "expected_exits": 4
   },
-  "to": {
-    "semantic_node_id": "semantic_exit.crown_creek.north_forest_gate",
-    "point_role": "approach_point"
-  },
-  "profile_id": "agent_profile.humanoid.default",
-  "max_cost": 500000,
-  "must_remain_open": true
+  "availability_cases": [
+    {
+      "case_id": "semantic_case.required_enabled",
+      "node_id": "semantic_anchor.crown_creek.crown_square",
+      "policy_fixture": {
+        "enabled": true,
+        "reachability_policy": "required",
+        "availability_condition_id": null
+      },
+      "condition_result": null,
+      "expected_status": "success",
+      "expected_pathfinding_calls": 1
+    },
+    {
+      "case_id": "semantic_case.conditional_unavailable",
+      "node_id": "semantic_anchor.twilight_whisper.oathkeeper_camp",
+      "policy_fixture": {
+        "enabled": true,
+        "reachability_policy": "conditional",
+        "availability_condition_id": "condition.fixture.closed"
+      },
+      "condition_result": "unavailable",
+      "expected_status": "not_applicable",
+      "expected_pathfinding_calls": 0
+    },
+    {
+      "case_id": "semantic_case.conditional_available",
+      "node_id": "semantic_anchor.silver_ash.entry_shed",
+      "policy_fixture": {
+        "enabled": true,
+        "reachability_policy": "conditional",
+        "availability_condition_id": "condition.fixture.open"
+      },
+      "condition_result": "available",
+      "expected_status": "success",
+      "expected_pathfinding_calls": 1
+    },
+    {
+      "case_id": "semantic_case.condition_error",
+      "node_id": "semantic_anchor.silver_ash.entry_shed",
+      "policy_fixture": {
+        "enabled": true,
+        "reachability_policy": "conditional",
+        "availability_condition_id": "condition.fixture.error"
+      },
+      "condition_result": "evaluation_error",
+      "expected_status": "gate_failed",
+      "expected_pathfinding_calls": 0
+    }
+  ],
+  "transition_cases": [
+    {
+      "source_exit_id": "semantic_exit.crown_creek.north_forest_gate",
+      "target_exit_id": "semantic_exit.twilight_whisper_forest.south_path",
+      "expected_target_arrival": {"scene_id": "region.twilight_whisper_forest", "x_wu": 2048, "y_wu": 3968}
+    },
+    {
+      "source_exit_id": "semantic_exit.twilight_whisper_forest.south_path",
+      "target_exit_id": "semantic_exit.crown_creek.north_forest_gate",
+      "expected_target_arrival": {"scene_id": "region.crown_creek_town", "x_wu": 2048, "y_wu": 128}
+    },
+    {
+      "source_exit_id": "semantic_exit.crown_creek.west_mine_road",
+      "target_exit_id": "semantic_exit.silver_ash_mine.east_entry",
+      "expected_target_arrival": {"scene_id": "region.silver_ash_mine", "x_wu": 2944, "y_wu": 1536}
+    },
+    {
+      "source_exit_id": "semantic_exit.silver_ash_mine.east_entry",
+      "target_exit_id": "semantic_exit.crown_creek.west_mine_road",
+      "expected_target_arrival": {"scene_id": "region.crown_creek_town", "x_wu": 128, "y_wu": 2048}
+    }
+  ],
+  "critical_routes": [
+    {
+      "route_id": "critical_route.crown_creek.square_to_forest_gate",
+      "scene_id": "region.crown_creek_town",
+      "from": {"semantic_node_id": "semantic_anchor.crown_creek.crown_square", "point_role": "point"},
+      "to": {"semantic_node_id": "semantic_exit.crown_creek.north_forest_gate", "point_role": "approach_point"},
+      "profile_id": "agent_profile.humanoid.default",
+      "max_cost": 500000,
+      "must_remain_open": true
+    },
+    {
+      "route_id": "critical_route.crown_creek.square_to_mine_road",
+      "scene_id": "region.crown_creek_town",
+      "from": {"semantic_node_id": "semantic_anchor.crown_creek.crown_square", "point_role": "point"},
+      "to": {"semantic_node_id": "semantic_exit.crown_creek.west_mine_road", "point_role": "approach_point"},
+      "profile_id": "agent_profile.humanoid.default",
+      "max_cost": 500000,
+      "must_remain_open": true
+    },
+    {
+      "route_id": "critical_route.twilight_whisper.camp_to_south_path",
+      "scene_id": "region.twilight_whisper_forest",
+      "from": {"semantic_node_id": "semantic_anchor.twilight_whisper.oathkeeper_camp", "point_role": "point"},
+      "to": {"semantic_node_id": "semantic_exit.twilight_whisper_forest.south_path", "point_role": "approach_point"},
+      "profile_id": "agent_profile.humanoid.default",
+      "max_cost": 500000,
+      "must_remain_open": true
+    },
+    {
+      "route_id": "critical_route.silver_ash.shed_to_east_entry",
+      "scene_id": "region.silver_ash_mine",
+      "from": {"semantic_node_id": "semantic_anchor.silver_ash.entry_shed", "point_role": "point"},
+      "to": {"semantic_node_id": "semantic_exit.silver_ash_mine.east_entry", "point_role": "approach_point"},
+      "profile_id": "agent_profile.humanoid.default",
+      "max_cost": 400000,
+      "must_remain_open": true
+    }
+  ]
 }
 ```
 
-`point_role` 只允许 `point/approach_point/arrival_point`，且所选字段不得为 null、其 `scene_id` 必须等于 route `scene_id`。四条生产路线统一使用 default humanoid profile，并在无临时 actor 占位的静态规则快照上执行：
+`SemanticEndpoint.semantic_node_id` 必须解析到 canonical record 的 `id`。`point_role` 只允许 `point/approach_point/arrival_point`，且所选字段不得为 null、其 `scene_id` 必须等于 route `scene_id`。四条生产路线统一使用 default humanoid profile，并在无临时 actor 占位的静态规则快照上执行；下表只是上述 JSON 的 derived human view：
 
 | Route ID | From typed endpoint | To typed endpoint | 最大 cost |
 |---|---|---|---:|
