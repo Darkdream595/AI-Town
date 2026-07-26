@@ -122,6 +122,23 @@ last_updated: 2026-07-26
 - 磁盘空间不足时停止新的破坏性提交，保留最近一致状态并给出可恢复错误。
 - 正式居民遭遇致命数值时转换为非永久结局，不删除 Resident aggregate。
 
+### 7.1 首版产品风险登记
+
+本表是首版有界 Product Risk Register，共十项。`Owner` 对触发指标、mitigation 验证和剩余风险负责；新增风险或扩大影响范围必须修订 `ProductBaseline`、相关 Requirement 和 traceability，不能以隐含风险处理代替登记。
+
+| Risk ID | 风险 | 触发条件 / 可能性 | 影响 | Owner | Mitigation | Requirement / Test 追踪 |
+|---|---|---|---|---|---|---|
+| `RISK-PRODUCT-001` | 生成底图无法支持动态建筑或真实碰撞 | 地表包含可拆建筑、道路边界无法结构化对齐；中 | 高：地图返工或建筑功能失效 | `MAP`, `RENDER` | Ground Art、Structure、Walkability、Collision、Semantic 五层分离；建筑放置前验证关键通路 | `REQ-PRODUCT-003`, `REQ-PRODUCT-013` / `TEST-FOUNDATION-002`, `TEST-FOUNDATION-020` |
+| `RISK-PRODUCT-002` | AI 输出非法、越权或不可执行行动 | 非法 JSON、未知 Action、伪造 actor/数值；高 | 严重：世界状态失真 | `AI`, `BACKEND` | 版本化 Schema、注册 Action Catalog、权限/资源/路径重校验，模型仅提交 Proposal | `REQ-PRODUCT-004`, `REQ-PRODUCT-017` / `TEST-FOUNDATION-003`, `TEST-FOUNDATION-008` |
+| `RISK-PRODUCT-003` | 模型延迟或故障拖慢世界 | timeout、限流、空响应或普通请求排队超过 deadline；高 | 高：居民停滞、交互不可用 | `AI`, `TIME` | 异步隔离队列、有界重试、优先级、并发上限 2、Utility AI 降级 | `REQ-PRODUCT-007` / `TEST-FOUNDATION-003`, `TEST-FOUNDATION-009`, `TEST-FOUNDATION-011` |
+| `RISK-PRODUCT-004` | 高倍速超过计划与模型供给 | AI backlog 连续超过容量阈值；中 | 中高：重复行为或模拟失真 | `TIME`, `AI` | 计划预取、候选序列、队列 backpressure、自动降低倍率且不跳过规则 | `REQ-PRODUCT-007`, `REQ-PRODUCT-010` / `TEST-FOUNDATION-009` |
+| `RISK-PRODUCT-005` | 交易、战斗或建造重复提交 | 重连、重试、过期 Revision 或崩溃恢复重放；中 | 严重：货币/物品复制或状态分叉 | `BACKEND`, `ECON`, `COMBAT`, `EVENT` | Command idempotency、严格 Revision、Reservation、状态与 DomainEvent 原子事务 | `REQ-PRODUCT-004`, `REQ-PRODUCT-008` / `TEST-FOUNDATION-010`, `TEST-FOUNDATION-023` |
+| `RISK-PRODUCT-006` | 本机 API、Secret 或私人知识泄露 | 非同源页面调用、诊断包/日志出现敏感内容；中 | 严重：API Key 或居民秘密泄露 | `BACKEND`, `MEMORY`, `RELEASE` | loopback、Host/Origin/Session/Ticket 校验、Secret Provider、上下文 ACL、全出口脱敏扫描 | `REQ-PRODUCT-015`, `REQ-PRODUCT-016`, `REQ-PRODUCT-019` / `TEST-FOUNDATION-001`, `TEST-FOUNDATION-007`, `TEST-FOUNDATION-022` |
+| `RISK-PRODUCT-007` | 存档损坏或恢复到不一致 Revision | 进程中断、磁盘满、Migration/Snapshot/Event Log 校验失败；中 | 严重：世界不可恢复或历史丢失 | `RELEASE` | WAL、单写入、备份、Snapshot + Event Log、恢复屏障与全量 invariant audit | `REQ-PRODUCT-008`, `REQ-PRODUCT-014`, `REQ-PRODUCT-018` / `TEST-FOUNDATION-005`, `TEST-FOUNDATION-012`, `TEST-FOUNDATION-023` |
+| `RISK-PRODUCT-008` | 发布包不是最新代码或无法在玩家机器启动 | 新 Windows 环境、中文/空格路径、端口占用验收失败；中 | 严重：产品不可交付 | `RELEASE` | one-folder 自包含包、包内版本校验、无开发环境机器的真实双击测试 | `REQ-PRODUCT-001`, `REQ-PRODUCT-002`, `REQ-PRODUCT-010` / `TEST-FOUNDATION-001`, `TEST-FOUNDATION-006` |
+| `RISK-PRODUCT-009` | 188 份规格出现 owner、Schema、默认值或 ID 冲突 | 全量审计出现重复定义、悬空引用或无测试 Must；高 | 高：实现并行返工 | `FOUNDATION` | Canonical Owner、稳定 ID、traceability、188 路径索引和 G4 一致性/可实现性审计 | `REQ-PRODUCT-020` / `TEST-FOUNDATION-006`, `TEST-FOUNDATION-030..032` |
+| `RISK-PRODUCT-010` | 非永久死亡削弱黑暗世界的后果感 | 正式居民失败只被无成本复位；中 | 中：叙事承诺与玩法张力下降 | `WORLD`, `RESIDENT`, `COMBAT` | 使用重伤、疾病、债务、俘虏、诅咒、背叛和长期社会后果，禁止无代价重置 | `REQ-PRODUCT-009` / `TEST-FOUNDATION-005`, `TEST-FOUNDATION-024` |
+
 ## 8. 错误与降级
 
 模型失败按 `REPAIRABLE`、`REPLAN_REQUIRED`、`FORBIDDEN` 分类；只允许白名单字段修正和有限重试。渲染资源缺失时使用已登记 fallback。恢复失败时先复制原数据库，再停止该世界模拟并提供诊断，不得静默重建或丢弃事件。
