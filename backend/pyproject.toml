@@ -1,0 +1,18 @@
+[project]
+name = "ai-town-backend"
+version = "0.1.0"
+description = "AI Town 后端服务器"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
