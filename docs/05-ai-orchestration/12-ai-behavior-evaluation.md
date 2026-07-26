@@ -144,7 +144,7 @@ Fixture 缺版本、oracle 空、使用非固定 Seed、FakeProvider 未命中 h
 | `TEST-AI-051` | 7 游戏日 simulation |
 | `TEST-AI-052` | 30 游戏日、队列/缓存/日志规模有界 |
 
-## 12. 可执行文档审计与关联文档
+### 11.1 可执行文档审计
 
 在仓库 worktree 根目录执行：
 
@@ -170,6 +170,8 @@ $placeholderPattern = '(?i)\b(' + 'TO' + 'DO|T' + 'BD|FIX' + 'ME)\b'
 if (($raw -join "`n") -match $placeholderPattern) { throw 'placeholder found' }
 "AI_DOC_AUDIT_OK files=$($files.Count) ids=$($ids.Count) actions=$($actions.Count)"
 ```
+
+## 12. 关联文档
 
 - `DOC-FOUNDATION-005`：权威/Secret/invariant
 - `DOC-TIME-012`：1/7/30 日 simulation harness

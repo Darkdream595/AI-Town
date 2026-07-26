@@ -45,7 +45,7 @@ Catalog 不是模型 tool execution；AI 不能新增 action、改变 owner 公�
 |---|---|---|---|---|
 | `move_to` | `move_to_parameters` | destination 按 kind | MAP：standable、path、navigation revision | `ActorMovementStarted` |
 | `talk` | `talk_parameters` | target required | DIALOGUE：距离、语言、同意、会话状态 | `ConversationStarted` |
-| `work` | `work_parameters` | destination/target optional | ECON+TIME：Contract、shift、地点、capacity | `WorkSessionStarted` |
+| `work` | `work_parameters` | destination/target null（地点由 `workplace_id` 推导） | ECON+TIME：Contract、shift、地点、capacity | `WorkSessionStarted` |
 | `rest` | `rest_parameters` | destination required | RESIDENT+TIME+MAP：健康、节点、长行动 | `RestStarted` |
 | `eat` | `eat_parameters` | target null | ECON+RESIDENT：ownership、edible effect | `ItemConsumed` |
 | `buy` | `buy_parameters` | seller+destination required | ECON：Quote、余额、Inventory、原子交易 | `TransactionCommitted` |
@@ -71,7 +71,8 @@ Catalog 不是模型 tool execution；AI 不能新增 action、改变 owner 公�
 |---|---|
 | `move_to` | semantic node：`destination_id!=null, world_point absent/null`；world point：相反 |
 | `talk/buy/sell/give_item/start_encounter` | `target_entity_id!=null` 且 actor 可见该引用 |
-| `work/rest/buy/sell/craft/explore/build` | `destination_id!=null` |
+| `rest/buy/sell/craft/explore/build` | `destination_id!=null` |
+| `work` | `target_entity_id=null, destination_id=null`；执行地点由 owner 从 `work_parameters.workplace_id`（经 ECON `location_semantic_node_id`/MAP）解析，顶层 destination 不参与定位 |
 | `eat/wait` | `target_entity_id=null, destination_id=null` |
 | `combat_action` | 当前 actor/turn 必须由 Encounter projection 绑定，模型字段不得替代 |
 | `cast_spell` | target/aim 组合由 SpellDefinition 决定，空 target 仅在 Spell 允许时合法 |
@@ -113,7 +114,7 @@ Catalog 为只读版本化 registry。能力投影按 actor/revision 缓存且�
 | 测试 ID | 断言 |
 |---|---|
 | `TEST-AI-017` | action/schema/catalog/fixture set equality |
-| `TEST-AI-018` | cross-field semantic table |
+| `TEST-AI-018` | cross-field semantic table（含 `work` 顶层 destination/target 为 null 的正例与非 null 的负例 fixture） |
 | `TEST-AI-019` | 19 action owner Contract Tests |
 | `TEST-AI-020` | Proposal 与 PlayerCommand rule parity |
 
