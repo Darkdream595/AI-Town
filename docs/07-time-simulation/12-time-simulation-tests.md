@@ -1,7 +1,7 @@
 ---
 doc_id: DOC-TIME-012
 title: 时间与模拟验收测试
-version: 1.0.2
+version: 1.0.3
 status: approved-for-implementation
 owner_domain: time
 canonical_for:
@@ -145,8 +145,8 @@ function Resolve-EffectiveSpeed([double]$requestedSpeed, [double]$speedCap, [int
 }
 function Assert-StrictShape($value, [string[]]$allowedFields, [string]$label) {
   $actualFields = @($value.PSObject.Properties.Name)
-  $missingFields = @($allowedFields | Where-Object { $_ -notin $actualFields })
-  $additionalFields = @($actualFields | Where-Object { $_ -notin $allowedFields })
+  $missingFields = @($allowedFields | Where-Object { $actualFields -cnotcontains $_ })
+  $additionalFields = @($actualFields | Where-Object { $allowedFields -cnotcontains $_ })
   if ($missingFields.Count -gt 0 -or $additionalFields.Count -gt 0) {
     throw "TIME_RECOVERY_AUDIT_FAILED:$label missing=$($missingFields -join ',') additional=$($additionalFields -join ',')"
   }
@@ -167,12 +167,88 @@ function Get-PauseLedgerHash($ledger) {
 $v1Fields = @('schema_version','world_id','revision','game_time','clock_phase_quanta','next_tick_sequence','event_queue_hash','scheduler_hash','long_action_hash','reservation_hash','shutdown_state')
 $evidenceFields = @('schema_version','evidence_type','world_id','checkpoint_revision','requested_speed_multiplier','speed_cap_multiplier','effective_speed_multiplier','active_blocking_token_count','backpressure_overload_windows','backpressure_healthy_real_ms','clock_control_version','pause_ledger_hash')
 $v2Fields = @('schema_version','world_id','revision','game_time','clock_phase_quanta','requested_speed_multiplier','speed_cap_multiplier','backpressure_overload_windows','backpressure_healthy_real_ms','clock_control_version','pause_ledger_hash','next_tick_sequence','event_queue_hash','scheduler_hash','long_action_hash','reservation_hash','shutdown_state')
-function Convert-CheckpointV1ToV2($checkpointV1, $evidenceV1, $pauseLedger) {
-  Assert-StrictShape $checkpointV1 $v1Fields 'checkpoint_v1'
-  Assert-StrictShape $evidenceV1 $evidenceFields 'recovery_evidence_v1'
-  if ($checkpointV1.schema_version -ne 1 -or $evidenceV1.schema_version -ne 1 -or $evidenceV1.evidence_type -ne 'clock_control_recovery') {
-    throw 'TIME_RECOVERY_AUDIT_FAILED:version'
+function Test-JsonNumber($value) {
+  return $value -is [byte] -or $value -is [sbyte] -or $value -is [int16] -or $value -is [uint16] -or $value -is [int32] -or $value -is [uint32] -or $value -is [int64] -or $value -is [uint64] -or $value -is [single] -or $value -is [double] -or $value -is [decimal]
+}
+function Test-JsonInteger($value) {
+  if ($value -is [string] -or $value -is [bool] -or $null -eq $value) { return $false }
+  if ($value -is [byte] -or $value -is [sbyte] -or $value -is [int16] -or $value -is [uint16] -or $value -is [int32] -or $value -is [uint32] -or $value -is [int64] -or $value -is [uint64]) { return $true }
+  if ($value -is [single] -or $value -is [double] -or $value -is [decimal]) {
+    $number = [double]$value
+    return -not [double]::IsNaN($number) -and -not [double]::IsInfinity($number) -and [Math]::Floor($number) -eq $number
   }
+  return $false
+}
+function Assert-IntegerRange($value, [long]$minimum, $maximum, [string]$label) {
+  if (-not (Test-JsonInteger $value)) { throw "TIME_RECOVERY_AUDIT_FAILED:$label type=integer" }
+  $number = [decimal]$value
+  if ($number -lt $minimum -or ($null -ne $maximum -and $number -gt [decimal]$maximum)) {
+    throw "TIME_RECOVERY_AUDIT_FAILED:$label range"
+  }
+}
+function Assert-NumberEnum($value, [double[]]$allowed, [string]$label) {
+  if (-not (Test-JsonNumber $value)) { throw "TIME_RECOVERY_AUDIT_FAILED:$label type=number" }
+  $number = [double]$value
+  if ([double]::IsNaN($number) -or [double]::IsInfinity($number) -or -not ($allowed -contains $number)) {
+    throw "TIME_RECOVERY_AUDIT_FAILED:$label enum"
+  }
+}
+function Assert-StringPattern($value, [string]$pattern, [string]$label) {
+  if ($value -isnot [string] -or $value -cnotmatch $pattern) { throw "TIME_RECOVERY_AUDIT_FAILED:$label pattern" }
+}
+function Assert-Const($value, $expected, [string]$label) {
+  if ($value -cne $expected) { throw "TIME_RECOVERY_AUDIT_FAILED:$label const" }
+}
+function Assert-CheckpointV1($value) {
+  Assert-StrictShape $value $v1Fields 'checkpoint_v1'
+  Assert-IntegerRange $value.schema_version 1 1 'checkpoint_v1.schema_version'
+  Assert-StringPattern $value.world_id '^[0-9A-HJKMNP-TV-Z]{26}$' 'checkpoint_v1.world_id'
+  Assert-IntegerRange $value.revision 0 $null 'checkpoint_v1.revision'
+  Assert-IntegerRange $value.game_time 0 $null 'checkpoint_v1.game_time'
+  Assert-IntegerRange $value.clock_phase_quanta 0 19 'checkpoint_v1.clock_phase_quanta'
+  Assert-IntegerRange $value.next_tick_sequence 0 $null 'checkpoint_v1.next_tick_sequence'
+  foreach ($field in @('event_queue_hash','scheduler_hash','long_action_hash','reservation_hash')) {
+    Assert-StringPattern $value.$field '^[a-f0-9]{64}$' "checkpoint_v1.$field"
+  }
+  Assert-Const $value.shutdown_state 'checkpointed' 'checkpoint_v1.shutdown_state'
+}
+function Assert-RecoveryEvidenceV1($value) {
+  Assert-StrictShape $value $evidenceFields 'recovery_evidence_v1'
+  Assert-IntegerRange $value.schema_version 1 1 'evidence.schema_version'
+  Assert-Const $value.evidence_type 'clock_control_recovery' 'evidence.evidence_type'
+  Assert-StringPattern $value.world_id '^[0-9A-HJKMNP-TV-Z]{26}$' 'evidence.world_id'
+  Assert-IntegerRange $value.checkpoint_revision 0 $null 'evidence.checkpoint_revision'
+  Assert-NumberEnum $value.requested_speed_multiplier @(0,0.5,1,2,4) 'evidence.requested_speed_multiplier'
+  Assert-NumberEnum $value.speed_cap_multiplier @(0.5,1,2,4) 'evidence.speed_cap_multiplier'
+  Assert-NumberEnum $value.effective_speed_multiplier @(0,0.5,1,2,4) 'evidence.effective_speed_multiplier'
+  Assert-IntegerRange $value.active_blocking_token_count 0 64 'evidence.active_blocking_token_count'
+  Assert-IntegerRange $value.backpressure_overload_windows 0 6 'evidence.backpressure_overload_windows'
+  Assert-IntegerRange $value.backpressure_healthy_real_ms 0 30000 'evidence.backpressure_healthy_real_ms'
+  Assert-IntegerRange $value.clock_control_version 1 $null 'evidence.clock_control_version'
+  Assert-StringPattern $value.pause_ledger_hash '^[a-f0-9]{64}$' 'evidence.pause_ledger_hash'
+}
+function Assert-CheckpointV2($value) {
+  Assert-StrictShape $value $v2Fields 'checkpoint_v2'
+  Assert-IntegerRange $value.schema_version 2 2 'checkpoint_v2.schema_version'
+  Assert-StringPattern $value.world_id '^[0-9A-HJKMNP-TV-Z]{26}$' 'checkpoint_v2.world_id'
+  Assert-IntegerRange $value.revision 0 $null 'checkpoint_v2.revision'
+  Assert-IntegerRange $value.game_time 0 $null 'checkpoint_v2.game_time'
+  Assert-IntegerRange $value.clock_phase_quanta 0 19 'checkpoint_v2.clock_phase_quanta'
+  Assert-NumberEnum $value.requested_speed_multiplier @(0,0.5,1,2,4) 'checkpoint_v2.requested_speed_multiplier'
+  Assert-NumberEnum $value.speed_cap_multiplier @(0.5,1,2,4) 'checkpoint_v2.speed_cap_multiplier'
+  Assert-IntegerRange $value.backpressure_overload_windows 0 6 'checkpoint_v2.backpressure_overload_windows'
+  Assert-IntegerRange $value.backpressure_healthy_real_ms 0 30000 'checkpoint_v2.backpressure_healthy_real_ms'
+  Assert-IntegerRange $value.clock_control_version 1 $null 'checkpoint_v2.clock_control_version'
+  Assert-StringPattern $value.pause_ledger_hash '^[a-f0-9]{64}$' 'checkpoint_v2.pause_ledger_hash'
+  Assert-IntegerRange $value.next_tick_sequence 0 $null 'checkpoint_v2.next_tick_sequence'
+  foreach ($field in @('event_queue_hash','scheduler_hash','long_action_hash','reservation_hash')) {
+    Assert-StringPattern $value.$field '^[a-f0-9]{64}$' "checkpoint_v2.$field"
+  }
+  Assert-Const $value.shutdown_state 'checkpointed' 'checkpoint_v2.shutdown_state'
+}
+function Convert-CheckpointV1ToV2($checkpointV1, $evidenceV1, $pauseLedger) {
+  Assert-CheckpointV1 $checkpointV1
+  Assert-RecoveryEvidenceV1 $evidenceV1
   if ($checkpointV1.world_id -ne $evidenceV1.world_id -or $checkpointV1.revision -ne $evidenceV1.checkpoint_revision) {
     throw 'TIME_RECOVERY_AUDIT_FAILED:revision'
   }
@@ -201,7 +277,7 @@ function Convert-CheckpointV1ToV2($checkpointV1, $evidenceV1, $pauseLedger) {
     reservation_hash = $checkpointV1.reservation_hash
     shutdown_state = $checkpointV1.shutdown_state
   }
-  Assert-StrictShape $checkpointV2 $v2Fields 'checkpoint_v2'
+  Assert-CheckpointV2 $checkpointV2
   return $checkpointV2
 }
 $oneX = Advance-Clock 1830 0 200 2
@@ -229,7 +305,7 @@ $expectedV2 = @'
 $upcastV2 = Convert-CheckpointV1ToV2 $checkpointV1 $evidenceV1 $pauseLedger
 $serializedV2 = $upcastV2 | ConvertTo-Json -Compress
 $roundTripV2 = $serializedV2 | ConvertFrom-Json
-Assert-StrictShape $roundTripV2 $v2Fields 'checkpoint_v2_round_trip'
+Assert-CheckpointV2 $roundTripV2
 foreach ($field in $v2Fields) {
   $actual = ConvertTo-Json -Compress -InputObject $roundTripV2.$field
   $expected = ConvertTo-Json -Compress -InputObject $expectedV2.$field
@@ -237,33 +313,49 @@ foreach ($field in $v2Fields) {
 }
 if ((Resolve-EffectiveSpeed $roundTripV2.requested_speed_multiplier $roundTripV2.speed_cap_multiplier 1) -ne 0) { throw 'startup pause composition failed' }
 if ((Resolve-EffectiveSpeed $roundTripV2.requested_speed_multiplier $roundTripV2.speed_cap_multiplier 0) -ne 1) { throw 'restored cap composition failed' }
+function Assert-RecoveryAuditFailure([scriptblock]$action, [string]$label, $source, [string]$sourceBefore) {
+  $recoveryState = 'recovery_barrier'
+  $failed = $false
+  try { $null = & $action } catch {
+    if ($_.Exception.Message -notlike 'TIME_RECOVERY_AUDIT_FAILED:*') { throw }
+    $failed = $true
+  }
+  if (-not $failed) { throw "$label was accepted" }
+  if (($source | ConvertTo-Json -Compress) -ne $sourceBefore -or $recoveryState -ne 'recovery_barrier') {
+    throw "$label changed source or Recovery Barrier"
+  }
+}
 $extraV2 = $serializedV2 | ConvertFrom-Json
 $extraV2 | Add-Member -NotePropertyName unexpected_field -NotePropertyValue true
-$strictAdditionalFailed = $false
-try { Assert-StrictShape $extraV2 $v2Fields 'checkpoint_v2_extra' } catch {
-  if ($_.Exception.Message -notlike 'TIME_RECOVERY_AUDIT_FAILED:*') { throw }
-  $strictAdditionalFailed = $true
-}
-if (-not $strictAdditionalFailed) { throw 'additionalProperties false was not enforced' }
+Assert-RecoveryAuditFailure { Assert-CheckpointV2 $extraV2 } 'v2 additionalProperties' $extraV2 ($extraV2 | ConvertTo-Json -Compress)
 $missingEvidence = ($evidenceV1 | ConvertTo-Json -Compress) | ConvertFrom-Json
 $missingEvidence.PSObject.Properties.Remove('pause_ledger_hash')
 $sourceV1Before = $checkpointV1 | ConvertTo-Json -Compress
-$recoveryState = 'recovery_barrier'
-$missingEvidenceFailed = $false
-try { $null = Convert-CheckpointV1ToV2 $checkpointV1 $missingEvidence $pauseLedger } catch {
-  if ($_.Exception.Message -notlike 'TIME_RECOVERY_AUDIT_FAILED:*') { throw }
-  $missingEvidenceFailed = $true
-}
-if (-not $missingEvidenceFailed) { throw 'missing evidence did not fail' }
-if (($checkpointV1 | ConvertTo-Json -Compress) -ne $sourceV1Before -or $recoveryState -ne 'recovery_barrier') { throw 'safe recovery barrier/source preservation failed' }
+Assert-RecoveryAuditFailure { Convert-CheckpointV1ToV2 $checkpointV1 $missingEvidence $pauseLedger } 'evidence required' $checkpointV1 $sourceV1Before
 $extraEvidence = ($evidenceV1 | ConvertTo-Json -Compress) | ConvertFrom-Json
 $extraEvidence | Add-Member -NotePropertyName unexpected_field -NotePropertyValue true
-$extraEvidenceFailed = $false
-try { $null = Convert-CheckpointV1ToV2 $checkpointV1 $extraEvidence $pauseLedger } catch {
-  if ($_.Exception.Message -notlike 'TIME_RECOVERY_AUDIT_FAILED:*') { throw }
-  $extraEvidenceFailed = $true
-}
-if (-not $extraEvidenceFailed) { throw 'evidence additionalProperties false was not enforced' }
+Assert-RecoveryAuditFailure { Convert-CheckpointV1ToV2 $checkpointV1 $extraEvidence $pauseLedger } 'evidence additionalProperties' $checkpointV1 $sourceV1Before
+$cap3Evidence = ($evidenceV1 | ConvertTo-Json -Compress) | ConvertFrom-Json
+$cap3Evidence.speed_cap_multiplier = 3
+Assert-RecoveryAuditFailure { Convert-CheckpointV1ToV2 $checkpointV1 $cap3Evidence $pauseLedger } 'evidence enum cap=3' $checkpointV1 $sourceV1Before
+$stringGameTimeV1 = ($checkpointV1 | ConvertTo-Json -Compress) | ConvertFrom-Json
+$stringGameTimeV1.game_time = 'not-an-integer'
+Assert-RecoveryAuditFailure { Convert-CheckpointV1ToV2 $stringGameTimeV1 $evidenceV1 $pauseLedger } 'v1 integer type' $stringGameTimeV1 ($stringGameTimeV1 | ConvertTo-Json -Compress)
+$constEvidence = ($evidenceV1 | ConvertTo-Json -Compress) | ConvertFrom-Json
+$constEvidence.evidence_type = 'wrong_type'
+Assert-RecoveryAuditFailure { Convert-CheckpointV1ToV2 $checkpointV1 $constEvidence $pauseLedger } 'evidence const' $checkpointV1 $sourceV1Before
+$rangeV1 = ($checkpointV1 | ConvertTo-Json -Compress) | ConvertFrom-Json
+$rangeV1.clock_phase_quanta = 20
+Assert-RecoveryAuditFailure { Convert-CheckpointV1ToV2 $rangeV1 $evidenceV1 $pauseLedger } 'v1 maximum' $rangeV1 ($rangeV1 | ConvertTo-Json -Compress)
+$cap3V2 = $serializedV2 | ConvertFrom-Json
+$cap3V2.speed_cap_multiplier = 3
+Assert-RecoveryAuditFailure { Assert-CheckpointV2 $cap3V2 } 'v2 enum cap=3' $cap3V2 ($cap3V2 | ConvertTo-Json -Compress)
+$badHashV2 = $serializedV2 | ConvertFrom-Json
+$badHashV2.pause_ledger_hash = 'bad'
+Assert-RecoveryAuditFailure { Assert-CheckpointV2 $badHashV2 } 'v2 hash pattern' $badHashV2 ($badHashV2 | ConvertTo-Json -Compress)
+$badUlidV2 = $serializedV2 | ConvertFrom-Json
+$badUlidV2.world_id = 'bad'
+Assert-RecoveryAuditFailure { Assert-CheckpointV2 $badUlidV2 } 'v2 ULID pattern' $badUlidV2 ($badUlidV2 | ConvertTo-Json -Compress)
 $seed = Convert-HexToBytes '0123456789abcdeffedcba9876543210'
 $streamHmac = New-Object System.Security.Cryptography.HMACSHA256 (,$seed)
 $streamKey = $streamHmac.ComputeHash([Text.Encoding]::UTF8.GetBytes("ai-town/v1`0time.weather`0world"))
@@ -274,6 +366,9 @@ $rawBlock = $drawHmac.ComputeHash($drawData)
 $drawHmac.Dispose()
 if ((Convert-BytesToHex $streamKey) -ne '67f681f7d39d24580768808d033be6ffd0cd3eb661ddaab200ca184bc1073b5f') { throw 'stream key failed' }
 if ((Convert-BytesToHex $rawBlock) -ne 'c7801dd6c40f8ef4f422b58c1360dbe8afeb3a2f53c9428d3061b7fff71885b8') { throw 'raw block failed' }
+'TIME_STRICT_VALIDATORS_PASS'
+'TIME_INVALID_FIXTURES_REJECTED=10'
+'TIME_V2_REQUIRED_FIELDS_ROUNDTRIP=17'
 'TIME_DETERMINISM_SMOKE_PASS'
 ```
 
@@ -291,7 +386,7 @@ if ((Convert-BytesToHex $rawBlock) -ne 'c7801dd6c40f8ef4f422b58c1360dbe8afeb3a2f
 | `acceptance.time.periodic_30_days` | 30 日四类 cadence | 无漂移、无重复 occurrence |
 | `acceptance.time.offline_zero_delta` | offline 1m/1h/30d | GameTime/phase/work/expiry delta=0 |
 | `acceptance.time.checkpoint_v1_complete_evidence_upcast` | strict v1 + canonical Evidence + rebuilt ledger | 精确 strict v2、全部 required 字段 round-trip、startup 0/释放后 1 |
-| `acceptance.time.checkpoint_v1_missing_evidence` | Evidence 缺 `pause_ledger_hash`、Evidence/v2 额外字段反例 | stable failure、Recovery Barrier/source v1 不变、双方 additionalProperties 拒绝 |
+| `acceptance.time.checkpoint_v1_missing_evidence` | 缺/额外字段、cap=3、string GameTime、坏 const/range/ULID/hash | 三套 validator 全约束 stable failure，Recovery Barrier/source bytes 不变 |
 | `acceptance.time.seed_replay` | 固定 vector + stream reorder | hash/sequence 相同，无网络 AI replay |
 | `acceptance.time.overload_fallback` | 4× backlog pressure | 逐级降档、健康 30s 后逐级恢复 |
 
@@ -303,7 +398,7 @@ if ((Convert-BytesToHex $rawBlock) -ne 'c7801dd6c40f8ef4f422b58c1360dbe8afeb3a2f
 |---|---|
 | `TEST-TIME-034` | `REQ-TIME-001..004`, `RULE-TIME-001..024`, `RULE-TIME-073` |
 | `TEST-TIME-035` | `REQ-TIME-005..008`, `RULE-TIME-025..048` |
-| `TEST-TIME-036` | `REQ-TIME-009..012`, `RULE-TIME-049..072`, `RULE-TIME-074..075` |
+| `TEST-TIME-036` | `REQ-TIME-009..012`, `RULE-TIME-049..072`, `RULE-TIME-074..076` |
 
 ## 12. 关联文档
 

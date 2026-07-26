@@ -1,7 +1,7 @@
 ---
 doc_id: DOC-TIME-009
 title: 游戏关闭暂停与重启
-version: 1.0.2
+version: 1.0.3
 status: approved-for-implementation
 owner_domain: time
 canonical_for:
@@ -53,6 +53,7 @@ last_updated: 2026-07-26
 - `RULE-TIME-053`：新进程 Tick Sequence 从 checkpoint 的 next value 继续，但 monotonic deadline 以启动时 `now + 100 ms` 重建，不补离线 Tick。
 - `RULE-TIME-054`：恢复失败必须保持 paused/error state，不得重置 GameTime、清空队列或猜测长任务完成。
 - `RULE-TIME-074`：Shutdown Checkpoint 必须保存 requested speed、speed cap、backpressure counters、Clock Control version 与 Pause Ledger Hash；恢复后先加入 recovery/startup blocking token，再按 `DOC-TIME-002` 唯一公式重算 effective speed，禁止直接把 requested speed 当作 effective speed。
+- `RULE-TIME-076`：v1、Recovery Evidence 与 v2 必须在 upcast 前/后执行完整 value validation；禁止把 numeric string 强制转换成 number，禁止只检查字段名后宣称 strict validation。
 
 ## 5. 数据与接口
 
@@ -208,6 +209,18 @@ upcast_shutdown_checkpoint_v1(
 
 同一输入重复 upcast 必须产生 byte-identical canonical v2，且不增长 Revision、不追加 DomainEvent。输入已经是 valid v2 时只做 strict validation 后返回 canonical 等价值。
 
+`DES-TIME-015`：三个 validator 是 upcaster 的强制 Port：
+
+```text
+validate_shutdown_checkpoint_v1(value)
+validate_clock_control_recovery_evidence_v1(value)
+validate_shutdown_checkpoint_v2(value)
+```
+
+每个 validator 必须实际执行其 Schema 的全部 `required`、`additionalProperties:false`、`type`、integer、`enum`、`minimum/maximum`、`pattern` 与 `const`。验证按 JSON value type 进行：例如字符串 `"1830"` 不得被转换为 integer 1830，`speed_cap_multiplier=3` 不得被夹到合法倍率，短 hash/非法 ULID 不得补齐。任一 constraint failure 统一返回 `TIME_RECOVERY_AUDIT_FAILED`。
+
+`DOC-TIME-012` 第 10.1 节给出无项目依赖、实际可执行的 PowerShell 5.1 reference validator；实现语言可以不同，但合法/非法 fixture 的结果必须逐项一致。
+
 安全失败：
 
 | 条件 | 结果 |
@@ -277,7 +290,7 @@ checkpoint 不含 API Key、Prompt 原文、Secret 或 Chain of Thought。恢复
 | 测试 ID | 断言 |
 |---|---|
 | `TEST-TIME-025` | `RULE-TIME-049..050` shutdown order 与 zero offline delta |
-| `TEST-TIME-026` | `RULE-TIME-051..053`, `RULE-TIME-074` v2 control round-trip、recovery/rebase |
+| `TEST-TIME-026` | `RULE-TIME-051..053`, `RULE-TIME-074`, `RULE-TIME-076` strict value validation、v2 control round-trip、recovery/rebase |
 | `TEST-TIME-027` | `RULE-TIME-054` corruption 不猜测恢复 |
 
 ## 12. 关联文档
