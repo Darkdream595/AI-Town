@@ -54,12 +54,12 @@ last_updated: 2026-07-26
 ```json
 {
   "schema_version": 1,
-  "binding_id": "01K1PLAYER00000000000000001",
+  "binding_id": "01K1BNDG000000000000000001",
   "mode": "mayor_active",
   "mode_version": 8,
   "mayor_authority_version": 3,
-  "pause_token_id": "01K1PAUSETOKEN000000000001",
-  "entered_by_command_id": "01K1COMMAND000000000000003",
+  "pause_token_id": "01K1PTKN000000000000000001",
+  "entered_by_command_id": "01K1CMDX000000000000000003",
   "entered_revision": 92
 }
 ```
@@ -75,7 +75,9 @@ release_pause(command_id, token_id, owner=player)
   -> PauseResult
 ```
 
-## 6. 状态机与正常流程
+## 6. 正常流程
+
+模式状态机如下：
 
 ```mermaid
 stateDiagram-v2
@@ -90,7 +92,9 @@ stateDiagram-v2
 
 进入顺序：清空移动 input latch → 后端验证禁止态/权限 → 获取 TIME token → 提交 mode → 获取 Mayor projection → 开启 focus trap。离开顺序：停止接受新 Mayor Command → 等待已提交命令 receipt → 关闭 projection/focus trap → 提交 resident mode → 释放自己的 token → 恢复 world focus。
 
-## 7. 禁止转换表
+## 7. 边界情况
+
+### 7.1 禁止转换表
 
 | 当前条件 | 进入 Mayor | 离开 Mayor | 结果 |
 |---|---:|---:|---|
@@ -102,15 +106,19 @@ stateDiagram-v2
 | Mayor authority revoked | 禁止 | 强制安全关闭 | `PLAYER_MAYOR_AUTHORITY_REVOKED` |
 | Admin confirmation modal | 禁止 | 禁止直至确认取消/完成 | 防止确认语义漂移 |
 
-## 8. 并发、幂等与恢复
+### 7.2 并发与幂等
 
-mode command 使用 `(world_id, command_id)` 幂等，额外比较 `expected_mode_version`。双击 Tab 不能越过中间态；重复相同命令返回原状态，不同 payload 冲突。Crash 后：
+mode command 使用 `(world_id, command_id)` 幂等，额外比较 `expected_mode_version`。双击 Tab 不能越过中间态；重复相同命令返回原状态，不同 payload 冲突。
+
+## 8. 错误与降级
+
+Crash 后按以下裁定恢复：
 
 - mode=`mayor_active` 且 token 有效：恢复 Mayor UI，世界仍暂停。
 - mode=`resident_active` 但孤儿 Mayor token：在 Recovery Barrier 审计后按 owner 证据释放。
 - mode 为中间态：根据同事务 mode event/token ledger 选择唯一稳定态；无法证明时保持暂停。
 
-## 9. 权限与信息边界
+## 9. 安全与性能
 
 Mayor projection 由服务端根据 office、jurisdiction 和 revision 构造；切换过程中不得预取私人记忆、personal/shared_secret 或私人 Inventory 明细。Client 的 mode state 只是显示缓存，不是授权证据。Admin 能力不出现在 Mayor mode capability list。
 
@@ -137,4 +145,3 @@ Mayor projection 由服务端根据 office、jurisdiction 和 revision 构造；
 - `DOC-RENDER-009`：Mayor DOM、focus trap 与 UiInputGate
 - `DOC-PLAYER-008`：Mayor capability 与 jurisdiction
 - `DOC-PLAYER-009`：Admin confirmation 独立状态
-

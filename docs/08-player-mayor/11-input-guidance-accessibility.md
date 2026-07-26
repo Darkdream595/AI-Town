@@ -30,7 +30,16 @@ last_updated: 2026-07-26
 
 本文不定义 gamepad 首版支持、移动端触控、语音输入、浏览器保留键行为或具体视觉 token。RENDER 拥有样式，PLAYER 拥有 action/context/key mapping。
 
-## 3. 默认输入映射
+## 3. 术语与定义
+
+| 术语 | 定义 |
+|---|---|
+| InputContext | 决定按键归属的输入上下文，如 `resident_world/modal/dialogue_input` |
+| Chord | 物理 `KeyboardEvent.code` 与 modifier 的组合 |
+| InputMap Profile | 版本化保存的 context/action/chord 绑定集合 |
+| UiInputGate | DOM focus 期间阻止世界快捷键的闸门（`DOC-RENDER-009`） |
+
+### 3.1 默认输入映射
 
 | Context | Action | 默认输入 | 可重绑定 |
 |---|---|---|---:|
@@ -54,7 +63,13 @@ last_updated: 2026-07-26
 - `RULE-PLAYER-055`：`Escape`、浏览器 `F11`、确认/取消安全路径和至少一种 focus navigation 不可被移除；重绑定后必须仍可用键盘恢复默认。
 - `RULE-PLAYER-056`：Reduced Motion、色觉/高对比、字幕/文本提示和 camera shake 开关改变表现，不改变规则时间、命中、导航或可见事实。
 
-## 5. InputMap Schema
+### 4.1 无障碍要求
+
+所有 DOM button/input 具有可读 name、可见 focus、逻辑 tab order、错误关联和 screen-reader live region；modal 使用 focus trap 并在关闭后恢复合法 focus。重要音频事件同时提供文本/图标，不能只靠颜色。Reduced Motion 禁用 camera shake、闪白和非必要 tween，保留静态方向/危险提示。持续按键可配置 hold/toggle，但 toggle 在 blur/modal/mode change 时自动释放。
+
+## 5. 数据与接口
+
+InputMap Schema：
 
 ```json
 {
@@ -94,11 +109,13 @@ last_updated: 2026-07-26
 
 使用 `KeyboardEvent.code` 保存物理位置，并同时显示本地化 label；`modifiers` 仅 `Alt/Control/Meta/Shift` 且排序固定。未知 action/context/字段拒绝，旧版本通过显式 upcaster。
 
-## 6. 输入提示
+## 6. 正常流程
+
+### 6.1 输入提示
 
 底部提示来自当前 `InputContext + CapabilityProjection + InputMap`，格式为“按键 — 操作”，最多显示 6 个高相关项，并提供“全部控制”入口。禁用能力可隐藏或显示带安全 reason 的 disabled hint；不能泄露 secret。首次进入、首次打开 Dialogue、首次切换 Mayor 和首次失败 fullscreen 分别提供一次可再次打开的 onboarding。
 
-## 7. 重绑定流程
+### 6.2 重绑定流程
 
 1. 打开设置后获取 `settings_input` modal context 并清空世界 latch。
 2. 选择 action，进入 capture；忽略仅 modifier、系统组合和 key repeat。
@@ -107,17 +124,20 @@ last_updated: 2026-07-26
 5. 通过 validator 后原子保存 profile version；立即更新提示。
 6. write 失败保留旧 profile 并显示可恢复错误，不留下半套映射。
 
-## 8. 无障碍要求
-
-所有 DOM button/input 具有可读 name、可见 focus、逻辑 tab order、错误关联和 screen-reader live region；modal 使用 focus trap 并在关闭后恢复合法 focus。重要音频事件同时提供文本/图标，不能只靠颜色。Reduced Motion 禁用 camera shake、闪白和非必要 tween，保留静态方向/危险提示。持续按键可配置 hold/toggle，但 toggle 在 blur/modal/mode change 时自动释放。
-
-## 9. 边界情况与恢复
+## 7. 边界情况
 
 - IME composing 时 Enter 不提交，等待 `compositionend`。
 - 长按 key repeat 不重复触发 toggle/modal；移动按 pressed-state 采样。
 - 键盘布局变化只改变显示 label，不改已保存 physical `code`；用户可重设。
+
+## 8. 错误与降级
+
 - profile JSON 损坏时隔离坏文件、加载内置 default，并提供恢复提示。
 - 所有键被误配不可达时，启动时 `Ctrl+Alt+Backspace` 仅打开“恢复默认输入”确认页；不执行世界 mutation。
+
+## 9. 安全与性能
+
+输入提示与 disabled hint 只使用安全 reason code，不泄露 secret 或无权限目标信息。InputMap profile 保存在本地且不含凭据；capture 期间的按键不发送到后端或模型。提示栏最多渲染 6 个高相关项，重绑定校验由本地 validator 完成，不产生逐按键网络请求。
 
 ## 10. 验收标准
 
@@ -142,4 +162,3 @@ last_updated: 2026-07-26
 - `DOC-RENDER-009`：DOM overlay、focus trap 与 UiInputGate
 - `DOC-PLAYER-003`：Tab mode switch context
 - `DOC-PLAYER-010`：F11 与 Fullscreen API 用户流程
-

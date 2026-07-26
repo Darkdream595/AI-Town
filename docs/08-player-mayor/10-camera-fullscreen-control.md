@@ -47,7 +47,9 @@ last_updated: 2026-07-26
 - `RULE-PLAYER-050`：Fullscreen 请求拒绝、超时、失焦或 API 缺失时保持/恢复 windowed layout、focus 和 input；不得卡在黑屏、暂停或锁定 input。
 - `RULE-PLAYER-051`：退出 fullscreen、resize、DPR change 和 orientation-like viewport change 必须重新 clamp camera，但不得发布 DomainEvent。
 
-## 5. 客户端状态 Schema
+## 5. 数据与接口
+
+客户端 Presentation 状态 Schema：
 
 ```json
 {
@@ -72,11 +74,13 @@ last_updated: 2026-07-26
 
 `camera_mode` 仅 `follow_player/mayor_overview/cinematic_locked`；zoom 范围由 RENDER registry 限制。此 Schema 不进入权威 world snapshot，只进入客户端诊断。
 
-## 6. 相机流程
+## 6. 正常流程
+
+### 6.1 相机流程
 
 Resident Mode 默认跟随最新 committed player position，使用 MAP clamp；客户端预测只能短暂影响 Sprite 和相机视觉，不改变规则 target。Mayor mode 可 pan/zoom 查看 jurisdiction，但 interaction hit-test 使用服务端 subject ID/revision，不从屏幕坐标直接修改世界。Scene transition 先安装新 Snapshot，再设置 camera target 和 clamp，避免显示地图外区域。
 
-## 7. Fullscreen 流程
+### 6.2 Fullscreen 流程
 
 1. 首次进入 modal 展示 `F11`、全屏按钮、`稍后`；所有项可键盘访问。
 2. 点击全屏按钮立即调用 `#game-shell.requestFullscreen()`；调用前不 await 网络/模型。
@@ -85,13 +89,24 @@ Resident Mode 默认跟随最新 committed player position，使用 MAP clamp；
 5. Promise rejection/API 缺失/3 秒无 change 时显示非阻塞提示：“无法自动全屏，可按 F11；游戏仍可在窗口中运行。”
 6. 首次提示选择只保存 presentation preference，不保存“已成功全屏”的虚假状态。
 
-## 8. 输入与模式协调
+## 7. 边界情况
+
+### 7.1 输入与模式协调
 
 fullscreen 按钮获得 DOM focus 时 `UiInputGate` 阻止 E/Enter/Space 同时触发世界行为。`F11` 不拦截、不重绑定、不假装调用成功；浏览器可能保留该快捷键。Mayor overview 的 pan keys 只在 Mayor canvas context 生效，退出模式立即清除。Fullscreen change 不释放 Pause Token、不自动切换模式。
 
-## 9. 失败恢复与性能
+### 7.2 视口边界
 
-WebGL context loss 与 fullscreen failure 分开处理；前者遵循 RENDER snapshot/recreate，后者只恢复 layout。resize 事件在 animation frame 合并，最终事件必须执行；不得每次像素变化请求后端。极小 viewport 采用 letterbox/滚动 DOM，不缩小到无法点击。重载后从 windowed 开始，浏览器不允许应用自动重新进入 fullscreen。
+极小 viewport 采用 letterbox/滚动 DOM，不缩小到无法点击。
+
+## 8. 错误与降级
+
+- WebGL context loss 与 fullscreen failure 分开处理；前者遵循 RENDER snapshot/recreate，后者只恢复 layout。
+- 重载后从 windowed 开始，浏览器不允许应用自动重新进入 fullscreen。
+
+## 9. 安全与性能
+
+resize 事件在 animation frame 合并，最终事件必须执行；不得每次像素变化请求后端。Element Fullscreen 只能由真实 user activation 触发（`RULE-PLAYER-049`）；presentation state 不进入权威 world snapshot，也不构成任何授权来源。
 
 ## 10. 验收标准
 
@@ -116,4 +131,3 @@ WebGL context loss 与 fullscreen failure 分开处理；前者遵循 RENDER sna
 - `DOC-RENDER-001`：WorldPoint、Snapshot 与 camera projection
 - `DOC-RENDER-009`：`#game-shell`、DOM overlay、Safe Area 与 focus
 - `DOC-PLAYER-011`：全屏提示、快捷键和可访问输入
-

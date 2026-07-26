@@ -31,9 +31,18 @@ last_updated: 2026-07-26
 
 本文不定义 Mayor、Sandbox Admin、各职业许可、秘密分类内部实现或 Domain 数值公式。PLAYER 组合 owner 提供的 permission projection，不复制其权威状态。
 
-## 3. 权限模型
+## 3. 术语与定义
 
-有效能力为下列交集，而非 UI 按钮集合：
+| 术语 | 定义 |
+|---|---|
+| 有效能力 | 玩家当前可尝试的能力集合，由权限模型交集给出，而非 UI 按钮集合 |
+| Permission Projection | 服务端按 Revision 生成的能力提示投影，不是授权本身 |
+| world_owner | 只允许世界管理/存档操作的安装级角色 |
+| resident | 允许普通世界行动的绑定 Resident 角色 |
+
+### 3.1 权限模型
+
+有效能力为下列交集：
 
 ```text
 active player-resident binding
@@ -55,13 +64,15 @@ active player-resident binding
 - `RULE-PLAYER-034`：owner/consent/permission/Reservation 在提交点以最新版本校验；Client token、UI 状态或旧 projection 不构成授权。
 - `RULE-PLAYER-035`：拒绝是稳定结果，必须给安全 reason code；不得通过 fallback 把禁止命令改成近似成功。
 
-## 5. 权限投影 Schema
+## 5. 数据与接口
+
+### 5.1 权限投影 Schema
 
 ```json
 {
   "schema_version": 1,
-  "binding_id": "01K1PLAYER00000000000000001",
-  "resident_id": "01K1RESIDENT0000000000001",
+  "binding_id": "01K1BNDG000000000000000001",
+  "resident_id": "01K1RSDT000000000000000001",
   "mode": "resident_active",
   "revision": 240,
   "capability_ids": [
@@ -80,7 +91,7 @@ active player-resident binding
 
 Projection 不包含余额、Inventory 内容、secret、relationship raw values 或 capability 参数。具体命令仍由 owner 查询这些权威值。
 
-## 6. 能力矩阵
+### 5.2 能力矩阵
 
 | 操作 | 默认 | 附加条件 |
 |---|---:|---|
@@ -94,7 +105,7 @@ Projection 不包含余额、Inventory 内容、secret、relationship raw values
 | 管理公共预算/税率 | 禁止 | 必须切换 Mayor 并重新授权 |
 | 直接 set state/mint/teleport | 禁止 | 仅显式 Admin 流程可提议受限 mutation |
 
-## 7. 正常授权流程
+## 6. 正常流程
 
 1. Gateway 从 session 和 binding 得到 actor，忽略 Client actor/role。
 2. PLAYER 验证 mode 与 capability category。
@@ -103,11 +114,17 @@ Projection 不包含余额、Inventory 内容、secret、relationship raw values
 5. 成功按 `DOC-PLAYER-006` 提交事件；拒绝返回 `deny_code + safe_player_message + retryability`。
 6. UI 根据新 projection 更新提示，不暴露被拒绝目标的私有原因。
 
-## 8. 版本、缓存与恢复
+## 7. 边界情况
 
-Capability cache 最多有效到生成时 Revision；角色、健康、拘押、产权或 Scene 变化立即使相关项失效。重复 permission check 可缓存只读结果，但 commit 仍重校验。恢复后从 binding 和 owner aggregates 重建，不从 Client localStorage 恢复 role。权限投影无法生成时 fail closed，但移动到安全位置和存档等基本恢复能力由专用 system command 提供。
+- Capability cache 最多有效到生成时 Revision；角色、健康、拘押、产权或 Scene 变化立即使相关项失效。
+- 重复 permission check 可缓存只读结果，但 commit 仍重校验。
 
-## 9. 安全与隐私
+## 8. 错误与降级
+
+- 恢复后从 binding 和 owner aggregates 重建，不从 Client localStorage 恢复 role。
+- 权限投影无法生成时 fail closed，但移动到安全位置和存档等基本恢复能力由专用 system command 提供。
+
+## 9. 安全与性能
 
 错误消息区分 `not_permitted` 与可公开原因，不能通过枚举目标探测秘密/私人物品。例如访问 secret 门失败可统一显示“无法进入”，而不是泄露 owner 或内部事件。权限日志保存 actor、capability、resource ID hash、decision、policy version 和 correlation，不保存对话/secret 内容。
 
@@ -134,4 +151,3 @@ Capability cache 最多有效到生成时 Revision；角色、健康、拘押、
 - `DOC-PLAYER-008`：Mayor 权限不继承
 - `DOC-PLAYER-009`：Admin 独立 session 和确认
 - `DOC-MEMORY-009`：秘密与隐私投影 owner contract
-

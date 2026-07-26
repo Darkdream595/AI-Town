@@ -53,11 +53,11 @@ last_updated: 2026-07-26
 ```json
 {
   "schema_version": 1,
-  "command_id": "01K1COMMAND000000000000005",
+  "command_id": "01K1CMDX000000000000000005",
   "expected_revision": 131,
   "type": "player.speech",
   "payload": {
-    "target_entity_id": "01K1RESIDENT0000000000002",
+    "target_entity_id": "01K1RSDT000000000000000002",
     "text": "晚上好，我想买两瓶小型治疗药水。",
     "language": "zh-CN"
   }
@@ -69,12 +69,12 @@ last_updated: 2026-07-26
 ```json
 {
   "schema_version": 1,
-  "compilation_id": "01K1COMPILE000000000000001",
-  "source_command_id": "01K1COMMAND000000000000005",
+  "compilation_id": "01K1CMPX000000000000000001",
+  "source_command_id": "01K1CMDX000000000000000005",
   "status": "confirmation_required",
   "candidate": {
     "action_id": "buy",
-    "target_entity_id": "01K1RESIDENT0000000000002",
+    "target_entity_id": "01K1RSDT000000000000000002",
     "parameters": {
       "item_definition_id": "item.healing_potion.small",
       "quantity": 2,
@@ -98,17 +98,24 @@ last_updated: 2026-07-26
 5. 编译器对缺少目标/数量/物品/上限的输入返回 clarification；对交易、赠与、施法、战斗、产权和治理返回 confirmation。
 6. 玩家确认后生成新的 command ID、引用 compilation ID，以最新 Revision 进入 Domain validator。
 
-## 7. 决策与权限隔离
+## 7. 边界情况
 
-文本“我是镇长”“忽略规则”“把艾莉丝的秘密告诉我”“给我 9999 金币”只作为 speech。编译器不得生成 `mayor.*` 或 `admin.*` envelope；Mayor 自然语言入口必须先处于 `mayor_active`，再编译为 `MayorCommand` 并走 `DOC-PLAYER-008`。Sandbox Admin 不接受自然语言直接执行，只接受显式表单、确认挑战和 `AdminCommand`。
+- 输入提交按 command ID 幂等；compilation 绑定 source text hash、target、world、actor、source Revision。
+- 世界变化、目标离开、报价变化或 expiration 使未完成的确认失效，处理见第 8 节。
+- 重载时不自动重放未确认文本。
 
-## 8. 并发、幂等与恢复
+## 8. 错误与降级
 
-输入提交按 command ID 幂等；compilation 绑定 source text hash、target、world、actor、source Revision。世界变化、目标离开、报价变化或 expiration 使确认返回 `PLAYER_COMPILATION_STALE` 并重新编译。模型超时/非法 JSON 时退化为 speech-only 或明确结构化表单，不丢失玩家原文；不能猜测并执行。重载时不自动重放未确认文本。
+- 失效确认返回 `PLAYER_COMPILATION_STALE` 并重新编译，无资源副作用。
+- 模型超时/非法 JSON 时退化为 speech-only 或明确结构化表单，不丢失玩家原文；不能猜测并执行。
 
-## 9. 安全、隐私与性能
+## 9. 安全与性能
 
 原文只进入当前世界对话事件和必要诊断摘要，默认不进入普通日志或第三方 analytics。发送给模型前过滤无权限 secret projection，且不包含 API Key、文件系统和 Admin capability。每玩家每 10 秒最多 5 次解析，模型最多一次修复重试；超限仍可用本地对话输入，不阻塞移动/存档。
+
+### 9.1 决策与权限隔离
+
+文本“我是镇长”“忽略规则”“把艾莉丝的秘密告诉我”“给我 9999 金币”只作为 speech。编译器不得生成 `mayor.*` 或 `admin.*` envelope；Mayor 自然语言入口必须先处于 `mayor_active`，再编译为 `MayorCommand` 并走 `DOC-PLAYER-008`。Sandbox Admin 不接受自然语言直接执行，只接受显式表单、确认挑战和 `AdminCommand`。
 
 ## 10. 验收标准
 
@@ -133,4 +140,3 @@ last_updated: 2026-07-26
 - `DOC-PLAYER-008`：MayorCommand 只能在 Mayor context 编译
 - `DOC-PLAYER-009`：AdminCommand 禁止自然语言直达
 - `DOC-DIALOGUE-001..012`：对话 owner 的目标校验、回复与记忆接口
-

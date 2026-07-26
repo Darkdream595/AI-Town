@@ -46,21 +46,23 @@ last_updated: 2026-07-26
 - `RULE-PLAYER-029`：动画、toast、对话承诺文本和预测不是事实；只有 committed DomainEvent 可驱动持久投影。
 - `RULE-PLAYER-030`：撤销使用新命令/补偿事件；不得删除、改写或重新编号原事件。
 
-## 5. 因果 Envelope
+## 5. 数据与接口
+
+### 5.1 因果 Envelope
 
 ```json
 {
   "protocol_version": 1,
-  "event_id": "01K1EVENT00000000000000001",
-  "world_id": "01K1WORLD000000000000000001",
+  "event_id": "01K1EVNT000000000000000001",
+  "world_id": "01K1WRDX000000000000000001",
   "revision": 201,
   "type": "economy.transaction_committed",
   "game_time": 3120,
-  "causation_id": "01K1COMMAND000000000000006",
-  "correlation_id": "01K1CORRELATION00000000001",
-  "actor_entity_id": "01K1RESIDENT0000000000001",
+  "causation_id": "01K1CMDX000000000000000006",
+  "correlation_id": "01K1CRRX000000000000000001",
+  "actor_entity_id": "01K1RSDT000000000000000001",
   "payload": {
-    "transaction_id": "01K1TRANSACTION000000000001"
+    "transaction_id": "01K1TXNX000000000000000001"
   },
   "render": {
     "cue": "trade_success"
@@ -70,7 +72,7 @@ last_updated: 2026-07-26
 
 PLAYER 只拥有 `actor_entity_id` 的 binding resolution 与初始 correlation；`type/payload` 由 owner Schema 定义。一个 command 可产生多个同 Revision event，但每个写 aggregate 的 owner 和顺序必须确定。
 
-## 6. 影响路径
+### 5.2 影响路径
 
 | 维度 | 玩家命令示例 | Owner 事实 | 禁止的直接结果 |
 |---|---|---|---|
@@ -81,7 +83,7 @@ PLAYER 只拥有 `actor_entity_id` 的 binding resolution 与初始 correlation�
 | 冲突 | start_encounter、combat_action | COMBAT turn/result/health event | 指定命中/胜负 |
 | 叙事 | 接受/推进结构化 Quest | EVENT objective transition | 自报“任务完成” |
 
-## 7. 正常流程
+## 6. 正常流程
 
 1. PLAYER 认证 binding，创建 command/correlation ID。
 2. Domain owner 在最新 Revision 验证能力、目标、资源、权限和 Reservation。
@@ -90,11 +92,18 @@ PLAYER 只拥有 `actor_entity_id` 的 binding resolution 与初始 correlation�
 5. Client 渲染 event cue；若丢包按 Revision 补增量或 Snapshot。
 6. 长期后果由后续 owner event 引用同 correlation 或上游 event causation，形成可审计链。
 
-## 8. 并发与失败恢复
+## 7. 边界情况
 
-严格资源命令使用 `expected_revision`；可交换的输入也必须在 commit 前按最新状态重校验。Outbox 发送失败不回滚已提交事实，恢复后重发同一 event ID。跨 Domain 编排无法原子完成时使用显式 Saga 状态和 Reservation；失败产生补偿事件，不伪造成功。Impact projection 可重建，损坏时从事件日志重投影。
+- 严格资源命令使用 `expected_revision`；可交换的输入也必须在 commit 前按最新状态重校验。
+- 跨 Domain 编排无法原子完成时使用显式 Saga 状态和 Reservation。
+- Impact projection 可重建，损坏时从事件日志重投影。
 
-## 9. 隐私与可见性
+## 8. 错误与降级
+
+- Outbox 发送失败不回滚已提交事实，恢复后重发同一 event ID。
+- Saga 失败产生补偿事件，不伪造成功。
+
+## 9. 安全与性能
 
 公开 Impact Projection 只展示玩家有权知道的结果。“某人对你不满”可来自授权 social projection，但不得显示隐藏 relationship 数值、私人记忆、secret source 或模型 reasoning。Mayor 只能查看公共聚合；Admin audit 不是普通叙事事件，见 `DOC-PLAYER-009`。
 
@@ -121,4 +130,3 @@ PLAYER 只拥有 `actor_entity_id` 的 binding resolution 与初始 correlation�
 - `DOC-FOUNDATION-005`：DomainEvent、Revision、守恒与幂等
 - `DOC-ECON-006`：原子经济 Transaction
 - `DOC-PLAYER-012`：E2E 因果验收 fixtures
-

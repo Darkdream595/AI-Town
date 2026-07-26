@@ -55,15 +55,15 @@ last_updated: 2026-07-26
 ```json
 {
   "protocol_version": 1,
-  "command_id": "01K1COMMAND000000000000004",
-  "world_id": "01K1WORLD000000000000000001",
+  "command_id": "01K1CMDX000000000000000004",
+  "world_id": "01K1WRDX000000000000000001",
   "expected_revision": 118,
   "type": "player.action",
   "payload": {
     "action_id": "give_item",
-    "target_entity_id": "01K1RESIDENT0000000000002",
+    "target_entity_id": "01K1RSDT000000000000000002",
     "parameters": {
-      "item_id": "01K1ITEM00000000000000001",
+      "item_id": "01K1XTEM000000000000000001",
       "quantity": 1
     }
   }
@@ -79,16 +79,7 @@ route_canonical_action(actor, action_id, parameters, revision)
   -> DomainValidationResult
 ```
 
-## 6. 正常流程
-
-1. Client 的 `E` 请求候选，不自行根据 Sprite 像素选择可信目标。
-2. Backend 按距离、视线、交互半径、Scene、actor 状态和公开权限排序候选。
-3. 单一候选可直接打开确认/对话；多个候选显示可键盘选择列表。
-4. Client 发 PlayerCommand；Gateway 验证 session、world、大小、schema、幂等键和 Revision。
-5. Orchestrator 把 canonical action 路由到 MAP/RESIDENT/ECON/MAGIC/COMBAT/EVENT owner validator。
-6. 成功时 Reservation、状态、DomainEvent、Outbox 与幂等结果原子提交；Client 仅渲染 committed event。
-
-## 7. 能力映射
+### 5.1 能力映射
 
 | 玩家能力 | Canonical action/command | Owner 校验重点 |
 |---|---|---|
@@ -99,9 +90,25 @@ route_canonical_action(actor, action_id, parameters, revision)
 | 施法/战斗 | `cast_spell/start_encounter/combat_action` | 已学习法术、目标、回合、资源、法律 |
 | 建造/修理 | `build/repair` | 土地权、许可、材料、MAP/EVENT stage |
 
-## 8. 并发、幂等与失败恢复
+## 6. 正常流程
 
-`(world_id, command_id)` 相同且 payload hash 相同返回原 receipt；不同 payload 返回 `PLAYER_COMMAND_ID_CONFLICT`。Candidate projection 过期返回 `PLAYER_CAPABILITY_STALE` 并刷新，不静默换目标。Reservation 冲突、目标离开或权限撤销时全体失败。commit 后回执丢失通过 idempotency result 恢复；动画中断不撤销事实。
+1. Client 的 `E` 请求候选，不自行根据 Sprite 像素选择可信目标。
+2. Backend 按距离、视线、交互半径、Scene、actor 状态和公开权限排序候选。
+3. 单一候选可直接打开确认/对话；多个候选显示可键盘选择列表。
+4. Client 发 PlayerCommand；Gateway 验证 session、world、大小、schema、幂等键和 Revision。
+5. Orchestrator 把 canonical action 路由到 MAP/RESIDENT/ECON/MAGIC/COMBAT/EVENT owner validator。
+6. 成功时 Reservation、状态、DomainEvent、Outbox 与幂等结果原子提交；Client 仅渲染 committed event。
+
+## 7. 边界情况
+
+- `(world_id, command_id)` 相同且 payload hash 相同返回原 receipt；重复提交最多一次结算。
+- Reservation 冲突、目标离开或权限撤销时全体失败，无部分副作用。
+- commit 后回执丢失通过 idempotency result 恢复；动画中断不撤销事实。
+
+## 8. 错误与降级
+
+- 相同 command ID 不同 payload 返回 `PLAYER_COMMAND_ID_CONFLICT`。
+- Candidate projection 过期返回 `PLAYER_CAPABILITY_STALE` 并刷新，不静默换目标。
 
 ## 9. 安全与性能
 
@@ -130,4 +137,3 @@ route_canonical_action(actor, action_id, parameters, revision)
 - `DOC-ECON-006`：交易、Reservation 与原子提交
 - `DOC-PLAYER-005`：自然语言转换为同类 PlayerCommand
 - `DOC-PLAYER-007..009`：三类权限边界
-

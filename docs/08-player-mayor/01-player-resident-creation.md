@@ -55,13 +55,13 @@ last_updated: 2026-07-26
 ```json
 {
   "schema_version": 1,
-  "binding_id": "01K1PLAYER00000000000000001",
-  "world_id": "01K1WORLD000000000000000001",
-  "player_identity_id": "01K1IDENTITY00000000000001",
-  "resident_id": "01K1RESIDENT0000000000001",
+  "binding_id": "01K1BNDG000000000000000001",
+  "world_id": "01K1WRDX000000000000000001",
+  "player_identity_id": "01K1DENT000000000000000001",
+  "resident_id": "01K1RSDT000000000000000001",
   "decision_source": "human",
   "state": "active",
-  "created_by_command_id": "01K1COMMAND000000000000001",
+  "created_by_command_id": "01K1CMDX000000000000000001",
   "created_revision": 12,
   "version": 1
 }
@@ -89,19 +89,25 @@ get_player_authority(world_id, player_identity_id, revision)
 5. 单一 World Writer 原子提交 Resident、binding、初始化事件与幂等结果，Revision 只增长 1。
 6. Client 从已提交 Snapshot 获得 resident projection；不能把表单草稿直接当作世界实体。
 
-## 7. 并发、幂等与版本
+## 7. 边界情况
 
-创建幂等键为 `(world_id, command_id)`，payload hash 覆盖 PlayerIdentity、公开选项与 Resident draft。相同 key 相同 payload 返回原 binding；相同 key 不同 payload 返回 `PLAYER_IDEMPOTENCY_PAYLOAD_CONFLICT`。两个窗口并发创建时由 binding/Resident unique index 保证最多一个成功。任何 `expected_revision` 过期均重新展示最新状态，不静默创建第二名玩家。
+### 7.1 并发、幂等与版本
 
-## 8. 边界情况与恢复
+创建幂等键为 `(world_id, command_id)`，payload hash 覆盖 PlayerIdentity、公开选项与 Resident draft。相同 key 相同 payload 返回原 binding；两个窗口并发创建时由 binding/Resident unique index 保证最多一个成功。任何 `expected_revision` 过期均重新展示最新状态，不静默创建第二名玩家。
 
-- 初始化中崩溃：Resident、账户、Inventory、Position、binding 与事件全成或全败。
+### 7.2 生命周期边界
+
 - active binding 的 Resident 昏迷或被俘：binding 保留，能力由状态 validator 限制，不重建角色。
-- binding 损坏或指向缺失 Resident：启动进入 Recovery Barrier，禁止自动生成替代 Resident。
-- 导入世界的 PlayerIdentity 不存在：binding 保持 suspended，由明确 reclaim 流程重新绑定并审计。
 - 删除世界只删除该世界数据，不删除安装级 PlayerIdentity；删除 PlayerIdentity 不级联篡改世界历史。
 
-## 9. 安全与隐私
+## 8. 错误与降级
+
+- 相同幂等 key 不同 payload 返回 `PLAYER_IDEMPOTENCY_PAYLOAD_CONFLICT`，不覆盖原结果。
+- 初始化中崩溃：Resident、账户、Inventory、Position、binding 与事件全成或全败。
+- binding 损坏或指向缺失 Resident：启动进入 Recovery Barrier，禁止自动生成替代 Resident。
+- 导入世界的 PlayerIdentity 不存在：binding 保持 suspended，由明确 reclaim 流程重新绑定并审计。
+
+## 9. 安全与性能
 
 Client 不能指定可信 role、starting balance、skill level、spawn point 或 `decision_source`。PlayerIdentity 只保存本地显示名和稳定 ID，不存 DeepSeek Key。公开角色创建页不得读取 AI/Memory 私有字段；敏感 reclaim 需要当前本地 world ownership proof。
 
@@ -128,4 +134,3 @@ Client 不能指定可信 role、starting balance、skill level、spawn point �
 - `DOC-RESIDENT-011`：创建编排与初始化不变量
 - `DOC-PLAYER-007`：居民模式能力
 - `DOC-PLAYER-009`：Sandbox Admin 独立授权与审计
-
