@@ -1,0 +1,143 @@
+---
+doc_id: DOC-MAP-007
+title: 导航网格与寻路
+version: 1.0.0
+status: approved-for-implementation
+owner_domain: map
+canonical_for:
+  - navigation-grid
+  - astar-pathfinding
+  - path-result-contract
+depends_on:
+  - DOC-FOUNDATION-005
+  - DOC-FOUNDATION-006
+  - DOC-MAP-005
+  - DOC-MAP-006
+requirements:
+  - REQ-MAP-007
+last_updated: 2026-07-26
+---
+
+# 导航网格与寻路
+
+## 1. 目的
+
+`REQ-MAP-007`：定义由结构化 Walkability/Collision 派生的 `16 wu` 导航网格、确定性 A*、动态成本、路径结果与预算，使玩家和 NPC 使用同一可重放路径服务。
+
+## 2. 非目标
+
+本文不把网格作为地图编辑源，不读取图片，不决定 actor 的目标，也不保证已返回路径在未来 Revision 继续有效。
+
+## 3. 术语与定义
+
+| 术语 | 定义 |
+|---|---|
+| Navigation Cell | 与 Scene 原点对齐的 `16 × 16 wu` 单元 |
+| Traversable Edge | Agent 从相邻 cell center 进行 Swept Disc 检查后合法的边 |
+| 8-neighbor A* | 使用四个正交与四个对角邻居的 A* |
+| Corner Cutting | 对角移动穿过两个不可通行正交邻居之间的角 |
+| Navigation Revision | 生成当前网格/索引的已提交 World Revision |
+| Path Budget | 单次查询允许扩展的最大节点数 |
+
+## 4. 规则与不变量
+
+- `RULE-MAP-025`：Navigation Cell 固定 `16 wu`，cell `(cx,cy)` 中心为 `(cx*16+8, cy*16+8)`；网格只由规则层栅格化。
+- `RULE-MAP-026`：A* 使用 8-neighbor；正交 step cost=`1000`，对角=`1414`，对角边要求两个相邻正交边均可通行，禁止 Corner Cutting。
+- `RULE-MAP-027`：查询和结果必须携带 Navigation Revision；提交移动前 revision 不一致即重新规划，不能沿旧路径继续。
+- `RULE-MAP-028`：同一 Scene、profile、start、goal、revision 与 modifier 集合必须返回相同 status 和 waypoint 序列；tie-break 固定为较小 `f`、`h`、`cy`、`cx`、node key。
+
+## 5. 数据与接口
+
+`DES-MAP-007`：cell 可通行当且仅当其 center 对 profile 通过 `is_standable`；edge 还必须通过 `sweep_disc`。成本使用整数 fixed-point：
+
+```text
+terrain_q1000 = surface.base_cost_q1000
+modifier_q1000 = 按 modifier_id 字典序逐项相乘、每步向上取整，并夹取到 [250,4000]
+edge_cost = ceil(step_cost * terrain_q1000 * modifier_q1000 / 1_000_000)
+          + sum(additive_cost)
+```
+
+`blocked=true` 直接移除 cell/edge；additive 总和夹取到 `100000`。启发式采用 octile distance 乘当前 snapshot 计算出的全局最小合法 cost multiplier，并向下取整，保证 admissible。
+
+```json
+{
+  "status": "success",
+  "scene_id": "region.crown_creek_town",
+  "navigation_revision": 84,
+  "profile_id": "agent_profile.humanoid.default",
+  "waypoints": [
+    {"x_wu": 1024.0, "y_wu": 768.0},
+    {"x_wu": 1032.0, "y_wu": 776.0},
+    {"x_wu": 1088.0, "y_wu": 832.0}
+  ],
+  "total_cost": 5128,
+  "expanded_nodes": 143
+}
+```
+
+Status enum：
+
+```text
+success | unreachable | invalid_start | invalid_goal |
+stale_navigation_revision | budget_exceeded | scene_not_ready
+```
+
+接口：
+
+```text
+find_path(scene_id, start, goal, profile, expected_revision, max_expanded=100000) -> PathResult
+validate_path(path_result, current_revision) -> PathValidationResult
+nearest_legal_cell(point, profile, max_chebyshev_cells=2) -> Cell | none
+```
+
+起终点 snap 只搜索 Chebyshev 半径 2 cells（`32 wu`），按欧氏距离平方、`cy`、`cx` 排序；超出即 `invalid_start/goal`。Path smoothing 仅在完整 Swept Disc 直线检查通过时删除中间点。
+
+## 6. 正常流程
+
+1. 读取与 `expected_revision` 匹配的不可变 NavigationSnapshot。
+2. 验证或有界 snap start/goal。
+3. 以稳定 priority queue 执行 A*，扩展时应用当前结构化 cost。
+4. 得到 cell path 后执行可选 line-of-sight smoothing。
+5. 用精确 Swept Disc 复核全部段，返回 waypoints 与 revision。
+6. actor 每到 waypoint 或收到导航变更事件时重新检查 path validity。
+
+## 7. 边界情况
+
+- 起点因恢复错误位于 Collision 时返回 `invalid_start`，只允许 `DOC-MAP-012` 的 safe recovery 处理。
+- goal 是被占用 Door approach 时可返回路径至 queue point，不把 Door Collision 临时忽略。
+- cost 相同的绕行由 tie-break 固定，不依赖 hash/map iteration order。
+- Path Budget 耗尽与 `unreachable` 分开，调用方可延迟重试但不能宣称无路。
+- Active 使用完整网格；Warm/Background 可使用 Semantic graph 估算，但位置提交仍需在 Active 规则上复核。
+
+## 8. 错误与降级
+
+`budget_exceeded` 时返回空 waypoints 与诊断计数，调度器降低重规划频率或选择安全等待；不能退化为直线穿越。缓存丢失时从规则层重建；Scene 未 ready 时返回 `scene_not_ready`。
+
+## 9. 安全与性能
+
+Region 最大约 `256 × 256` cells，矿洞 `192 × 192`；每查询默认上限 100000 expanded nodes、单 actor 每个 World Tick 最多一次重规划。缓存键包含 Scene、profile、start cell、goal cell、navigation revision；动态变更只失效相交 partition。
+
+## 10. 验收标准
+
+- 直路、对角、窄门、障碍绕行和无路 fixture 的成本与路径确定。
+- 所有路径段均通过当前 revision 的 Swept Disc 复核。
+- 动态 cost 会改变择路但不绕过 blocked/Collision。
+- 玩家与 NPC 相同输入得到 byte-equivalent status、cost 和 waypoints。
+- 100 次不同容器迭代顺序运行得到相同路径。
+
+## 11. 测试追踪
+
+| 测试 ID | 断言 |
+|---|---|
+| `TEST-MAP-025` | `16 wu` 栅格、8-neighbor cost 与 no-corner-cutting |
+| `TEST-MAP-026` | admissible heuristic 与 A* 最优成本对照 Dijkstra |
+| `TEST-MAP-027` | modifier 组合、tie-break、snap 和 smoothing 确定性 |
+| `TEST-MAP-028` | stale revision、budget、unreachable 与玩家/NPC parity |
+
+## 12. 关联文档
+
+- `DOC-MAP-005`：Walkability 与 cost source
+- `DOC-MAP-006`：Swept Disc 与 Expanded Obstacle
+- `DOC-MAP-008`：Door approach/queue point
+- `DOC-MAP-010`：NavigationSnapshot 原子更新
+- `DOC-MAP-012`：路径验收矩阵
