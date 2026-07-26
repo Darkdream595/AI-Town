@@ -66,20 +66,71 @@ last_updated: 2026-07-26
   "available_quantity": 2,
   "reorder_threshold": 6,
   "shortage_state": "active",
-  "scarcity_q1000": 1450,
+  "signal_streak": 3,
+  "scarcity_policy_id": "scarcity_policy.local_market.v1",
+  "scarcity_policy_version": 1,
+  "scarcity_q1000": 1496,
+  "market_snapshot_hash": "sha256:30cb762b7a104a553fbcf801f248c929366b55958dfab609f012ca351ddc4c49",
   "last_revision": 321
 }
 ```
 
-`shortage_state` 为 `normal/watch/active/recovering`；转换使用连续两个 bucket 的阈值滞回，避免边界抖动。
+版本化 `ScarcityPolicy` 是 `scarcity_q1000` 的唯一算法来源：
+
+```json
+{
+  "policy_id": "scarcity_policy.local_market.v1",
+  "policy_version": 1,
+  "window_minutes": 1440,
+  "bucket_minutes": 60,
+  "minimum_q1000": 700,
+  "maximum_q1000": 2000,
+  "deficit_weight_q1000": 600,
+  "unmet_demand_weight_q1000": 400,
+  "surplus_relief_weight_q1000": 300,
+  "hysteresis_closed_buckets": 2,
+  "empty_window_fallback_q1000": 1000
+}
+```
+
+所有数量输入均为 `0..2147483647` 的整数，`reorder_threshold` 为 `1..2147483647`；因此下式中间值不会溢出 int64。定义正整数除法 `qdiv(n,d)=floor((2*n+d)/(2*d))`，即精确 `round_half_up(n/d)`：
+
+```text
+deficit_q1000 = qdiv(max(reorder_threshold - available_quantity, 0) * 1000, reorder_threshold)
+surplus_q1000 = min(qdiv(max(available_quantity - reorder_threshold, 0) * 1000, reorder_threshold), 1000)
+demand_total = committed_demand_quantity + unmet_demand_quantity
+unmet_q1000 = demand_total == 0 ? 0 : qdiv(unmet_demand_quantity * 1000, demand_total)
+raw_q1000 = 1000
+            + qdiv(deficit_weight_q1000 * deficit_q1000, 1000)
+            + qdiv(unmet_demand_weight_q1000 * unmet_q1000, 1000)
+            - qdiv(surplus_relief_weight_q1000 * surplus_q1000, 1000)
+scarcity_q1000 = clamp(raw_q1000, minimum_q1000, maximum_q1000)
+```
+
+窗口为空（24 个 bucket 均无 supply、committed/unmet demand，且 available/reorder projection 暂不可用）时使用 `1000` 并标记 `neutral_empty_window`；不是任意可选值。Quote input hash 必须包含 policy ID/version、window end、24 个 bucket hash、available/reorder、committed/unmet totals 与计算结果。
+
+Golden vectors：
+
+```json
+{
+  "scarcity_golden_vectors": [
+    {"available": 10, "reorder": 10, "committed": 10, "unmet": 0, "expected_q1000": 1000},
+    {"available": 0, "reorder": 10, "committed": 10, "unmet": 10, "expected_q1000": 1800},
+    {"available": 20, "reorder": 10, "committed": 10, "unmet": 0, "expected_q1000": 700},
+    {"available": 2, "reorder": 6, "committed": 22, "unmet": 7, "expected_q1000": 1496}
+  ]
+}
+```
+
+`shortage_state` 为 `normal/watch/active/recovering`。闭合 bucket 的 `shortage_signal = available < reorder_threshold && demand_total > 0`，`recovery_signal = available >= reorder_threshold && unmet_demand_quantity == 0`。`normal` 首个 shortage signal 转 `watch/streak=1`；`watch` 第二个连续 signal 转 `active/streak=2`，否则回 `normal/0`；`active` 首个 recovery signal 转 `recovering/1`；`recovering` 第二个连续 recovery signal 转 `normal/0`，任一非 recovery signal 立即回 `active/0`。状态不再叠加另一个价格 multiplier，避免同一输入双重计价。
 
 ## 6. 正常流程
 
 1. Gather/Craft/Sale Transaction 提交后追加 market delta。
 2. TIME 在 bucket boundary 触发 ECON 聚合，不逐 Tick 重算。
-3. ECON 滚动移除过期 bucket，计算本地 supply、demand 与 available quantity。
-4. 状态机按阈值与滞回更新 Shortage，并产生公开 read model。
-5. Pricing 读取限幅 scarcity multiplier；AI 只获得当前居民已观察或公开的信息。
+3. ECON 滚动移除过期 bucket，计算本地 supply、demand、available quantity 与确定的 `scarcity_q1000`。
+4. 状态机按两 bucket 滞回更新 Shortage，并产生含 policy/version/hash 的公开 read model。
+5. Pricing 校验并读取该限幅 multiplier；AI 只获得当前居民已观察或公开的信息。
 6. 补货仍通过合法 work/gather/craft/transport 行动完成。
 
 ## 7. 边界情况
@@ -92,7 +143,7 @@ last_updated: 2026-07-26
 
 ## 8. 错误与降级
 
-返回 `market_key_invalid`、`bucket_out_of_order`、`delta_duplicate`、`production_chain_cycle` 或 `supply_projection_inconsistent`。聚合延迟时沿用上个 committed modifier 并标记 stale，不允许用预测值写价格；恢复 audit 失败时暂停相关市场写入。
+返回 `market_key_invalid`、`bucket_out_of_order`、`delta_duplicate`、`scarcity_policy_unknown`、`scarcity_recompute_mismatch`、`production_chain_cycle` 或 `supply_projection_inconsistent`。聚合延迟时沿用上个 committed modifier 与完整 policy/snapshot hash 并标记 stale，不允许用预测值写价格；恢复 audit 失败时暂停相关市场写入。
 
 ## 9. 安全与性能
 
@@ -102,7 +153,7 @@ last_updated: 2026-07-26
 
 - 必需原料与产品链均可追溯到 source、Recipe 和 Workplace。
 - 1440 分钟窗口与 60 分钟 bucket 在速度倍率、暂停和恢复后结果一致。
-- Shortage 状态具有滞回、modifier 上限和恢复路径。
+- Shortage 状态具有精确两 bucket 滞回；四个 golden vector 可重算且 modifier 固定在 `700..2000`。
 - 无负库存、无凭空补货、无重复 lost demand。
 - 未到访 Shop 的居民上下文不自动获得其隐藏库存。
 

@@ -46,7 +46,7 @@ last_updated: 2026-07-26
 
 - `RULE-ECON-041`：每个可转让 Property Subject 最多有一份 active PropertyDeed；Deed unique ownership 与 subject index 必须同事务一致。
 - `RULE-ECON-042`：Deed 转移必须验证上位法律、owner 同意/裁定、税费、接收能力与 subject version；镇长不能以管理模式直接没收私人财产。
-- `RULE-ECON-043`：公共支出必须引用 active Appropriation，且 `spent + active_encumbrance <= authorized_copper_feather`；余额与授权上限均不得透支。
+- `RULE-ECON-043`：公共支出必须通过 active Encumbrance 强绑定 active Appropriation；始终满足 `spent + active_encumbrance <= authorized_copper_feather`，且 Transaction debit、binding amount 与 Encumbrance amount 三者相等，余额与授权上限均不得透支。
 - `RULE-ECON-044`：Building 规划/清理/地基/主体/设施/验收阶段由 EVENT 拥有；ECON 只结算 land right、材料、工具、劳动力、税费和预算，并通过 Event/Command Port 回报经济完成。
 
 ## 5. 数据与接口
@@ -69,6 +69,39 @@ last_updated: 2026-07-26
 }
 ```
 
+Appropriation 的 `state` 只允许 `draft/active/exhausted/expired/revoked`，并增加单调 `version` 字段；`draft` 不可预留，`revoked/expired` 不接受新 Encumbrance，`spent` 历史不回退。Encumbrance 是独立 versioned ECON aggregate：
+
+```json
+{
+  "schema_version": 1,
+  "encumbrance_id": "01K1AB2CD3EF4GH5JK6MNP7QRZ",
+  "appropriation_id": "01K1AB2CD3EF4GH5JK6MNP7QRW",
+  "public_account_id": "01K1AB2CD3EF4GH5JK6MNP7QRX",
+  "owner_command_id": "01K1AB2CD3EF4GH5JK6MNP7QS0",
+  "purpose_id": "public_work.road_repair",
+  "amount_copper_feather": 1800,
+  "created_game_time": 10100,
+  "expires_at_game_time": 11000,
+  "state": "active",
+  "version": 1
+}
+```
+
+Encumbrance 字段集合固定如上且拒绝额外字段；状态只允许 `active/consumed/released/expired`。`amount_copper_feather>0`，account/purpose 必须逐字段等于 Appropriation，`owner_command_id` 是创建幂等键的一部分。
+
+```mermaid
+stateDiagram-v2
+    [*] --> active: reserve and increment active_encumbrance
+    active --> consumed: bound Transaction commits
+    active --> released: cancel or Event failure
+    active --> expired: GameTime expiry
+    consumed --> [*]
+    released --> [*]
+    expired --> [*]
+```
+
+创建 active Encumbrance 与 `Appropriation.active_encumbrance += amount` 同一事务；consume 与公共 debit、`active_encumbrance -= amount`、`spent += amount` 同一事务；release/expire 只执行 `active_encumbrance -= amount`。任一分支重试按 command ID/encumbrance ID 返回原结果。
+
 ```json
 {
   "appropriation_id": "01K1AB2CD3EF4GH5JK6MNP7QRW",
@@ -80,7 +113,8 @@ last_updated: 2026-07-26
   "starts_at_game_time": 10080,
   "expires_at_game_time": 20160,
   "approval_evidence_id": "01K1AB2CD3EF4GH5JK6MNP7QRY",
-  "state": "active"
+  "state": "active",
+  "version": 4
 }
 ```
 
@@ -90,8 +124,8 @@ last_updated: 2026-07-26
 2. ECON 校验 active Deed、转让同意或合法裁定，并报价税费。
 3. 原子预留 Deed、买方付款、接收 Inventory capacity 与公共税账户。
 4. Transaction 转移 Deed ownership、资金与税费并追加事件。
-5. 公共工程先创建 Appropriation，再以 Encumbrance 预留材料/工资预算。
-6. EVENT 确认阶段完成后，ECON 支出 committed legs；阶段失败则按合约退款/释放，Building 状态仍由 EVENT 决定。
+5. 公共工程先激活 Appropriation，再原子创建 Encumbrance 并增加 active encumbrance；锁顺序固定为 `appropriation -> encumbrance -> public_account`。
+6. EVENT 确认阶段完成后，Transaction 的 public debit 以 `budget_bindings[]` 引用该 Appropriation/Encumbrance 并原子 consume；阶段失败则原子 release，Building 状态仍由 EVENT 决定。
 
 ## 7. 边界情况
 
@@ -99,11 +133,13 @@ last_updated: 2026-07-26
 - Deed 丢失表现不等于产权消失；权威 Item 仍在 Inventory/托管位置。
 - 公共预算余额充足但 Appropriation 不足仍拒绝支出。
 - Appropriation 到期时已 committed 支出保留，active 未消费 Encumbrance 释放。
+- 两个并发命令申请同一剩余额度时，只有一个能增加 active encumbrance；另一个因 version/available amount 失败且不得创建孤儿 Encumbrance。
+- Crash 发生在数据库 commit 前保持旧 `spent/active_encumbrance`；commit 后恢复从 Transaction binding 与 Encumbrance terminal state 重建，不重复 debit 或释放。
 - 紧急公共支出必须引用 WORLD emergency 分类与 PLAYER/BACKEND 审计，不能绕过总额守恒。
 
 ## 8. 错误与降级
 
-返回 `property_subject_unknown`、`deed_conflict`、`transfer_consent_missing`、`property_version_stale`、`appropriation_missing`、`appropriation_exceeded`、`public_budget_insufficient` 或 `building_owner_boundary_violation`。EVENT 不可用时保持资金/材料 Reservation 到有界恢复点，随后释放，不自行推进施工阶段。
+返回 `property_subject_unknown`、`deed_conflict`、`transfer_consent_missing`、`property_version_stale`、`appropriation_missing`、`appropriation_exceeded`、`encumbrance_state_invalid`、`budget_binding_missing`、`public_budget_insufficient` 或 `building_owner_boundary_violation`。EVENT 不可用时保持资金/材料 Reservation 与 Encumbrance 到有界恢复点，随后原子释放，不自行推进施工阶段。
 
 ## 9. 安全与性能
 
@@ -114,6 +150,7 @@ last_updated: 2026-07-26
 - 同一 Property Subject 无法出现两份 active Deed。
 - 私人出售、组织转让、合法赔偿与越权没收均有确定路径。
 - 公共账户余额和 Appropriation 两层限制同时强制。
+- 每笔公共 debit 都可由 Transaction binding 唯一解析到 consumed Encumbrance，且三处金额一致。
 - 六个 Building 阶段的经济资源可结算，但 ECON 不写阶段/Collision。
 - 崩溃、许可撤销、Building 毁损与预算到期无重复支出或孤儿 Encumbrance。
 

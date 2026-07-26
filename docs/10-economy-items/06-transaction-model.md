@@ -42,7 +42,7 @@ last_updated: 2026-07-26
 
 ## 4. 规则与不变量
 
-- `RULE-ECON-021`：Transaction 的 currency legs、item legs、Inventory 统计、Reservation 状态、idempotency result 与不可丢 DomainEvent 必须在同一事务提交。
+- `RULE-ECON-021`：Transaction 的 currency legs、item legs、Inventory 统计、Reservation/Encumbrance 状态、Appropriation 计数、idempotency result 与不可丢 DomainEvent 必须在同一事务提交。
 - `RULE-ECON-022`：相同 command ID 最多提交一次；payload hash 不同却复用 command ID 时返回冲突，不得返回旧成功伪装新请求。
 - `RULE-ECON-023`：提交前在最新 Revision 重新验证余额、ownership、quantity、capacity、权限、Quote 与全部 active Reservation；任一变化使全体失败。
 - `RULE-ECON-024`：资源锁/Reservation 获取顺序遵循 `DOC-ECON-005` 的全序；任何死锁、超时、写失败或 invariant violation 都回滚且 Revision 不增长。
@@ -68,9 +68,27 @@ last_updated: 2026-07-26
   "item_legs": [
     {"item_or_batch_id": "01K1AB2CD3EF4GH5JK6MNP7QS0", "quantity": 1, "from_inventory_id": "01K1AB2CD3EF4GH5JK6MNP7QS1", "to_inventory_id": "01K1AB2CD3EF4GH5JK6MNP7QS2"}
   ],
+  "budget_bindings": [],
   "state": "reserved"
 }
 ```
+
+`budget_bindings` 是每笔公共预算 debit 的强制关联；没有 public-budget debit 时必须为空。存在 public-budget debit 时，每个负数 leg 必须恰好被一条 binding 覆盖，且 `amount_copper_feather == -currency_legs[currency_leg_index].delta_copper_feather`：
+
+```json
+{
+  "public_account_id": "01K1AB2CD3EF4GH5JK6MNP7QSA",
+  "currency_leg_index": 0,
+  "appropriation_id": "01K1AB2CD3EF4GH5JK6MNP7QSB",
+  "appropriation_expected_version": 4,
+  "encumbrance_id": "01K1AB2CD3EF4GH5JK6MNP7QSC",
+  "encumbrance_expected_version": 1,
+  "amount_copper_feather": 1800,
+  "purpose_id": "public_work.road_repair"
+}
+```
+
+Binding 必须且只能包含以上八个字段，`currency_leg_index>=0`、`amount_copper_feather>0`；Appropriation/Encumbrance Schema、状态与不变量由 `DOC-ECON-011` 定义。
 
 状态机：
 
@@ -93,8 +111,8 @@ stateDiagram-v2
 1. 从已验证 Quote/Contract/Action 构造 drafted Transaction。
 2. 按资源全序申请 Reservation，并记录 payload hash 与 request Revision。
 3. 单一 World Writer 在最新 Revision 重新读取写集。
-4. 运行 currency conservation、unique ownership、quantity、capacity 与权限 Commit Check。
-5. 原子写入所有 legs、消费 Reservation、DomainEvent、idempotency result，并递增 Revision 1。
+4. 运行 currency conservation、unique ownership、quantity、capacity 与权限 Commit Check；公共 debit 还逐条验证 active Appropriation/Encumbrance、版本、用途、金额和账户。
+5. 原子写入所有 legs、消费 Reservation/Encumbrance、更新 `spent/active_encumbrance`、DomainEvent、idempotency result，并递增 Revision 1。
 6. 重复 command 直接返回原 `transaction_id/committed_revision/event_ids`。
 
 ## 7. 边界情况
@@ -102,12 +120,13 @@ stateDiagram-v2
 - 两个买家争抢最后一件 unique Item 时只允许持有 Reservation 的 Transaction 提交。
 - Quote 未过期但库存/权限变化仍需重校验；Quote 不是 Reservation。
 - 税率变化导致 quote revision 过期时拒绝重报价，不能静默改总价。
+- 两个 Transaction 竞争同一 Appropriation 余量时，按 `appropriation_id -> encumbrance_id -> account_id` 锁定；后提交者必须因版本或剩余额度失败。
 - Crash 在数据库 commit 前无任何可见变化；commit 后 Outbox 未发送时恢复重发同一事件。
 - 退款/撤销是新的反向 Transaction，不能删除或改写原 Transaction。
 
 ## 8. 错误与降级
 
-返回 `idempotency_payload_conflict`、`stale_revision`、`quote_expired`、`reservation_conflict`、`double_spend_detected`、`transaction_invariant_failed` 或 `persistence_failed`。降级只能重新报价/重规划，不允许拆分为“先扣钱后给物”。
+返回 `idempotency_payload_conflict`、`stale_revision`、`quote_expired`、`reservation_conflict`、`budget_binding_missing`、`encumbrance_mismatch`、`double_spend_detected`、`transaction_invariant_failed` 或 `persistence_failed`。降级只能重新报价/重规划，不允许拆分为“先扣钱后给物”。
 
 ## 9. 安全与性能
 

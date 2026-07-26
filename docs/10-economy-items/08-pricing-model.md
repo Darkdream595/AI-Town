@@ -77,9 +77,9 @@ last_updated: 2026-07-26
 
 ## 6. 正常流程
 
-1. 读取 Shop 本地 stock、已提交 demand window、公开地区 modifier 与 Catalog Base Price。
+1. 读取 Shop 本地 stock、已提交 demand window，以及 `DOC-ECON-009` 产生的 policy ID/version、market snapshot hash 与 `scarcity_q1000`，再读取公开地区 modifier 与 Catalog Base Price。
 2. 读取调用者可披露的折扣 entitlement；缺失时使用 `1000`。
-3. 逐项限幅并按固定顺序计算 Q1000 公式，生成 input hash。
+3. 重新计算/校验 scarcity golden formula，逐项限幅并按固定顺序计算 Q1000 公式；input hash 必须覆盖 scarcity policy/version 和 market snapshot hash。
 4. 返回只含本地可知因素摘要的 Quote。
 5. 接受 Quote 时检查 expiry、hash、Revision-sensitive inputs 与 buyer maximum unit price，再进入 Reservation/Transaction。
 
