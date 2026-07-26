@@ -28,7 +28,7 @@ last_updated: 2026-07-26
 
 ## 1. 目的
 
-`REQ-DIALOGUE-012`：给出可直接转为自动化测试的对话域测试矩阵、场景 fixture 格式、故障注入点与浏览器 E2E 场景，覆盖 `TEST-DIALOGUE-001..026`，并以「任何对话路径不得绕过 Domain Validation 或秘密访问控制」为总验收不变量。
+`REQ-DIALOGUE-012`：给出可直接转为自动化测试的对话域测试矩阵、场景 fixture 格式、故障注入点与浏览器 E2E 场景，覆盖 `TEST-DIALOGUE-001..029`，并以「任何对话路径不得绕过 Domain Validation 或秘密访问控制」为总验收不变量。
 
 ## 2. 非目标
 
@@ -67,8 +67,8 @@ last_updated: 2026-07-26
     ]
   },
   "when": [
-    {"command_id": "01K1AB2CD3EF4GH5JK6MNP7QU1", "type": "dialogue.start_conversation", "initiator_id": "01K1AB2CD3EF4GH5JK6MNP7QRU", "target_id": "01K1AB2CD3EF4GH5JK6MNP7QRV", "expected_revision": 200},
-    {"command_id": "01K1AB2CD3EF4GH5JK6MNP7QU2", "type": "dialogue.submit_player_speech", "text": "你好！", "expected_revision": 201}
+    {"command_id": "01K1AB2CD3EF4GH5JK6MNP7QV1", "type": "dialogue.start_conversation", "initiator_id": "01K1AB2CD3EF4GH5JK6MNP7QRX", "target_id": "01K1AB2CD3EF4GH5JK6MNP7QRV", "expected_revision": 200},
+    {"command_id": "01K1AB2CD3EF4GH5JK6MNP7QV2", "type": "dialogue.submit_player_speech", "text": "你好！", "expected_revision": 201}
   ],
   "then": {
     "conversation_state": "awaiting_player",
@@ -116,7 +116,7 @@ Harness 必须支持：`apply_command`、`advance_game_time`、`advance_world_ti
 
 E2E 场景清单（全部必须通过）：
 
-1. `e2e.dialogue.basic`：走近居民 → Enter 打开输入框 → 世界暂停（HUD 时钟停）→ 问候 → 居民立绘/情绪变化 → 告别 → 世界恢复。
+1. `e2e.dialogue.basic`：走近居民 → Enter 打开输入框 → 世界暂停（HUD 时钟停）→ 问候 → 居民立绘/情绪变化 → 告别 → 世界恢复。全程暂停由 DIALOGUE 会话 Pause Token 保证（含 `awaiting_model` 段），玩家输入框 token 由 PLAYER 域独立嵌套持有（`RULE-DIALOGUE-005/078`）；断言告别提交后两枚 token 均已释放、HUD 时钟恢复走动。
 2. `e2e.dialogue.trade_intent`：对话中说「买两瓶药」→ Confirmation 弹出 → 确认 → ECON 成交事件 → 物品栏与余额变化；取消路径零变化。
 3. `e2e.dialogue.combat_interrupt`：对话中触发 Encounter → 会话挂起、输入框关闭 → 战斗结束 → 重新交谈出现接续摘要。
 4. `e2e.dialogue.group_overhear`：三人群聊 + 一名旁听居民 → 轮次有序 → 旁听者事后可转述（testimony 生效）。
@@ -144,8 +144,11 @@ E2E 场景清单（全部必须通过）：
 | `TEST-DIALOGUE-024` | `RULE-DIALOGUE-073` Bypass Probe 与泄漏 Oracle 双零 | 本文 |
 | `TEST-DIALOGUE-025` | `RULE-DIALOGUE-075` E2E 场景 1..6 | 本文 |
 | `TEST-DIALOGUE-026` | 恢复一致性与高倍速等价 | 本文 |
+| `TEST-DIALOGUE-027` | 共通语言与同意语义（`RULE-DIALOGUE-076..077`） | `DOC-DIALOGUE-002` |
+| `TEST-DIALOGUE-028` | 会话 token 拓扑与 privacy 落库（`RULE-DIALOGUE-078..079`） | `DOC-DIALOGUE-001` |
+| `TEST-DIALOGUE-029` | 玩家 utterance 类别分配（`RULE-DIALOGUE-080`） | `DOC-DIALOGUE-009` |
 
-REQ 覆盖映射：`REQ-DIALOGUE-001→TEST-001..002`、`002→003..004`、`003→005..006`、`004→007..008`、`005→009..010`、`006→011..012`、`007→013..014`、`008→015..016`、`009→017..018`、`010→019..020`、`011→021..022`、`012→023..026`（ID 前缀 `TEST-DIALOGUE-` 略写）。
+REQ 覆盖映射：`REQ-DIALOGUE-001→TEST-001..002,028`、`002→003..004,027`、`003→005..006`、`004→007..008`、`005→009..010`、`006→011..012`、`007→013..014`、`008→015..016`、`009→017..018,029`、`010→019..020`、`011→021..022`、`012→023..026`（ID 前缀 `TEST-DIALOGUE-` 略写）。
 
 ## 12. 关联文档
 

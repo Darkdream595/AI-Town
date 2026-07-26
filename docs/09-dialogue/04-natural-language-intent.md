@@ -57,7 +57,7 @@ last_updated: 2026-07-26
   "schema_version": 1,
   "conversation_id": "01K1AB2CD3EF4GH5JK6MNP7QRS",
   "utterance_index": 4,
-  "speaker_id": "01K1AB2CD3EF4GH5JK6MNP7QRU",
+  "speaker_id": "01K1AB2CD3EF4GH5JK6MNP7QRX",
   "speech_fact_committed": true,
   "derived_intents": [
     {

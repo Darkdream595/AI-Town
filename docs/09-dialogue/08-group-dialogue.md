@@ -45,7 +45,7 @@ last_updated: 2026-07-26
 - `RULE-DIALOGUE-046`：Turn Scheduler 是唯一发言授权来源：同一时刻至多一位居民持有发言轮次、至多一个在途模型请求；居民发言必须持有当轮 `turn_grant_id`，无轮次的响应即使解码成功也拒收。
 - `RULE-DIALOGUE-047`：轮次选择确定性优先级：`Addressed Reply 目标 > 被 request/ask 指向且未答复者 > 最久未发言者`；同级并列按 `participant_id` 字典序。玩家不占调度轮次——`awaiting_player` 期间玩家随时可发言，玩家发言后调度器重新裁决。
 - `RULE-DIALOGUE-048`：降员规则：参与者退出/被打断后剩余 `>= 2` 则会话继续并向剩余者 context 注入退出事实；仅剩 1 人按 `participant_exit` 终结。中途加入按 `RULE-DIALOGUE-012` 不回溯历史。
-- `RULE-DIALOGUE-049`：旁听条件：非参与者与说话者同 Scene、距离 `<= 128 wu`、Line of Sight 成立、且 utterance 所属会话 `privacy` 为 `public`；三者及 privacy 任一不满足则不产生 Bystander Witness。`private_requested` 会话只可被旁观到"在交谈"这一事实，内容不可旁听。
+- `RULE-DIALOGUE-049`：旁听条件：非参与者与说话者同 Scene、距离 `<= 128 wu`、Line of Sight 成立、且 utterance 所属会话 `privacy` 为 `public`（privacy 的落库与默认值 canonical 为 `RULE-DIALOGUE-079`）；三者及 privacy 任一不满足则不产生 Bystander Witness。`private_requested` 会话只可被旁观到"在交谈"这一事实，内容不可旁听。
 - `RULE-DIALOGUE-050`：Bystander Witness 是感知证据而非记忆本身：DIALOGUE 只提交 `dialogue.utterance_overheard/v1` 事件（含旁听者、utterance 引用、同 Revision 几何证据，满足 `RULE-MEMORY-011`）；是否写入记忆、可信度与后续谣言化由 MEMORY 决定。
 - `RULE-DIALOGUE-051`：旁听不加入 participant set：旁听者无发言权、不出现在参与者 context 的 Speaker Projection 中；居民旁听后想插话必须走正常加入流程并经参与条件校验。
 

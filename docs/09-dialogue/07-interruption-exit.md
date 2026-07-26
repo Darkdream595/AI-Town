@@ -43,7 +43,7 @@ last_updated: 2026-07-26
 - `RULE-DIALOGUE-038`：Interrupt Priority 全序固定为 `world_teardown(100) > combat_encounter(80) > safety_emergency(70) > participant_exit(50) = condition_lost(50) > higher_priority_conversation(40) > timeout(20)`；只有优先级严格高于会话当前活动的来源才能触发 Forced Interrupt，相等或更低者排队或被拒。
 - `RULE-DIALOGUE-039`：`combat_encounter` 与 `safety_emergency` 打断不等待当前 utterance 或模型响应完成：立即迁移 `interrupted`，对在途模型请求发 cancel（`RULE-AI-051`），迟到结果 discarded，不提交为 utterance。
 - `RULE-DIALOGUE-040`：玩家任意时刻可 Graceful Exit；居民退出必须经 Speech Act `end_conversation` 或作为 Forced Interrupt 的当事人。居民不因模型失败而"沉默消失"——失败路径必须走 `DOC-DIALOGUE-005` fallback 告别或 `ended(timeout)`。
-- `RULE-DIALOGUE-041`：进入 `interrupted` 时原子完成：挂起会话、取消在途请求、过期未确认的意图 candidate（`RULE-DIALOGUE-023` 的 `expired`）、按参与者去留释放或保留 Attention Reservation、释放 `awaiting_player` 的 pause token。
+- `RULE-DIALOGUE-041`：进入 `interrupted` 时原子完成：挂起会话、取消在途请求、过期未确认的意图 candidate（`RULE-DIALOGUE-023` 的 `expired`）、按参与者去留释放或保留 Attention Reservation、释放本域会话 Pause Token（`RULE-DIALOGUE-005`）。
 - `RULE-DIALOGUE-042`：Resume Window 内当且仅当全部剩余参与者仍满足 `DOC-DIALOGUE-002` 参与条件且打断源已解除时可恢复到 `active`；窗口以 GameTime 计量，暂停期间不流逝；超窗按来源映射 ended reason（`combat_encounter/safety_emergency → participant_unavailable`，`timeout → timeout`）。
 - `RULE-DIALOGUE-043`：`higher_priority_conversation` 只在新会话请求带有更高 TIME priority class（玩家发起、紧急事件驱动）时成立；居民日常闲聊不能互相抢占。被抢占会话进入 `interrupted` 并遵循同一 Resume Window。
 - `RULE-DIALOGUE-044`：所有打断、恢复、终结迁移与 `dialogue.conversation_state_changed/v1` 事件同事务提交并携带 `interrupt_source`；重放同一打断 command 幂等返回原结果。

@@ -60,13 +60,13 @@ last_updated: 2026-07-26
   "observed_revision": 128,
   "game_time": 5410,
   "utterance_history": [
-    {"utterance_index": 2, "speaker_id": "01K1AB2CD3EF4GH5JK6MNP7QRU", "text": "你最近还去矿上吗？", "is_summary": false},
+    {"utterance_index": 2, "speaker_id": "01K1AB2CD3EF4GH5JK6MNP7QRX", "text": "你最近还去矿上吗？", "is_summary": false},
     {"utterance_index": 3, "speaker_id": "01K1AB2CD3EF4GH5JK6MNP7QRV", "text": "去得少了，腿伤还没好利索。", "is_summary": false}
   ],
   "history_summary": {"covered_utterances": [0, 1], "text": "双方寒暄并互相问候了家人。", "is_summary": true},
   "speaker_projections": [
     {
-      "entity_id": "01K1AB2CD3EF4GH5JK6MNP7QRU",
+      "entity_id": "01K1AB2CD3EF4GH5JK6MNP7QRX",
       "public_identity": {"display_name": "旅人", "profession_public": "unknown_or_redacted"},
       "relationship_edge": {"affection": 12, "trust": 8, "fear": 0, "respect": 20, "intimacy": 3},
       "impression_memory_ids": ["01K1AB2CD3EF4GH5JK6MNP7QS1"]

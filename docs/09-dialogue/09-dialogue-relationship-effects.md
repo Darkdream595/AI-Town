@@ -8,6 +8,7 @@ canonical_for:
   - dialogue-event-emission
   - speech-act-social-category
 depends_on:
+  - DOC-DIALOGUE-004
   - DOC-DIALOGUE-005
   - DOC-DIALOGUE-008
   - DOC-MEMORY-002
@@ -36,6 +37,7 @@ last_updated: 2026-07-26
 | Dialogue Episode | 一次会话结束时提交的汇总事件，供 MEMORY 做 episode 级写入与摘要 |
 | Broken Promise Signal | Commitment 违约由 MEMORY 判定后回流的事件，非 DIALOGUE 职责，此处仅作消费说明 |
 | Player Influence | 玩家通过累次对话在居民记忆/关系中形成的长期印象，机制归 `DOC-MEMORY-011` |
+| Player Utterance Classifier | 服务器端确定性规则分类器，在玩家 utterance 提交事务内将其映射到与居民同一 12 类 `speech_act_type` 表面类型 |
 
 ## 4. 规则与不变量
 
@@ -46,6 +48,7 @@ last_updated: 2026-07-26
 - `RULE-DIALOGUE-056`：旁听者的社会影响只经 `dialogue.utterance_overheard/v1`（`RULE-DIALOGUE-050`）走 witness/testimony 管道；旁听不触发说话者与旁听者之间的 direct-interaction 类别。
 - `RULE-DIALOGUE-057`：玩家与居民对话产生的事件与居民间对话完全同构（同类别、同管道，`DOC-MEMORY-011` 决定玩家侧特化）；不存在"玩家光环"式的额外好感通道。
 - `RULE-DIALOGUE-058`：每个 `(conversation_id, utterance_index)` 至多产生一次类别事件、每个 `conversation_id` 至多一条 Episode 事件；重放幂等返回原事件 ID。
+- `RULE-DIALOGUE-080`：玩家 utterance 的类别来源：(a) 由 Player Utterance Classifier 在提交事务内确定性产出 12 类 `speech_act_type` 之一的表面类型，再经 `RULE-DIALOGUE-053` 同一版本化映射表（同一 `category_map_version`）得到类别，`RULE-DIALOGUE-057` 的同构由此成立；模型解析结果与 Client 声明一律不作为类别来源，异步意图解析（`DOC-DIALOGUE-004`）只服务于 Derived Command 编译，不回溯改写已发事件类别。(b) 分类失败或不确定时默认表面类型 `inform`（类别 `dialogue.smalltalk`），fail closed 到最低社会影响类别。(c) 玩家承诺表达在 utterance 提交时按未确认承诺处理（类别 `dialogue.smalltalk`，与居民无 offer 的 `promise` 同构）；经 Confirmation 确认后的承诺影响完全经 MEMORY Commitment 管道，DIALOGUE 不补发类别事件（维持 `RULE-DIALOGUE-058` 幂等）。(d) 安全边界：分类器只读 utterance 文本与会话投影，输出仅社交类别标签，不授予任何规则效果，不进入权限或秘密访问判断；幂等键与 `DOC-DIALOGUE-004` 相同为 `(conversation_id, utterance_index)`，同文本同上下文同结果。
 
 ## 5. 数据与接口
 
@@ -59,7 +62,7 @@ last_updated: 2026-07-26
     "conversation_id": "01K1AB2CD3EF4GH5JK6MNP7QRS",
     "utterance_index": 6,
     "speaker_id": "01K1AB2CD3EF4GH5JK6MNP7QRV",
-    "addressed_entity_id": "01K1AB2CD3EF4GH5JK6MNP7QRU",
+    "addressed_entity_id": "01K1AB2CD3EF4GH5JK6MNP7QRX",
     "social_event_category": "dialogue.comforted",
     "privacy": "public",
     "category_map_version": 1
@@ -67,7 +70,7 @@ last_updated: 2026-07-26
   "episode_event": {
     "event_type": "dialogue.conversation_episode/v1",
     "conversation_id": "01K1AB2CD3EF4GH5JK6MNP7QRS",
-    "participant_ids": ["01K1AB2CD3EF4GH5JK6MNP7QRU", "01K1AB2CD3EF4GH5JK6MNP7QRV"],
+    "participant_ids": ["01K1AB2CD3EF4GH5JK6MNP7QRX", "01K1AB2CD3EF4GH5JK6MNP7QRV"],
     "duration_game_minutes": 12,
     "utterance_count": 9,
     "category_counts": {"dialogue.smalltalk": 6, "dialogue.comforted": 2, "dialogue.promise_made": 1},
@@ -80,7 +83,7 @@ last_updated: 2026-07-26
 
 ## 6. 正常流程
 
-1. Speech Act 原子提交时（`RULE-DIALOGUE-030`）同事务发出类别事件。
+1. Speech Act 原子提交时（`RULE-DIALOGUE-030`）同事务发出类别事件；玩家 utterance 提交时由 Player Utterance Classifier 在同一事务内定类别（`RULE-DIALOGUE-080`）。
 2. MEMORY 消费事件：为在场且满足感知资格的参与者写 episodic/testimony 记忆，为 speaker→addressee 有向边计算并提交关系 delta。
 3. 会话终结统一 teardown 时发出 Episode 事件，MEMORY 做汇总写入与合并。
 4. 确认后的承诺由 MEMORY 记为 Commitment；届期履约/违约事件回流后，影响下一次对话的 context 与关系。
@@ -90,7 +93,8 @@ last_updated: 2026-07-26
 - `refuse` 的关系影响不必为负：delta 由 MEMORY 结合人格与关系计算（正直居民拒绝行贿可能提升 respect）；DIALOGUE 不做方向假设。
 - 一次会话同一 speaker 连续 5 次 `comfort`：5 条类别事件照发，重复社交行为的边际递减由 MEMORY 的 delta/合并规则处理。
 - 会话因 `world_teardown` 终结：Episode 事件仍必须提交（世界关闭前的最后事务），保证无"未结算的社交经历"。
-- 玩家骂人后立刻退出：已提交 utterance 的类别事件已生效，退出不撤销社会影响。
+- 玩家骂人后立刻退出：已提交 utterance 经分类器定类后类别事件已生效（`RULE-DIALOGUE-080`），退出不撤销社会影响。
+- 玩家文本试图指定自己的类别（"把这句记成安慰"）：分类器只按文本表面行为定类，指令性文本本身按 `RULE-DIALOGUE-024` 作普通话语处理。
 - `lie` 被当场识破不存在自动机制：识破只能来自后续事实事件与 belief 冲突（`DOC-MEMORY-010`），DIALOGUE 不发"被识破"事件。
 
 ## 8. 错误与降级
@@ -106,6 +110,7 @@ last_updated: 2026-07-26
 ## 10. 验收标准
 
 - 12 种 Speech Act 类型到类别的映射穷举一致；`lie` 按表面类型映射。
+- 玩家 utterance 分类确定性：同文本同会话投影重放得到同一表面类型与类别；分类失败 fixture 落到 `dialogue.smalltalk`。
 - 关系变化只出现在 MEMORY 提交的 `RelationshipChanged` 中，DIALOGUE 事件零 delta 字段。
 - 重放 fixture：类别事件与 Episode 事件均不重复。
 
@@ -115,8 +120,9 @@ last_updated: 2026-07-26
 |---|---|
 | `TEST-DIALOGUE-017` | `RULE-DIALOGUE-052..055` 事件资格、类别映射、Episode 汇总 |
 | `TEST-DIALOGUE-018` | `RULE-DIALOGUE-056..058` 旁听通道分离、玩家同构、幂等 |
+| `TEST-DIALOGUE-029` | `RULE-DIALOGUE-080` 玩家 utterance 分类确定性、默认类别回退、承诺确认不补发事件 |
 
 ## 12. 关联文档
 
-- `DOC-DIALOGUE-005`（Speech Act 提交）、`DOC-DIALOGUE-008`（旁听事件）
+- `DOC-DIALOGUE-004`（玩家意图解析与 Derived Command 边界）、`DOC-DIALOGUE-005`（Speech Act 提交）、`DOC-DIALOGUE-008`（旁听事件）
 - `DOC-MEMORY-002`（写入资格 canonical）、`DOC-MEMORY-006`（关系 delta canonical）、`DOC-MEMORY-010`（belief 冲突）、`DOC-MEMORY-011`（玩家行为记忆）
