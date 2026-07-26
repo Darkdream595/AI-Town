@@ -70,13 +70,13 @@ class TimeSimulator:
         old_date = game_minutes_to_date(old_time)
         new_date = game_minutes_to_date(new_time)
 
-        # 跨日检查
-        if old_date[2] != new_date[2]:  # 日期变化
-            self._trigger_event("day_changed", new_date)
-
-        # 跨月检查
+        # 跨月检查（先检查，因为跨月也会跨日）
         if old_date[1] != new_date[1]:  # 月份变化
             self._trigger_event("month_changed", new_date)
+            self._trigger_event("day_changed", new_date)  # 跨月必然跨日
+        # 跨日检查
+        elif old_date[2] != new_date[2]:  # 日期变化（但不跨月）
+            self._trigger_event("day_changed", new_date)
 
         # 节日检查
         year, month, day, _, _ = new_date
