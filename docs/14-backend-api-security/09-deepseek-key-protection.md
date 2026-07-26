@@ -46,7 +46,7 @@ last_updated: 2026-07-26
 - `RULE-BACKEND-051`：Key 明文不得进入：SQLite（app 与 world 库）、任何配置文件、日志、结构化事件、浏览器 localStorage/sessionStorage/IndexedDB、URL/query、崩溃转储上报、Snapshot、导出存档、诊断包。CI 与运行时各有一道检查（静态扫描 + Redaction Filter）。
 - `RULE-BACKEND-052`：`security/` 之外只流通 Credential Ref（落实 `RULE-BACKEND-009` 的包边界）；仅 ModelProvider adapter 在发起 HTTPS 请求的瞬间将 ref 解析为 `Authorization` 头。明文持有时间以单次请求为界，不写入可复用缓存、不拼接进可长期存活的对象；请求结束即释放引用（Python 运行时下以最小可达性为目标）。
 - `RULE-BACKEND-053`：Redaction Filter 对所有日志、错误 message/details、诊断输出执行两类擦除：已注册 Key Fingerprint 对应值的精确匹配、`sk-[A-Za-z0-9]{8,}` 模式匹配，命中替换为 `[REDACTED]`。上游 401/403/429 只记录 HTTP status 与 reason code，禁止记录请求头与请求体。
-- `RULE-BACKEND-054`：Key 生命周期操作（set/verify/delete）全部写审计日志（操作、Masked Suffix、结果、RealTime）；delete 立即移除 Secret Store 条目并使全部在存 Credential Ref 失效；verify 使用最小请求验证连通性，目标为 `DOC-AI-007` 配置的 Base URL `https://api.deepseek.com` 与模型 `deepseek-v4-flash`。
+- `RULE-BACKEND-054`：Key 生命周期操作（set/verify/delete）全部写审计日志（操作、Masked Suffix、结果、UTC RFC 3339 `timestamp`，格式与 `RULE-BACKEND-066` 一致）；delete 立即移除 Secret Store 条目并使全部在存 Credential Ref 失效；verify 使用最小请求验证连通性，目标为 `DOC-AI-007` 配置的 Base URL `https://api.deepseek.com` 与模型 `deepseek-v4-flash`。
 
 ## 5. 数据与接口
 

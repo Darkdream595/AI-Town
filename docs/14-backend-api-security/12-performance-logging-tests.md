@@ -108,7 +108,7 @@ Security Fixture 清单（全部可重复、离线执行）：
 | fixture | 覆盖 |
 |---|---|
 | 伪造/缺失 Origin、跨源 preflight | `RULE-BACKEND-043..044` |
-| 缺失/错误 CSRF 头 | `RULE-BACKEND-045` |
+| 缺失/错误 CSRF 头与 bootstrap 豁免边界（无 Cookie 仅 `anonymous_bootstrap` 端点放行） | `RULE-BACKEND-045` |
 | Ticket 重放、过期、跨 Session | `RULE-BACKEND-012` |
 | 静态路径穿越与符号链接 | `DOC-BACKEND-001` §9 |
 | 超大 body/帧、深嵌套 JSON | `RULE-BACKEND-048` |

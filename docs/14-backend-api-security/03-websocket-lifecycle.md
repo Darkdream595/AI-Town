@@ -60,10 +60,12 @@ Ticket（REST 响应 data，字段策略见 `DOC-BACKEND-012` 脱敏表：`ticke
   "schema_version": 1,
   "ticket": "b64u_9f2c1d7e8a4b5c6d7e8f9a0b1c2d3e4f",
   "world_id": "01K1AB2CD3EF4GH5JK6MNP7QRS",
-  "expires_at_real_time_ms": 1785052830000,
+  "expires_at_utc": "2026-07-26T08:30:45.250Z",
   "single_use": true
 }
 ```
+
+`expires_at_utc` 为 UTC RFC 3339 墙钟（`RULE-FOUNDATION-044`），仅供 Client 展示与提前重申请参考；Ticket TTL 的权威判定按 `RULE-BACKEND-012` 在服务器侧以 monotonic RealTime 计量（`RULE-FOUNDATION-035`）。
 
 帧 envelope（`payload` 结构由 `frame_type` 决定）：
 
@@ -82,7 +84,7 @@ Ticket（REST 响应 data，字段策略见 `DOC-BACKEND-012` 脱敏表：`ticke
 |---|---|---|
 | `hello` | C→S | `{schema_version, ticket, last_acked_revision, client_protocol_version}` |
 | `hello_ack` | S→C | `{schema_version, world_id, current_revision, resume_mode}`，`resume_mode` ∈ `live/catch_up/snapshot` |
-| `heartbeat` / `heartbeat_ack` | S→C / C→S | `{schema_version, sent_at_real_time_ms}` |
+| `heartbeat` / `heartbeat_ack` | S→C / C→S | `{schema_version, heartbeat_id}`；`heartbeat_ack` 原样回显收到的 `heartbeat_id`（ULID），往返耗时与超时由发送方以本端 monotonic RealTime 计量（`RULE-FOUNDATION-035`），wire 上不传输任何时钟读数 |
 | `command` | C→S | Command Envelope（`DOC-BACKEND-005`） |
 | `command_receipt` | S→C | CommandReceipt（`DOC-BACKEND-005`） |
 | `event` | S→C | Event Envelope（`DOC-BACKEND-006`） |
