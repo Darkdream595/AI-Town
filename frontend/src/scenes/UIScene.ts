@@ -28,9 +28,9 @@ export class UIScene extends Phaser.Scene {
     this.domBridge = new PhaserDomBridge();
 
     // 监听 EventBus 事件
-    EventBus.on('ui:update', this.handleUiUpdate, this);
-    EventBus.on('ui:show-dialogue', this.handleShowDialogue, this);
-    EventBus.on('ui:show-mayor-panel', this.handleShowMayorPanel, this);
+    EventBus.on('ui:update', this.handleUiUpdate.bind(this));
+    EventBus.on('ui:show-dialogue', this.handleShowDialogue.bind(this));
+    EventBus.on('ui:show-mayor-panel', this.handleShowMayorPanel.bind(this));
 
     // F3 切换调试信息
     this.input.keyboard?.on('keydown-F3', () => {
@@ -192,8 +192,8 @@ export class UIScene extends Phaser.Scene {
   }
 
   shutdown(): void {
-    EventBus.off('ui:update', this.handleUiUpdate, this);
-    EventBus.off('ui:show-dialogue', this.handleShowDialogue, this);
-    EventBus.off('ui:show-mayor-panel', this.handleShowMayorPanel, this);
+    EventBus.off('ui:update', this.handleUiUpdate.bind(this));
+    EventBus.off('ui:show-dialogue', this.handleShowDialogue.bind(this));
+    EventBus.off('ui:show-mayor-panel', this.handleShowMayorPanel.bind(this));
   }
 }
