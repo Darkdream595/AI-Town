@@ -23,6 +23,24 @@ from .walkability import (
     PositionLegality,
     WalkabilitySystem,
 )
+from .collision import (
+    ObstacleTag,
+    CollisionPolygon,
+    CollisionHit,
+    SweepResult,
+    CollisionSystem,
+    compute_signed_area,
+    is_clockwise,
+    is_counter_clockwise,
+)
+from .navigation import (
+    NavigationCell,
+    PathStatus,
+    PathResult,
+    NavigationGrid,
+    AStarPathfinder,
+    world_to_cell,
+)
 
 __all__ = [
     # Region Topology
@@ -37,4 +55,20 @@ __all__ = [
     "AgentProfile",
     "PositionLegality",
     "WalkabilitySystem",
+    # Collision
+    "ObstacleTag",
+    "CollisionPolygon",
+    "CollisionHit",
+    "SweepResult",
+    "CollisionSystem",
+    "compute_signed_area",
+    "is_clockwise",
+    "is_counter_clockwise",
+    # Navigation
+    "NavigationCell",
+    "PathStatus",
+    "PathResult",
+    "NavigationGrid",
+    "AStarPathfinder",
+    "world_to_cell",
 ]
