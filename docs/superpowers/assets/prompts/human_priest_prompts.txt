@@ -1,0 +1,518 @@
+# Human Priest - All Prompts
+# Total: 48 prompts (8 directions × 6 states)
+# Naming: human_priest_{direction}_{state}.png
+
+================================================================================
+
+## human_priest_north_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from behind (North direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_north_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from behind (North direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_north_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from behind (North direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_north_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from behind (North direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_northeast_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-right diagonal (Northeast direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_northeast_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-right diagonal (Northeast direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_northeast_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-right diagonal (Northeast direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_northeast_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-right diagonal (Northeast direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_east_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from right side (East direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_east_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from right side (East direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_east_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from right side (East direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_east_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from right side (East direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_southeast_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-right diagonal (Southeast direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_southeast_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-right diagonal (Southeast direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_southeast_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-right diagonal (Southeast direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_southeast_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-right diagonal (Southeast direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_south_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front (South direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_south_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front (South direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_south_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front (South direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_south_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front (South direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_southwest_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-left diagonal (Southwest direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_southwest_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-left diagonal (Southwest direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_southwest_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-left diagonal (Southwest direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_southwest_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-left diagonal (Southwest direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_west_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from left side (West direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_west_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from left side (West direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_west_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from left side (West direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_west_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from left side (West direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_northwest_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-left diagonal (Northwest direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_northwest_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-left diagonal (Northwest direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_northwest_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-left diagonal (Northwest direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_northwest_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-left diagonal (Northwest direction), 45-degree overhead angle.
+
+Character: Female human priest. White robes with gold trim, hood. Holy symbol pendant on chest. Wooden prayer book. Serene expression, 165cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. White and gold, holy glow effects. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+

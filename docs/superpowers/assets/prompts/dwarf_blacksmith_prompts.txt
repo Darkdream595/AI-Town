@@ -1,0 +1,518 @@
+# Dwarf Blacksmith - All Prompts
+# Total: 48 prompts (8 directions × 6 states)
+# Naming: dwarf_blacksmith_{direction}_{state}.png
+
+================================================================================
+
+## dwarf_blacksmith_north_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from behind (North direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_north_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from behind (North direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_north_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from behind (North direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_north_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from behind (North direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_northeast_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-right diagonal (Northeast direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_northeast_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-right diagonal (Northeast direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_northeast_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-right diagonal (Northeast direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_northeast_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-right diagonal (Northeast direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_east_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from right side (East direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_east_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from right side (East direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_east_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from right side (East direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_east_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from right side (East direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_southeast_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-right diagonal (Southeast direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_southeast_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-right diagonal (Southeast direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_southeast_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-right diagonal (Southeast direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_southeast_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-right diagonal (Southeast direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_south_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front (South direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_south_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front (South direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_south_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front (South direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_south_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front (South direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_southwest_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-left diagonal (Southwest direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_southwest_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-left diagonal (Southwest direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_southwest_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-left diagonal (Southwest direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_southwest_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-left diagonal (Southwest direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_west_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from left side (West direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_west_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from left side (West direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_west_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from left side (West direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_west_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from left side (West direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_northwest_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-left diagonal (Northwest direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_northwest_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-left diagonal (Northwest direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_northwest_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-left diagonal (Northwest direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_northwest_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-left diagonal (Northwest direction), 45-degree overhead angle.
+
+Character: Sturdy male dwarf blacksmith. Thick brown beard, bald head. Leather apron over brown shirt. Large iron hammer. Confident strong stance, 130cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. Brown leather, dark metal, earthy industrial tones. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+

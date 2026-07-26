@@ -1,0 +1,518 @@
+# Human Guard - All Prompts
+# Total: 48 prompts (8 directions × 6 states)
+# Naming: human_guard_{direction}_{state}.png
+
+================================================================================
+
+## human_guard_north_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from behind (North direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_north_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from behind (North direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_north_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from behind (North direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_north_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from behind (North direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_northeast_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-right diagonal (Northeast direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_northeast_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-right diagonal (Northeast direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_northeast_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-right diagonal (Northeast direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_northeast_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-right diagonal (Northeast direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_east_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from right side (East direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_east_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from right side (East direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_east_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from right side (East direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_east_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from right side (East direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_southeast_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-right diagonal (Southeast direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_southeast_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-right diagonal (Southeast direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_southeast_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-right diagonal (Southeast direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_southeast_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-right diagonal (Southeast direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_south_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front (South direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_south_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front (South direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_south_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front (South direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_south_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front (South direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_southwest_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-left diagonal (Southwest direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_southwest_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-left diagonal (Southwest direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_southwest_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-left diagonal (Southwest direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_southwest_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from front-left diagonal (Southwest direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_west_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from left side (West direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_west_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from left side (West direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_west_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from left side (West direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_west_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from left side (West direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_northwest_idle.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-left diagonal (Northwest direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Standing still (idle). Relaxed posture, weapon/tool at rest.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_northwest_walk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-left diagonal (Northwest direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Walking forward. One foot raised mid-step, natural gait.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_northwest_talk.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-left diagonal (Northwest direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Talking - head turned or facing forward, one hand raised in friendly gesture.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_northwest_hurt.png
+
+```
+A single 1024x1024 pixel sprite for a top-down RPG game. View from back-left diagonal (Northwest direction), 45-degree overhead angle.
+
+Character: Male human guard. Chain mail armor, red tabard with gold crown emblem. Iron sword in right hand, wooden shield on left arm. Alert stance, 175cm tall.
+
+Action: Hurt - recoiling or stumbling, one hand on body in pain, pained expression.
+
+Art style: Studio Ghibli inspired hand-painted art. Metallic silver, red tabard, gold emblem. Clean black outlines. Soft shading.
+
+Technical: Character centered in frame. Feet positioned at bottom 20% of image. Transparent PNG background. High detail with sharp crisp edges - NO blur or soft focus. Top-down 45-degree perspective for RPG sprite.
+```
+
+--------------------------------------------------------------------------------
+
