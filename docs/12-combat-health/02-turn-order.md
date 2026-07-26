@@ -62,8 +62,8 @@ last_updated: 2026-07-26
   "turn_index": 11,
   "phase": "actor_turn",
   "turn_order": [
-    {"combatant_id": "01K1AB2CD3EF4GH5JK6MNP7QSC", "initiative_q1000": 42731},
-    {"combatant_id": "01K1AB2CD3EF4GH5JK6MNP7QSD", "initiative_q1000": 30112}
+    {"combatant_id": "01K1AB2CD3EF4GH5JK6MNP7QSC", "initiative_q1000": 39731},
+    {"combatant_id": "01K1AB2CD3EF4GH5JK6MNP7QSD", "initiative_q1000": 33112}
   ],
   "current_combatant_id": "01K1AB2CD3EF4GH5JK6MNP7QSC",
   "turn_status": "awaiting_decision",

@@ -72,7 +72,7 @@ last_updated: 2026-07-26
 {
   "loot_schema_version": 1,
   "encounter_id": "01K1AB2CD3EF4GH5JK6MNP7QSA",
-  "source_event_id": "01K1AB2CD3EF4GH5JK6MNP7QSL",
+  "source_event_id": "01K1AB2CD3EF4GH5JK6MNP7QS8",
   "drops": [
     {
       "loot_table_id": "loot_table.bandit.cutpurse",

@@ -75,7 +75,7 @@ last_updated: 2026-07-26
   ],
   "status_changes": [],
   "mp_spent": 0,
-  "rolls": [{"slot": "hit", "value": 412}, {"slot": "variance", "value": 63}]
+  "rolls": [{"slot": "hit", "value": 412}, {"slot": "crit", "value": 587}, {"slot": "variance", "value": 63}]
 }
 ```
 

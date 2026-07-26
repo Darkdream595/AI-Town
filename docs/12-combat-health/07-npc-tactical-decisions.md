@@ -72,7 +72,40 @@ last_updated: 2026-07-26
       "formation_slot": "front_left"
     }
   ],
-  "legal_options": ["combat_option.attack", "combat_option.defend", "combat_option.flee"],
+  "legal_options": [
+    {
+      "option_schema_version": 1,
+      "option_id": "combat_option.attack",
+      "kind": "attack",
+      "actor_combatant_id": "01K1AB2CD3EF4GH5JK6MNP7QSD",
+      "legal_target_sets": [
+        {"set_id": "enemy_single", "combatant_ids": ["01K1AB2CD3EF4GH5JK6MNP7QSC"], "min_targets": 1, "max_targets": 1}
+      ],
+      "cost": {"mp_cost": 0, "item_ref": null},
+      "formula_ref": "combat_formula.v1.physical_single",
+      "source_definition_id": null
+    },
+    {
+      "option_schema_version": 1,
+      "option_id": "combat_option.defend",
+      "kind": "defend",
+      "actor_combatant_id": "01K1AB2CD3EF4GH5JK6MNP7QSD",
+      "legal_target_sets": [],
+      "cost": {"mp_cost": 0, "item_ref": null},
+      "formula_ref": null,
+      "source_definition_id": null
+    },
+    {
+      "option_schema_version": 1,
+      "option_id": "combat_option.flee",
+      "kind": "flee",
+      "actor_combatant_id": "01K1AB2CD3EF4GH5JK6MNP7QSD",
+      "legal_target_sets": [],
+      "cost": {"mp_cost": 0, "item_ref": null},
+      "formula_ref": "combat_formula.v1.flee_attempt",
+      "source_definition_id": null
+    }
+  ],
   "recent_turns": [
     {"turn_index": 11, "actor_combatant_id": "01K1AB2CD3EF4GH5JK6MNP7QSC", "option_id": "combat_option.attack", "summary": "命中，目标受创"}
   ],
@@ -80,7 +113,9 @@ last_updated: 2026-07-26
 }
 ```
 
-`hp_bucket` 封闭 enum：`unharmed/scratched/wounded/critical/down`。接口：
+`hp_bucket` 封闭 enum：`unharmed/scratched/wounded/critical/down`。`legal_options` 的每个元素都是
+`DES-COMBAT-003` `schema.combat.legal_option.v1` 的完整实例（`RULE-COMBAT-039` 要求的目标集合与 cost 随选项内嵌），
+不允许退化为 option_id 字符串列表。接口：
 
 ```text
 request_combat_decision(encounter_id, turn_index) -> CombatDecisionOutcome
