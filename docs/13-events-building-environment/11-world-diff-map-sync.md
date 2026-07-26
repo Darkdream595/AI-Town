@@ -97,7 +97,7 @@ Reverse Entry 示例（重开被洪水封锁的道路）：
   "source": {
     "command_id": null,
     "world_event_id": "01K1AB2CD3EF4GH5JK6MNP7QRS",
-    "domain_event_id": "01K1AB2CD3EF4GH5JK6MNP7QS8"
+    "domain_event_id": "01K1AB2CD3EF4GH5JK6MNP7QS0"
   },
   "subject_id": "01K1AB2CD3EF4GH5JK6MNP7QSM",
   "reverses_entry_id": "01K1AB2CD3EF4GH5JK6MNP7QSN",
