@@ -1,13 +1,14 @@
 ---
 doc_id: DOC-TIME-002
 title: 暂停与速度控制
-version: 1.0.1
+version: 1.0.2
 status: approved-for-implementation
 owner_domain: time
 canonical_for:
   - overworld-pause-policy
   - simulation-speed-control
   - pause-token-ledger
+  - clock-control-recovery-evidence
 depends_on:
   - DOC-FOUNDATION-005
   - DOC-FOUNDATION-006
@@ -46,6 +47,7 @@ last_updated: 2026-07-26
 - `RULE-TIME-010`：`shutdown/recovery_barrier/fatal_consistency_error` 的优先级高于用户解除暂停和速度请求。
 - `RULE-TIME-011`：requested speed 变更在下一个 World Tick 生效并产生 ClockControl Event；Client 本地按钮状态不构成事实。
 - `RULE-TIME-012`：backpressure 可按 `4→2→1→0.5` 降低 speed cap，但不得自动恢复到高于玩家 requested speed，也不得跳过规则工作。
+- `RULE-TIME-075`：每次 Clock Control state 提交必须在同一事务产生 `time.clock_control_recovery_recorded/v1` DomainEvent，其 payload 严格符合本节 Recovery Evidence Schema；shutdown Pause Token 的提交必须产生与 Shutdown Checkpoint 相同 Revision 的证据。
 
 合成顺序固定且不可交换为另一套语义：
 
@@ -84,6 +86,58 @@ release_pause(command_id, token_id, owner_domain) -> PauseResult
 get_effective_clock_control(world_id) -> {requested_speed, speed_cap, effective_speed, active_tokens}
 ```
 
+`DES-TIME-013`：`ClockControlRecoveryEvidence/v1` 是 v1 checkpoint upcast 所需字段的唯一 canonical source，保存在追加式 Domain Event Log：
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schema://ai-town/time/clock-control-recovery-evidence/v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "evidence_type",
+    "world_id",
+    "checkpoint_revision",
+    "requested_speed_multiplier",
+    "speed_cap_multiplier",
+    "effective_speed_multiplier",
+    "active_blocking_token_count",
+    "backpressure_overload_windows",
+    "backpressure_healthy_real_ms",
+    "clock_control_version",
+    "pause_ledger_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "evidence_type": {"const": "clock_control_recovery"},
+    "world_id": {"type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"},
+    "checkpoint_revision": {"type": "integer", "minimum": 0},
+    "requested_speed_multiplier": {"enum": [0, 0.5, 1, 2, 4]},
+    "speed_cap_multiplier": {"enum": [0.5, 1, 2, 4]},
+    "effective_speed_multiplier": {"enum": [0, 0.5, 1, 2, 4]},
+    "active_blocking_token_count": {"type": "integer", "minimum": 0, "maximum": 64},
+    "backpressure_overload_windows": {"type": "integer", "minimum": 0, "maximum": 6},
+    "backpressure_healthy_real_ms": {"type": "integer", "minimum": 0, "maximum": 30000},
+    "clock_control_version": {"type": "integer", "minimum": 1},
+    "pause_ledger_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  },
+  "additionalProperties": false
+}
+```
+
+Pause Ledger Hash 算法固定为：将 active token 按 `token_id` 升序排列，每项只保留 `token_id/owner_domain/reason/scope/acquired_at_game_time`，按 UTF-8 canonical JSON（对象键按上述固定顺序、无空白）序列化数组后计算 lowercase SHA-256。Recovery 必须从 Event Log 重建 ledger 并重算 hash；不能只信任 payload 自报值。
+
+Evidence 提交前还必须断言：
+
+```text
+effective_speed_multiplier ==
+  (active_blocking_token_count > 0
+    ? 0
+    : min(requested_speed_multiplier, speed_cap_multiplier))
+```
+
+`checkpoint_revision` 是 Event Envelope 的同一 `revision`；payload 与 envelope 不一致时该 Event 无效。Evidence Schema 版本独立于 Checkpoint Schema，后续增加字段必须发布新 evidence version。
+
 状态机：
 
 ```text
@@ -99,7 +153,7 @@ any -- fatal token --> consistency_paused
 ## 6. 正常流程
 
 1. 对话、镇长、Combat 或 shutdown owner 以 Command 获取 Pause Token；backpressure controller 可独立提交 speed cap。
-2. TIME 在同一提交边界写 ledger/control version，并严格按第 4 节公式生成 ClockControl Event。
+2. TIME 在同一提交边界写 ledger/control version，并严格按第 4 节公式生成 ClockControl Event 与 `ClockControlRecoveryEvidence/v1` payload。
 3. 下一个 Tick 只读取已合成的 effective speed；为 0 时不增加 Clock Phase，但仍处理 RealTime health、网络和安全退出。
 4. owner 完成流程后按 token ID 释放。
 5. 最后一个 blocking token 释放后，以当前 requested speed 和 speed cap 恢复。
@@ -136,7 +190,7 @@ Pause Port 不接受 Client 自报 owner；Gateway 映射已授权命令类型�
 |---|---|
 | `TEST-TIME-004` | `RULE-TIME-007..010` token nesting 与优先级 |
 | `TEST-TIME-005` | `RULE-TIME-007`, `RULE-TIME-011..012` requested/cap/token 合成与 apply boundary |
-| `TEST-TIME-006` | 幂等、断线和 ledger 恢复 |
+| `TEST-TIME-006` | `RULE-TIME-075`、幂等、断线、Evidence strict Schema 和 ledger hash 恢复 |
 
 ## 12. 关联文档
 

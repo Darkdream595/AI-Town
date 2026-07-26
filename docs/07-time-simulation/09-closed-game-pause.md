@@ -1,7 +1,7 @@
 ---
 doc_id: DOC-TIME-009
 title: 游戏关闭暂停与重启
-version: 1.0.1
+version: 1.0.2
 status: approved-for-implementation
 owner_domain: time
 canonical_for:
@@ -56,7 +56,32 @@ last_updated: 2026-07-26
 
 ## 5. 数据与接口
 
-`DES-TIME-009`：
+`DES-TIME-009`：Legacy v1 是 upcaster 唯一接受的旧输入形状；保留其 strict Schema，禁止把任意旧 JSON 当作 checkpoint：
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schema://ai-town/time/shutdown-checkpoint/v1",
+  "type": "object",
+  "required": ["schema_version", "world_id", "revision", "game_time", "clock_phase_quanta", "next_tick_sequence", "event_queue_hash", "scheduler_hash", "long_action_hash", "reservation_hash", "shutdown_state"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "world_id": {"type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"},
+    "revision": {"type": "integer", "minimum": 0},
+    "game_time": {"type": "integer", "minimum": 0},
+    "clock_phase_quanta": {"type": "integer", "minimum": 0, "maximum": 19},
+    "next_tick_sequence": {"type": "integer", "minimum": 0},
+    "event_queue_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "scheduler_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "long_action_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "reservation_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "shutdown_state": {"const": "checkpointed"}
+  },
+  "additionalProperties": false
+}
+```
+
+Current strict v2：
 
 ```json
 {
@@ -87,7 +112,58 @@ last_updated: 2026-07-26
 }
 ```
 
-严格 v2 round-trip fixture：
+完整 v1 input fixture：
+
+```json
+{
+  "schema_version": 1,
+  "world_id": "01K1AB2CD3EF4GH5JK6MNP7QRS",
+  "revision": 820,
+  "game_time": 1830,
+  "clock_phase_quanta": 6,
+  "next_tick_sequence": 40822,
+  "event_queue_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "scheduler_hash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "long_action_hash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "reservation_hash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "shutdown_state": "checkpointed"
+}
+```
+
+对应的完整 canonical Evidence fixture，严格符合 `DOC-TIME-002` 的 `ClockControlRecoveryEvidence/v1`：
+
+```json
+{
+  "schema_version": 1,
+  "evidence_type": "clock_control_recovery",
+  "world_id": "01K1AB2CD3EF4GH5JK6MNP7QRS",
+  "checkpoint_revision": 820,
+  "requested_speed_multiplier": 4,
+  "speed_cap_multiplier": 1,
+  "effective_speed_multiplier": 0,
+  "active_blocking_token_count": 1,
+  "backpressure_overload_windows": 2,
+  "backpressure_healthy_real_ms": 0,
+  "clock_control_version": 17,
+  "pause_ledger_hash": "aef5b1cc44fafa992bac6022d8ba9bf61dbc42a080ea5961f55aabbe263fcbb3"
+}
+```
+
+重建 Pause Ledger fixture；其 canonical JSON SHA-256 正是 evidence 的 `pause_ledger_hash`：
+
+```json
+[
+  {
+    "token_id": "01K1AB2CD3EF4GH5JK6MNP7QRV",
+    "owner_domain": "time",
+    "reason": "shutdown",
+    "scope": "overworld",
+    "acquired_at_game_time": 1830
+  }
+]
+```
+
+精确 expected v2 / strict round-trip fixture：
 
 ```json
 {
@@ -101,7 +177,7 @@ last_updated: 2026-07-26
   "backpressure_overload_windows": 2,
   "backpressure_healthy_real_ms": 0,
   "clock_control_version": 17,
-  "pause_ledger_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "pause_ledger_hash": "aef5b1cc44fafa992bac6022d8ba9bf61dbc42a080ea5961f55aabbe263fcbb3",
   "next_tick_sequence": 40822,
   "event_queue_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
   "scheduler_hash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
@@ -111,7 +187,37 @@ last_updated: 2026-07-26
 }
 ```
 
-v1→v2 upcaster 不得猜倍率：必须从同一 checkpoint Revision 的已提交 ClockControl Event/Clock Snapshot 恢复 requested、cap、control version 与 Pause Ledger Hash；缺少任一字段则 `TIME_RECOVERY_AUDIT_FAILED`。backpressure counters 没有历史证据时同样失败，不以默认 1× 掩盖未知状态。
+`DES-TIME-014`：v1→v2 upcast 是纯函数：
+
+```text
+upcast_shutdown_checkpoint_v1(
+  strict_v1_checkpoint,
+  strict_clock_control_recovery_evidence_v1,
+  reconstructed_pause_ledger
+) -> strict_v2_checkpoint | RecoveryError
+```
+
+算法固定为：
+
+1. 分别按 strict v1 Schema 和 `ClockControlRecoveryEvidence/v1` 校验 required、类型、enum 与 `additionalProperties:false`。
+2. 断言 `checkpoint.world_id == evidence.world_id` 且 `checkpoint.revision == evidence.checkpoint_revision`。
+3. 从 Event Log 重建该 Revision 的 active Pause Ledger，按 `DOC-TIME-002` 算法重算 hash 与 blocking token count，并与 evidence 比较。
+4. 用唯一 speed 公式重算 evidence effective；不一致即拒绝。
+5. 复制 v1 的全部 10 个状态字段；把 `schema_version` 改为 2；仅从 evidence 复制 requested、cap、两个 backpressure counter、control version 和 ledger hash。
+6. 对输出执行 strict v2 Schema 校验；canonical serialize/deserialize 后逐个比较全部 v2 required 字段。
+
+同一输入重复 upcast 必须产生 byte-identical canonical v2，且不增长 Revision、不追加 DomainEvent。输入已经是 valid v2 时只做 strict validation 后返回 canonical 等价值。
+
+安全失败：
+
+| 条件 | 结果 |
+|---|---|
+| 无同 Revision Evidence | `TIME_RECOVERY_EVIDENCE_MISSING` |
+| Evidence 缺 required 或有额外字段 | `TIME_RECOVERY_AUDIT_FAILED` |
+| world/revision、ledger hash/count 或 effective 不一致 | `TIME_RECOVERY_AUDIT_FAILED` |
+| v2 输出 strict validation/round-trip 失败 | `TIME_RECOVERY_AUDIT_FAILED` |
+
+任一失败均保持 Recovery Barrier、保持 source v1 bytes 不变、不得写 v2、不得推进 GameTime，也不得以默认 1×、空 ledger 或清零 counter 猜测。
 
 状态机：
 
@@ -128,6 +234,7 @@ recovering -- audit failure --> recovery_failed
 begin_shutdown(command_id) -> QuiescenceBarrier
 build_time_checkpoint(revision) -> TimeCheckpointProjection
 restore_time_runtime(snapshot, event_tail) -> TimeRecoveryReport
+upcast_shutdown_checkpoint_v1(checkpoint_v1, evidence_v1, pause_ledger) -> CheckpointV2 | RecoveryError
 release_startup_pause(command_id) -> ClockControlResult
 ```
 

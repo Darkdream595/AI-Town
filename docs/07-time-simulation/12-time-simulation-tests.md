@@ -1,7 +1,7 @@
 ---
 doc_id: DOC-TIME-012
 title: 时间与模拟验收测试
-version: 1.0.1
+version: 1.0.2
 status: approved-for-implementation
 owner_domain: time
 canonical_for:
@@ -121,7 +121,7 @@ fixture 缺字段、hash 算法版本不匹配、Fake Port 调用未登记或 bu
 
 ### 10.1 可执行确定性 smoke command
 
-以下 PowerShell 5.1 命令无需项目依赖，可验证 Clock quanta 与 Seed v1 固定向量：
+以下 PowerShell 5.1 命令无需项目依赖，可验证 Clock quanta、完整 v1 Evidence upcast、缺证据安全失败、strict v2 全字段 round-trip 与 Seed v1 固定向量：
 
 ```powershell
 $ErrorActionPreference = 'Stop'
@@ -143,18 +143,127 @@ function Resolve-EffectiveSpeed([double]$requestedSpeed, [double]$speedCap, [int
   if ($blockingTokenCount -gt 0) { return [double]0 }
   return [Math]::Min($requestedSpeed, $speedCap)
 }
+function Assert-StrictShape($value, [string[]]$allowedFields, [string]$label) {
+  $actualFields = @($value.PSObject.Properties.Name)
+  $missingFields = @($allowedFields | Where-Object { $_ -notin $actualFields })
+  $additionalFields = @($actualFields | Where-Object { $_ -notin $allowedFields })
+  if ($missingFields.Count -gt 0 -or $additionalFields.Count -gt 0) {
+    throw "TIME_RECOVERY_AUDIT_FAILED:$label missing=$($missingFields -join ',') additional=$($additionalFields -join ',')"
+  }
+}
+function Get-PauseLedgerHash($ledger) {
+  $records = @()
+  foreach ($token in @($ledger | Sort-Object token_id)) {
+    $records += '{"token_id":"' + $token.token_id + '","owner_domain":"' + $token.owner_domain + '","reason":"' + $token.reason + '","scope":"' + $token.scope + '","acquired_at_game_time":' + $token.acquired_at_game_time + '}'
+  }
+  $canonicalJson = '[' + ($records -join ',') + ']'
+  $sha256 = [Security.Cryptography.SHA256]::Create()
+  try {
+    return Convert-BytesToHex ($sha256.ComputeHash([Text.Encoding]::UTF8.GetBytes($canonicalJson)))
+  } finally {
+    $sha256.Dispose()
+  }
+}
+$v1Fields = @('schema_version','world_id','revision','game_time','clock_phase_quanta','next_tick_sequence','event_queue_hash','scheduler_hash','long_action_hash','reservation_hash','shutdown_state')
+$evidenceFields = @('schema_version','evidence_type','world_id','checkpoint_revision','requested_speed_multiplier','speed_cap_multiplier','effective_speed_multiplier','active_blocking_token_count','backpressure_overload_windows','backpressure_healthy_real_ms','clock_control_version','pause_ledger_hash')
+$v2Fields = @('schema_version','world_id','revision','game_time','clock_phase_quanta','requested_speed_multiplier','speed_cap_multiplier','backpressure_overload_windows','backpressure_healthy_real_ms','clock_control_version','pause_ledger_hash','next_tick_sequence','event_queue_hash','scheduler_hash','long_action_hash','reservation_hash','shutdown_state')
+function Convert-CheckpointV1ToV2($checkpointV1, $evidenceV1, $pauseLedger) {
+  Assert-StrictShape $checkpointV1 $v1Fields 'checkpoint_v1'
+  Assert-StrictShape $evidenceV1 $evidenceFields 'recovery_evidence_v1'
+  if ($checkpointV1.schema_version -ne 1 -or $evidenceV1.schema_version -ne 1 -or $evidenceV1.evidence_type -ne 'clock_control_recovery') {
+    throw 'TIME_RECOVERY_AUDIT_FAILED:version'
+  }
+  if ($checkpointV1.world_id -ne $evidenceV1.world_id -or $checkpointV1.revision -ne $evidenceV1.checkpoint_revision) {
+    throw 'TIME_RECOVERY_AUDIT_FAILED:revision'
+  }
+  if (@($pauseLedger).Count -ne $evidenceV1.active_blocking_token_count -or (Get-PauseLedgerHash $pauseLedger) -ne $evidenceV1.pause_ledger_hash) {
+    throw 'TIME_RECOVERY_AUDIT_FAILED:pause_ledger'
+  }
+  if ((Resolve-EffectiveSpeed $evidenceV1.requested_speed_multiplier $evidenceV1.speed_cap_multiplier $evidenceV1.active_blocking_token_count) -ne $evidenceV1.effective_speed_multiplier) {
+    throw 'TIME_RECOVERY_AUDIT_FAILED:effective_speed'
+  }
+  $checkpointV2 = [pscustomobject][ordered]@{
+    schema_version = 2
+    world_id = $checkpointV1.world_id
+    revision = $checkpointV1.revision
+    game_time = $checkpointV1.game_time
+    clock_phase_quanta = $checkpointV1.clock_phase_quanta
+    requested_speed_multiplier = $evidenceV1.requested_speed_multiplier
+    speed_cap_multiplier = $evidenceV1.speed_cap_multiplier
+    backpressure_overload_windows = $evidenceV1.backpressure_overload_windows
+    backpressure_healthy_real_ms = $evidenceV1.backpressure_healthy_real_ms
+    clock_control_version = $evidenceV1.clock_control_version
+    pause_ledger_hash = $evidenceV1.pause_ledger_hash
+    next_tick_sequence = $checkpointV1.next_tick_sequence
+    event_queue_hash = $checkpointV1.event_queue_hash
+    scheduler_hash = $checkpointV1.scheduler_hash
+    long_action_hash = $checkpointV1.long_action_hash
+    reservation_hash = $checkpointV1.reservation_hash
+    shutdown_state = $checkpointV1.shutdown_state
+  }
+  Assert-StrictShape $checkpointV2 $v2Fields 'checkpoint_v2'
+  return $checkpointV2
+}
 $oneX = Advance-Clock 1830 0 200 2
 $fourX = Advance-Clock 1830 0 25 8
 if ($oneX.game_time -ne 1850 -or $oneX.phase -ne 0) { throw 'clock 1x failed' }
 if ($fourX.game_time -ne 1840 -or $fourX.phase -ne 0) { throw 'clock 4x failed' }
 if ((Resolve-EffectiveSpeed 4 1 0) -ne 1) { throw 'speed cap without token failed' }
 if ((Resolve-EffectiveSpeed 4 1 1) -ne 0) { throw 'speed cap with token failed' }
-$checkpoint = @'
-{"schema_version":2,"world_id":"01K1AB2CD3EF4GH5JK6MNP7QRS","revision":820,"game_time":1830,"clock_phase_quanta":6,"requested_speed_multiplier":4,"speed_cap_multiplier":1,"backpressure_overload_windows":2,"backpressure_healthy_real_ms":0,"clock_control_version":17,"pause_ledger_hash":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","next_tick_sequence":40822,"event_queue_hash":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","scheduler_hash":"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc","long_action_hash":"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd","reservation_hash":"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee","shutdown_state":"checkpointed"}
+$checkpointV1 = @'
+{"schema_version":1,"world_id":"01K1AB2CD3EF4GH5JK6MNP7QRS","revision":820,"game_time":1830,"clock_phase_quanta":6,"next_tick_sequence":40822,"event_queue_hash":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","scheduler_hash":"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc","long_action_hash":"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd","reservation_hash":"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee","shutdown_state":"checkpointed"}
 '@ | ConvertFrom-Json
-if ($checkpoint.schema_version -ne 2 -or $checkpoint.requested_speed_multiplier -ne 4 -or $checkpoint.speed_cap_multiplier -ne 1 -or $checkpoint.clock_control_version -ne 17) { throw 'checkpoint round-trip failed' }
-if ((Resolve-EffectiveSpeed $checkpoint.requested_speed_multiplier $checkpoint.speed_cap_multiplier 1) -ne 0) { throw 'startup pause composition failed' }
-if ((Resolve-EffectiveSpeed $checkpoint.requested_speed_multiplier $checkpoint.speed_cap_multiplier 0) -ne 1) { throw 'restored cap composition failed' }
+$evidenceV1 = @'
+{"schema_version":1,"evidence_type":"clock_control_recovery","world_id":"01K1AB2CD3EF4GH5JK6MNP7QRS","checkpoint_revision":820,"requested_speed_multiplier":4,"speed_cap_multiplier":1,"effective_speed_multiplier":0,"active_blocking_token_count":1,"backpressure_overload_windows":2,"backpressure_healthy_real_ms":0,"clock_control_version":17,"pause_ledger_hash":"aef5b1cc44fafa992bac6022d8ba9bf61dbc42a080ea5961f55aabbe263fcbb3"}
+'@ | ConvertFrom-Json
+$pauseLedger = @(@{
+  token_id = '01K1AB2CD3EF4GH5JK6MNP7QRV'
+  owner_domain = 'time'
+  reason = 'shutdown'
+  scope = 'overworld'
+  acquired_at_game_time = 1830
+})
+$expectedV2 = @'
+{"schema_version":2,"world_id":"01K1AB2CD3EF4GH5JK6MNP7QRS","revision":820,"game_time":1830,"clock_phase_quanta":6,"requested_speed_multiplier":4,"speed_cap_multiplier":1,"backpressure_overload_windows":2,"backpressure_healthy_real_ms":0,"clock_control_version":17,"pause_ledger_hash":"aef5b1cc44fafa992bac6022d8ba9bf61dbc42a080ea5961f55aabbe263fcbb3","next_tick_sequence":40822,"event_queue_hash":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","scheduler_hash":"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc","long_action_hash":"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd","reservation_hash":"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee","shutdown_state":"checkpointed"}
+'@ | ConvertFrom-Json
+$upcastV2 = Convert-CheckpointV1ToV2 $checkpointV1 $evidenceV1 $pauseLedger
+$serializedV2 = $upcastV2 | ConvertTo-Json -Compress
+$roundTripV2 = $serializedV2 | ConvertFrom-Json
+Assert-StrictShape $roundTripV2 $v2Fields 'checkpoint_v2_round_trip'
+foreach ($field in $v2Fields) {
+  $actual = ConvertTo-Json -Compress -InputObject $roundTripV2.$field
+  $expected = ConvertTo-Json -Compress -InputObject $expectedV2.$field
+  if ($actual -ne $expected) { throw "checkpoint all-field round-trip failed:$field" }
+}
+if ((Resolve-EffectiveSpeed $roundTripV2.requested_speed_multiplier $roundTripV2.speed_cap_multiplier 1) -ne 0) { throw 'startup pause composition failed' }
+if ((Resolve-EffectiveSpeed $roundTripV2.requested_speed_multiplier $roundTripV2.speed_cap_multiplier 0) -ne 1) { throw 'restored cap composition failed' }
+$extraV2 = $serializedV2 | ConvertFrom-Json
+$extraV2 | Add-Member -NotePropertyName unexpected_field -NotePropertyValue true
+$strictAdditionalFailed = $false
+try { Assert-StrictShape $extraV2 $v2Fields 'checkpoint_v2_extra' } catch {
+  if ($_.Exception.Message -notlike 'TIME_RECOVERY_AUDIT_FAILED:*') { throw }
+  $strictAdditionalFailed = $true
+}
+if (-not $strictAdditionalFailed) { throw 'additionalProperties false was not enforced' }
+$missingEvidence = ($evidenceV1 | ConvertTo-Json -Compress) | ConvertFrom-Json
+$missingEvidence.PSObject.Properties.Remove('pause_ledger_hash')
+$sourceV1Before = $checkpointV1 | ConvertTo-Json -Compress
+$recoveryState = 'recovery_barrier'
+$missingEvidenceFailed = $false
+try { $null = Convert-CheckpointV1ToV2 $checkpointV1 $missingEvidence $pauseLedger } catch {
+  if ($_.Exception.Message -notlike 'TIME_RECOVERY_AUDIT_FAILED:*') { throw }
+  $missingEvidenceFailed = $true
+}
+if (-not $missingEvidenceFailed) { throw 'missing evidence did not fail' }
+if (($checkpointV1 | ConvertTo-Json -Compress) -ne $sourceV1Before -or $recoveryState -ne 'recovery_barrier') { throw 'safe recovery barrier/source preservation failed' }
+$extraEvidence = ($evidenceV1 | ConvertTo-Json -Compress) | ConvertFrom-Json
+$extraEvidence | Add-Member -NotePropertyName unexpected_field -NotePropertyValue true
+$extraEvidenceFailed = $false
+try { $null = Convert-CheckpointV1ToV2 $checkpointV1 $extraEvidence $pauseLedger } catch {
+  if ($_.Exception.Message -notlike 'TIME_RECOVERY_AUDIT_FAILED:*') { throw }
+  $extraEvidenceFailed = $true
+}
+if (-not $extraEvidenceFailed) { throw 'evidence additionalProperties false was not enforced' }
 $seed = Convert-HexToBytes '0123456789abcdeffedcba9876543210'
 $streamHmac = New-Object System.Security.Cryptography.HMACSHA256 (,$seed)
 $streamKey = $streamHmac.ComputeHash([Text.Encoding]::UTF8.GetBytes("ai-town/v1`0time.weather`0world"))
@@ -181,11 +290,12 @@ if ((Convert-BytesToHex $rawBlock) -ne 'c7801dd6c40f8ef4f422b58c1360dbe8afeb3a2f
 | `acceptance.time.lock_conflict` | 1000 randomized Lock Set | 无 deadlock、无部分 held |
 | `acceptance.time.periodic_30_days` | 30 日四类 cadence | 无漂移、无重复 occurrence |
 | `acceptance.time.offline_zero_delta` | offline 1m/1h/30d | GameTime/phase/work/expiry delta=0 |
-| `acceptance.time.checkpoint_control_roundtrip` | v2 checkpoint requested=4、cap=1、startup token | 字段无损；paused_ready=0，释放后 effective=1 |
+| `acceptance.time.checkpoint_v1_complete_evidence_upcast` | strict v1 + canonical Evidence + rebuilt ledger | 精确 strict v2、全部 required 字段 round-trip、startup 0/释放后 1 |
+| `acceptance.time.checkpoint_v1_missing_evidence` | Evidence 缺 `pause_ledger_hash`、Evidence/v2 额外字段反例 | stable failure、Recovery Barrier/source v1 不变、双方 additionalProperties 拒绝 |
 | `acceptance.time.seed_replay` | 固定 vector + stream reorder | hash/sequence 相同，无网络 AI replay |
 | `acceptance.time.overload_fallback` | 4× backlog pressure | 逐级降档、健康 30s 后逐级恢复 |
 
-全部十二个 case、1/7/30 日 invariant audit、traceability 和 Secret scan 均通过，TIME domain 才可标记 accepted。
+全部十三个 case、1/7/30 日 invariant audit、traceability 和 Secret scan 均通过，TIME domain 才可标记 accepted。
 
 ## 11. 测试追踪
 
@@ -193,7 +303,7 @@ if ((Convert-BytesToHex $rawBlock) -ne 'c7801dd6c40f8ef4f422b58c1360dbe8afeb3a2f
 |---|---|
 | `TEST-TIME-034` | `REQ-TIME-001..004`, `RULE-TIME-001..024`, `RULE-TIME-073` |
 | `TEST-TIME-035` | `REQ-TIME-005..008`, `RULE-TIME-025..048` |
-| `TEST-TIME-036` | `REQ-TIME-009..012`, `RULE-TIME-049..072`, `RULE-TIME-074` |
+| `TEST-TIME-036` | `REQ-TIME-009..012`, `RULE-TIME-049..072`, `RULE-TIME-074..075` |
 
 ## 12. 关联文档
 
