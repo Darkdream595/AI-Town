@@ -1,7 +1,7 @@
 ---
 doc_id: DOC-TIME-001
 title: 游戏时间模型与权威时钟
-version: 1.0.0
+version: 1.0.1
 status: approved-for-implementation
 owner_domain: time
 canonical_for:
@@ -58,17 +58,18 @@ last_updated: 2026-07-26
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "schema://ai-town/time/clock-snapshot/v1",
+  "$id": "schema://ai-town/time/clock-snapshot/v2",
   "type": "object",
-  "required": ["schema_version", "world_id", "revision", "calendar_epoch_id", "game_time", "clock_phase_quanta", "requested_speed_multiplier", "effective_speed_multiplier", "paused"],
+  "required": ["schema_version", "world_id", "revision", "calendar_epoch_id", "game_time", "clock_phase_quanta", "requested_speed_multiplier", "speed_cap_multiplier", "effective_speed_multiplier", "paused"],
   "properties": {
-    "schema_version": {"const": 1},
+    "schema_version": {"const": 2},
     "world_id": {"type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"},
     "revision": {"type": "integer", "minimum": 0},
     "calendar_epoch_id": {"const": "calendar_epoch.crown_487_thaw_1"},
     "game_time": {"type": "integer", "minimum": 0},
     "clock_phase_quanta": {"type": "integer", "minimum": 0, "maximum": 19},
     "requested_speed_multiplier": {"enum": [0, 0.5, 1, 2, 4]},
+    "speed_cap_multiplier": {"enum": [0.5, 1, 2, 4]},
     "effective_speed_multiplier": {"enum": [0, 0.5, 1, 2, 4]},
     "paused": {"type": "boolean"}
   },
@@ -80,17 +81,22 @@ last_updated: 2026-07-26
 
 ```json
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "world_id": "01K1AB2CD3EF4GH5JK6MNP7QRS",
   "revision": 820,
   "calendar_epoch_id": "calendar_epoch.crown_487_thaw_1",
   "game_time": 1830,
   "clock_phase_quanta": 6,
-  "requested_speed_multiplier": 1,
+  "requested_speed_multiplier": 4,
+  "speed_cap_multiplier": 1,
   "effective_speed_multiplier": 1,
   "paused": false
 }
 ```
+
+`effective_speed_multiplier` 与 `paused` 均为 `DOC-TIME-002` 公式的派生值；上述示例没有 Pause Token，但 `requested=4` 仍受 `cap=1` 限制，故 effective 为 1。`paused` 必须等于 `effective_speed_multiplier == 0`，消费者不得从 requested speed 自行推导。
+
+Clock Snapshot v1 没有 `speed_cap_multiplier`，不得以 `requested_speed_multiplier` 代填。v1→v2 只可从同一 Revision 的 ClockControl Event 恢复 cap 并重新合成 effective；证据缺失时拒绝 upcast。
 
 Clock Port：
 

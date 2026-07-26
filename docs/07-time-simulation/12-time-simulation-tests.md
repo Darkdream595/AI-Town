@@ -1,7 +1,7 @@
 ---
 doc_id: DOC-TIME-012
 title: 时间与模拟验收测试
-version: 1.0.0
+version: 1.0.1
 status: approved-for-implementation
 owner_domain: time
 canonical_for:
@@ -69,11 +69,14 @@ last_updated: 2026-07-26
     "revision": 100,
     "game_time": 1830,
     "clock_phase_quanta": 0,
-    "requested_speed": 1
+    "requested_speed_multiplier": 4,
+    "speed_cap_multiplier": 1
   },
   "runs": [
     {"case_id": "clock.200_ticks.1x", "ticks": 200, "speed": 1, "expected_game_time": 1850, "expected_phase": 0},
     {"case_id": "clock.25_ticks.4x", "ticks": 25, "speed": 4, "expected_game_time": 1840, "expected_phase": 0},
+    {"case_id": "speed.cap.no_token", "requested_speed_multiplier": 4, "speed_cap_multiplier": 1, "blocking_token_count": 0, "expected_effective_speed_multiplier": 1},
+    {"case_id": "speed.cap.with_token", "requested_speed_multiplier": 4, "speed_cap_multiplier": 1, "blocking_token_count": 1, "expected_effective_speed_multiplier": 0},
     {"case_id": "pause.200_ticks", "ticks": 200, "speed": 1, "pause_reason": "dialogue_input", "expected_game_time": 1830, "expected_phase": 0}
   ],
   "required_hashes": ["time_state", "event_trace", "queue_head", "seed_sequences"]
@@ -136,10 +139,22 @@ function Advance-Clock([int]$gameTime, [int]$phase, [int]$ticks, [int]$quantaPer
   $total = $phase + ($ticks * $quantaPerTick)
   return @{ game_time = $gameTime + [Math]::Floor($total / 20); phase = $total % 20 }
 }
+function Resolve-EffectiveSpeed([double]$requestedSpeed, [double]$speedCap, [int]$blockingTokenCount) {
+  if ($blockingTokenCount -gt 0) { return [double]0 }
+  return [Math]::Min($requestedSpeed, $speedCap)
+}
 $oneX = Advance-Clock 1830 0 200 2
 $fourX = Advance-Clock 1830 0 25 8
 if ($oneX.game_time -ne 1850 -or $oneX.phase -ne 0) { throw 'clock 1x failed' }
 if ($fourX.game_time -ne 1840 -or $fourX.phase -ne 0) { throw 'clock 4x failed' }
+if ((Resolve-EffectiveSpeed 4 1 0) -ne 1) { throw 'speed cap without token failed' }
+if ((Resolve-EffectiveSpeed 4 1 1) -ne 0) { throw 'speed cap with token failed' }
+$checkpoint = @'
+{"schema_version":2,"world_id":"01K1AB2CD3EF4GH5JK6MNP7QRS","revision":820,"game_time":1830,"clock_phase_quanta":6,"requested_speed_multiplier":4,"speed_cap_multiplier":1,"backpressure_overload_windows":2,"backpressure_healthy_real_ms":0,"clock_control_version":17,"pause_ledger_hash":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","next_tick_sequence":40822,"event_queue_hash":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","scheduler_hash":"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc","long_action_hash":"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd","reservation_hash":"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee","shutdown_state":"checkpointed"}
+'@ | ConvertFrom-Json
+if ($checkpoint.schema_version -ne 2 -or $checkpoint.requested_speed_multiplier -ne 4 -or $checkpoint.speed_cap_multiplier -ne 1 -or $checkpoint.clock_control_version -ne 17) { throw 'checkpoint round-trip failed' }
+if ((Resolve-EffectiveSpeed $checkpoint.requested_speed_multiplier $checkpoint.speed_cap_multiplier 1) -ne 0) { throw 'startup pause composition failed' }
+if ((Resolve-EffectiveSpeed $checkpoint.requested_speed_multiplier $checkpoint.speed_cap_multiplier 0) -ne 1) { throw 'restored cap composition failed' }
 $seed = Convert-HexToBytes '0123456789abcdeffedcba9876543210'
 $streamHmac = New-Object System.Security.Cryptography.HMACSHA256 (,$seed)
 $streamKey = $streamHmac.ComputeHash([Text.Encoding]::UTF8.GetBytes("ai-town/v1`0time.weather`0world"))
@@ -159,16 +174,18 @@ if ((Convert-BytesToHex $rawBlock) -ne 'c7801dd6c40f8ef4f422b58c1360dbe8afeb3a2f
 |---|---|---|
 | `acceptance.time.clock_matrix` | 五倍率各 1000 Tick | GameTime/phase 精确，无浮点漂移 |
 | `acceptance.time.pause_nesting` | Dialogue+Mayor+Combat+Shutdown token | 最后 token 前 effective speed=0 |
+| `acceptance.time.speed_cap_composition` | requested=4、cap=1、无 token/有 token | effective 分别为 1/0，释放 token 后仍为 1 |
 | `acceptance.time.scheduler_fairness` | 12 Resident + emergency storm | 并发≤2、routine 10 分钟不饥饿 |
 | `acceptance.time.tier_roundtrip` | Active→Warm→Background→Active | 守恒 hash 一致、位置合法 |
 | `acceptance.time.long_action_crash` | 20 checkpoint + 8 fault points | progress/产出最多一次 |
 | `acceptance.time.lock_conflict` | 1000 randomized Lock Set | 无 deadlock、无部分 held |
 | `acceptance.time.periodic_30_days` | 30 日四类 cadence | 无漂移、无重复 occurrence |
 | `acceptance.time.offline_zero_delta` | offline 1m/1h/30d | GameTime/phase/work/expiry delta=0 |
+| `acceptance.time.checkpoint_control_roundtrip` | v2 checkpoint requested=4、cap=1、startup token | 字段无损；paused_ready=0，释放后 effective=1 |
 | `acceptance.time.seed_replay` | 固定 vector + stream reorder | hash/sequence 相同，无网络 AI replay |
 | `acceptance.time.overload_fallback` | 4× backlog pressure | 逐级降档、健康 30s 后逐级恢复 |
 
-全部十个 case、1/7/30 日 invariant audit、traceability 和 Secret scan 均通过，TIME domain 才可标记 accepted。
+全部十二个 case、1/7/30 日 invariant audit、traceability 和 Secret scan 均通过，TIME domain 才可标记 accepted。
 
 ## 11. 测试追踪
 
@@ -176,7 +193,7 @@ if ((Convert-BytesToHex $rawBlock) -ne 'c7801dd6c40f8ef4f422b58c1360dbe8afeb3a2f
 |---|---|
 | `TEST-TIME-034` | `REQ-TIME-001..004`, `RULE-TIME-001..024`, `RULE-TIME-073` |
 | `TEST-TIME-035` | `REQ-TIME-005..008`, `RULE-TIME-025..048` |
-| `TEST-TIME-036` | `REQ-TIME-009..012`, `RULE-TIME-049..072` |
+| `TEST-TIME-036` | `REQ-TIME-009..012`, `RULE-TIME-049..072`, `RULE-TIME-074` |
 
 ## 12. 关联文档
 

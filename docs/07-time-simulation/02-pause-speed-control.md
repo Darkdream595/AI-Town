@@ -1,7 +1,7 @@
 ---
 doc_id: DOC-TIME-002
 title: 暂停与速度控制
-version: 1.0.0
+version: 1.0.1
 status: approved-for-implementation
 owner_domain: time
 canonical_for:
@@ -32,7 +32,7 @@ last_updated: 2026-07-26
 | 术语 | 定义 |
 |---|---|
 | Requested Speed | 玩家或 backpressure controller 请求的 `0/0.5/1/2/4` 倍率 |
-| Effective Speed | 有 blocking token 时为 0，否则为 requested speed |
+| Effective Speed | 唯一派生结果：存在任一 blocking token 时为 0，否则为 `min(requested speed, speed cap)` |
 | Pause Token | 带稳定 token ID、原因、owner、scope 和生命周期的暂停声明 |
 | Blocking Reason | `manual`, `dialogue_input`, `mayor_management`, `combat`, `shutdown`, `recovery_barrier`, `fatal_consistency_error` |
 | Advisory Slowdown | Queue overload 触发的倍率上限，不创建 blocking token |
@@ -40,12 +40,20 @@ last_updated: 2026-07-26
 
 ## 4. 规则与不变量
 
-- `RULE-TIME-007`：任一有效 blocking Pause Token 存在时，Overworld Effective Speed 必须为 `0×`。
+- `RULE-TIME-007`：唯一合成公式为 `effective_speed = active_blocking_tokens.any ? 0 : min(requested_speed, speed_cap)`；因此任一 blocking token 都使 Overworld Effective Speed 为 `0×`，无 token 也绝不能绕过 speed cap。
 - `RULE-TIME-008`：token 只能由创建它的 owner 或恢复协调器以同一 `token_id` 幂等释放；释放一个 token 不影响其他 token。
 - `RULE-TIME-009`：自然语言输入框、镇长管理事务和 Encounter Active 阶段默认申请 blocking token；仅打开非交互信息面板不自动暂停。
 - `RULE-TIME-010`：`shutdown/recovery_barrier/fatal_consistency_error` 的优先级高于用户解除暂停和速度请求。
 - `RULE-TIME-011`：requested speed 变更在下一个 World Tick 生效并产生 ClockControl Event；Client 本地按钮状态不构成事实。
 - `RULE-TIME-012`：backpressure 可按 `4→2→1→0.5` 降低 speed cap，但不得自动恢复到高于玩家 requested speed，也不得跳过规则工作。
+
+合成顺序固定且不可交换为另一套语义：
+
+1. 验证 `requested_speed ∈ {0,0.5,1,2,4}`。
+2. 由 `DOC-TIME-011` 已提交的 backpressure state 取得 `speed_cap ∈ {0.5,1,2,4}`。
+3. 计算 `capped_speed = min(requested_speed, speed_cap)`。
+4. 读取完整 Pause Ledger；存在任一 blocking token 则 effective=0，否则 effective=`capped_speed`。
+5. 派生 `paused = (effective_speed == 0)`，并在同一 ClockControl Event 发布 requested、cap、effective、ledger version。
 
 ## 5. 数据与接口
 
@@ -79,10 +87,10 @@ get_effective_clock_control(world_id) -> {requested_speed, speed_cap, effective_
 状态机：
 
 ```text
-running(speed>0) -- acquire first token --> paused
+running(min(requested,cap)>0) -- acquire first token --> paused
 paused -- acquire another token --> paused
 paused -- release non-last token --> paused
-paused -- release last token --> running(requested_speed limited by cap)
+paused -- release last token --> running(min(requested_speed,speed_cap))
 running -- request 0x --> paused_by_speed
 paused_by_speed -- request positive speed --> running
 any -- fatal token --> consistency_paused
@@ -90,15 +98,16 @@ any -- fatal token --> consistency_paused
 
 ## 6. 正常流程
 
-1. 对话、镇长、Combat 或 shutdown owner 以 Command 获取 Pause Token。
-2. TIME 在同一提交边界写 ledger 与 ClockControl Event。
-3. 下一个 Tick 读取 effective speed；为 0 时不增加 Clock Phase，但仍处理 RealTime health、网络和安全退出。
+1. 对话、镇长、Combat 或 shutdown owner 以 Command 获取 Pause Token；backpressure controller 可独立提交 speed cap。
+2. TIME 在同一提交边界写 ledger/control version，并严格按第 4 节公式生成 ClockControl Event。
+3. 下一个 Tick 只读取已合成的 effective speed；为 0 时不增加 Clock Phase，但仍处理 RealTime health、网络和安全退出。
 4. owner 完成流程后按 token ID 释放。
 5. 最后一个 blocking token 释放后，以当前 requested speed 和 speed cap 恢复。
 
 ## 7. 边界情况
 
 - 玩家在 combat 中点击 4×：记录 requested speed=4，但 effective speed 仍为 0。
+- 没有 Pause Token、requested=4、speed cap=1：effective 必须为 1；增加任一 dialogue token 后为 0，释放后恢复为 1 而不是 4。
 - 对话与镇长面板嵌套时，先关闭任一流程不会恢复世界。
 - 断线导致 owner 无法主动释放时，仅其有界恢复流程可根据已提交会话终态释放；禁止按 RealTime 猜测。
 - 重放 acquire/release Command 返回原结果，不创建第二 token 或重复 release event。
@@ -118,6 +127,7 @@ Pause Port 不接受 Client 自报 owner；Gateway 映射已授权命令类型�
 - Dialogue、Mayor、Combat、Shutdown 四条主流程没有提前恢复 GameTime。
 - 0× 与 Pause Token 均冻结 GameTime，但 RealTime timeout/退出仍运行。
 - backpressure 降档和玩家倍率请求组合结果确定。
+- 固定 fixture `requested=4, cap=1, tokens=[]` 得到 effective=1；`tokens=[dialogue_input]` 得到 effective=0。
 - 断线、重复命令和恢复后 token ledger 无泄漏。
 
 ## 11. 测试追踪
@@ -125,7 +135,7 @@ Pause Port 不接受 Client 自报 owner；Gateway 映射已授权命令类型�
 | 测试 ID | 断言 |
 |---|---|
 | `TEST-TIME-004` | `RULE-TIME-007..010` token nesting 与优先级 |
-| `TEST-TIME-005` | `RULE-TIME-011..012` speed apply boundary 与 cap |
+| `TEST-TIME-005` | `RULE-TIME-007`, `RULE-TIME-011..012` requested/cap/token 合成与 apply boundary |
 | `TEST-TIME-006` | 幂等、断线和 ledger 恢复 |
 
 ## 12. 关联文档
