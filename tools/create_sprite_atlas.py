@@ -56,9 +56,18 @@ def create_atlas_from_8dir(character_id: str):
     for i in range(8):
         x = i * frame_w
         frame = src_img.crop((x, 0, x + frame_w, frame_h))
-        # 缩放到 64x64
-        frame = frame.resize((64, 64), Image.Resampling.LANCZOS)
-        frames.append(frame)
+
+        # 保持宽高比缩放到 64 高度
+        aspect_ratio = frame_w / frame_h
+        new_h = 64
+        new_w = int(new_h * aspect_ratio)
+        frame = frame.resize((new_w, new_h), Image.Resampling.LANCZOS)
+
+        # 居中到 64x64 画布
+        canvas = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
+        paste_x = (64 - new_w) // 2
+        canvas.paste(frame, (paste_x, 0))
+        frames.append(canvas)
 
     # 组装 Atlas：6 行（状态）× 8 列（方向）
     for state_idx in range(6):
