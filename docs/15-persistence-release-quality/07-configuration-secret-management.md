@@ -6,7 +6,6 @@ status: approved-for-implementation
 owner_domain: release
 canonical_for:
   - non-sensitive-configuration
-  - windows-secret-storage
   - user-data-path-policy
 depends_on:
   - DOC-FOUNDATION-005
@@ -24,11 +23,11 @@ last_updated: 2026-07-26
 
 ## 1. 目的
 
-`REQ-RELEASE-007`：定义非敏感配置的唯一存放位置（`app_settings` 键白名单）、DeepSeek API Key 等 Secret 在 Windows 上的唯一持久化位置（Credential Manager 主、按用户 DPAPI 备）、SecretProvider Port 的内存生命周期，以及用户数据路径不可被改写的约束，确保 Key 绝不进入 SQLite、文件配置、日志、浏览器存储或诊断包。
+`REQ-RELEASE-007`：定义非敏感配置的唯一存放位置（`app_settings` 键白名单）、SecretProvider Port 的内存生命周期，以及用户数据路径不可被改写的约束，确保 Key 绝不进入 SQLite、文件配置、日志、浏览器存储或诊断包。DeepSeek API Key 的持久存储后端、文件名契约与主备选择语义由 `DOC-BACKEND-009`（`RULE-BACKEND-050` canonical）定义；RELEASE 侧职责限于：`secrets\` 目录布局（`DOC-RELEASE-001`）、该目录在备份/导出/诊断包的排除处理、以及卸载与跨机迁移行为。
 
 ## 2. 非目标
 
-本文件不定义 Key 的提交/校验 REST 端点与传输安全（`DOC-BACKEND-009` canonical）；不定义 Session/权限模型（`DOC-BACKEND-008`）；不定义模型请求如何使用 Key（`DOC-AI-007`）；不定义日志脱敏扫描实现（`DOC-RELEASE-010`）。
+本文件不定义 Key 的持久存储后端、文件名契约、主备选择与降级语义（`RULE-BACKEND-050` canonical）、提交/校验 REST 端点与传输安全（`DOC-BACKEND-009` canonical）；不定义 Session/权限模型（`DOC-BACKEND-008`）；不定义模型请求如何使用 Key（`DOC-AI-007`）；不定义日志脱敏扫描实现（`DOC-RELEASE-010`）。
 
 ## 3. 术语与定义
 
@@ -37,7 +36,7 @@ last_updated: 2026-07-26
 | Non-sensitive Setting | 泄露不造成安全损失的配置项，存 `app_settings` |
 | Secret | API Key、Session Secret、WebSocket Ticket、shutdown_token 等凭据类值 |
 | Credential Store | Windows Credential Manager 的 Generic Credential（用户级） |
-| DPAPI Fallback | `CryptProtectData`（user scope）密文文件，仅当 Credential Store 不可用 |
+| DPAPI Fallback | `RULE-BACKEND-050` 定义的 `CryptProtectData`（user scope）密文文件，主 Credential Store 不可用时由后端自动启用 |
 | SecretProvider | 后端唯一读取 Secret 的 Port，向调用方提供内存句柄 |
 | Masked Status | 只含是否已配置与末 4 位的展示形态，如 `sk-****abcd` |
 
@@ -45,7 +44,7 @@ last_updated: 2026-07-26
 
 - `RULE-RELEASE-048`：`app_settings` 只接受注册白名单键；写入未知键、值 JSON 不可解析或不满足该键 Schema 的请求一律拒绝；白名单变更是文档变更（修订本文件），不是运行期配置。
 - `RULE-RELEASE-049`：任何 Secret 不得写入 SQLite（含 WAL/备份/导出包）、json/ini/bat/txt 文件、日志、浏览器 localStorage/sessionStorage/IndexedDB/Cookie 持久层、诊断包（本规则汇聚 `RULE-RELEASE-006`、`RULE-FOUNDATION-024`、`REQ-PRODUCT-019` 在存储侧的落实；协议侧由 `DOC-BACKEND-009` 拥有）。
-- `RULE-RELEASE-050`：DeepSeek API Key 的唯一持久位置：Credential Store 条目 `AI-Town/deepseek-api-key`；Credential Store API 不可用时使用 DPAPI Fallback 文件 `secrets\deepseek.dpapi`。两者互斥主备：写入成功一处后必须删除另一处旧值；读取顺序固定为先 Credential Store 后 Fallback。
+- `RULE-RELEASE-050`：DeepSeek API Key 的持久存储契约（主 Credential Manager 条目名、备用 DPAPI 密文文件名与路径、主备选择与降级语义）由 `RULE-BACKEND-050` canonical 定义。RELEASE 侧职责：确保备用密文文件（若存在）只允许出现在用户数据目录的 `secrets\` 子目录内（`DOC-RELEASE-001` 布局），该目录整体排除在备份（`RULE-RELEASE-034`）、世界导出包（`RULE-RELEASE-012`）与诊断包（`RULE-RELEASE-075`）之外；卸载与跨机迁移行为按第 7 节处理。
 - `RULE-RELEASE-051`：Key 明文只存在于后端进程内存，经 SecretProvider 提供；REST 永不回传明文，只回 Masked Status；前端输入框提交后立即清空，不做本地暂存。
 - `RULE-RELEASE-052`：Session Secret 与 WebSocket Ticket 每次进程启动由 CSPRNG 生成，只驻留内存，不持久化；`runtime\instance.json` 中的 shutdown_token 是唯一允许落盘的进程级凭据，随进程退出删除（`DOC-RELEASE-008`）。
 - `RULE-RELEASE-053`：配置解析优先级固定且封闭：内置默认值 < `app_settings`。发布包安装目录内不存在配置来源（目录只读，`RULE-RELEASE-001`）；不提供环境变量与命令行覆盖通道——唯一例外是测试 harness 的 `AI_TOWN_REAL_MODEL` 开关（`DOC-RELEASE-011` canonical），它不进入玩家发布路径。
@@ -110,8 +109,8 @@ configured -> invalid_reported          # 模型 401/403 后标记，仍保留�
 
 - 中文用户名下的 Credential Store 与 `%LOCALAPPDATA%` 路径：条目名固定 ASCII，路径按 Unicode 处理；打包验收覆盖（`DOC-RELEASE-012`）。
 - Windows 用户更换密码导致 DPAPI 解密失败（漫游场景）：读取失败按 `not_configured` 处理并提示重新输入，不崩溃、不删除密文文件。
-- Credential Store 写入成功但删除旧 Fallback 失败：记录告警并在每次启动重试删除；读取顺序保证使用新值。
-- 从旧机器整体复制 `%LOCALAPPDATA%\AI-Town`：`secrets\deepseek.dpapi` 在新机器不可解密（DPAPI 绑定用户），行为同上；`app_settings` 正常生效。
+- Credential Store 写入成功但删除旧备用密文失败：记录告警并在每次启动重试删除；读取顺序保证使用新值。
+- 从旧机器整体复制 `%LOCALAPPDATA%\AI-Town`：备用 DPAPI 密文在新机器不可解密（DPAPI 绑定用户），行为同密码更换场景；`app_settings` 正常生效。
 - 玩家手工向 `app_settings` 表插入未知键（外部编辑）：启动校验发现后忽略并告警，不因此拒绝启动；写路径仍拒绝未知键。
 - `ai.base_url` 被改为非 https 或非法 URL：写入拒绝；存量非法值按内置默认回退并告警。
 

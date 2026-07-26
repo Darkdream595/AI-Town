@@ -93,7 +93,7 @@ last_updated: 2026-07-26
   "checks": [
     {"check_id": "sim30.memory", "metric": "process_rss_max_mib", "source": "runtime_sampler"},
     {"check_id": "sim30.queues", "metric": "queue_depth_bounded", "source": "runtime_sampler"},
-    {"check_id": "sim30.economy", "metric": "economy_conservation_violations", "source": "TEST-ECON-041..044"},
+    {"check_id": "sim30.economy", "metric": "economy_conservation_violations", "source": "TEST-ECON-045, TEST-ECON-048"},
     {"check_id": "sim30.stuck", "metric": "resident_stuck_max_game_hours", "source": "scheduler_progress_audit"},
     {"check_id": "sim30.drift", "metric": "relationship_drift_abs_max", "source": "memory_social_audit"},
     {"check_id": "sim30.quests", "metric": "active_quests_max", "source": "event_director_audit"},

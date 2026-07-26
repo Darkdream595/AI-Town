@@ -40,7 +40,7 @@ last_updated: 2026-07-26
 | Launcher Process | `runtime\backend\AI-Town.exe`（windowed，无控制台窗口），承载托盘与后端 |
 | Singleton Mutex | 命名互斥体 `Local\AITown.Launcher.Singleton`（每用户会话一个实例） |
 | instance.json | `%LOCALAPPDATA%\AI-Town\runtime\instance.json`，运行实例的端口/pid 记录 |
-| Health Endpoint | `GET /api/health`，Launcher 与停止脚本共同依赖的就绪探针 |
+| Health Endpoint | `GET /api/v1/health`（`DOC-BACKEND-004` 注册），Launcher 与停止脚本共同依赖的就绪探针 |
 | shutdown_token | 每次启动 CSPRNG 生成的一次性停止凭据，仅存 instance.json |
 
 ## 4. 规则与不变量
@@ -48,10 +48,10 @@ last_updated: 2026-07-26
 - `RULE-RELEASE-055`：Batch Entry 只做三件事：`chcp 65001` 设定代码页、以 `"%~dp0"` 定位包根、引号包裹全路径委派 `start "" "%~dp0runtime\backend\AI-Town.exe"`。不解析参数、不写注册表、不请求管理员权限；必须在含中文、空格与括号的安装路径下工作。
 - `RULE-RELEASE-056`：单实例：Launcher 启动即尝试持有 Singleton Mutex；已被持有时不启动第二个后端，而是读取 instance.json 并用默认浏览器打开现有实例 URL 后退出（二次双击 = 重新打开游戏页面）。
 - `RULE-RELEASE-057`：端口选择：后端绑定 `127.0.0.1:0` 由 OS 分配临时端口；禁止固定端口与 `0.0.0.0` 绑定；端口、pid、started_at、package_version、shutdown_token 原子写入 instance.json（write-temp + rename）。
-- `RULE-RELEASE-058`：健康轮询协议：Launcher 每 500 ms 请求 `/api/health`，总超时 60 s；仅当响应 `status="ready"` 才打开浏览器；`status="error"` 或超时进入错误提示（托盘气泡 + 打开日志目录入口），不打开浏览器、不无限重试。
+- `RULE-RELEASE-058`：健康轮询协议：Launcher 每 500 ms 请求 `/api/v1/health`（`DOC-BACKEND-004` 注册的 `HealthStatusV1` Schema），总超时 60 s；响应 `process_state="ready"` 且 `package_version` 匹配 instance.json 时打开浏览器；`process_state="error"` 或超时进入错误提示（托盘气泡 + 打开日志目录入口），不打开浏览器、不无限重试。版本三元组（package_version、build_id、current_revision）从 `/api/v1/meta`（`AppMetaV1`）获取用于 `DOC-RELEASE-012` 的 `RULE-RELEASE-089/090` 验收比对。
 - `RULE-RELEASE-059`：托盘图标在后端就绪后出现并常驻，菜单固定四项：打开游戏 / 保存并退出 / 打开诊断文件夹 / 关于（版本号）。「保存并退出」执行 `DOC-TIME-009` 正常关闭序列（Quiescence → checkpoint → 关库），完成后删除 instance.json 并退出进程。
-- `RULE-RELEASE-060`：`停止AI小镇.bat` 为托盘不可用时的备用：读取 instance.json，`POST /api/shutdown`（携带 shutdown_token）；15 s 内收到进程退出确认则删除 instance.json；否则打印指引（任务管理器结束 `AI-Town.exe` 会按崩溃恢复处理），脚本自身绝不 `taskkill /f` 强杀，避免绕过安全保存。
-- `RULE-RELEASE-061`：陈旧实例检测：启动时 instance.json 存在但其 pid 不存活或 Health Endpoint 不可达，视为上次崩溃残留——删除该文件、正常启动，世界打开走崩溃恢复链（`DOC-RELEASE-006`）。
+- `RULE-RELEASE-060`：`停止AI小镇.bat` 为托盘不可用时的备用：读取 instance.json，`POST /api/v1/shutdown`（携带 `shutdown_token`，`DOC-BACKEND-004` 注册）；15 s 内收到进程退出确认则删除 instance.json；否则打印指引（任务管理器结束 `AI-Town.exe` 会按崩溃恢复处理），脚本自身绝不 `taskkill /f` 强杀，避免绕过安全保存。
+- `RULE-RELEASE-061`：陈旧实例检测：启动时 instance.json 存在但其 pid 不存活或 `/api/v1/health` 不可达，视为上次崩溃残留——删除该文件、正常启动，世界打开走崩溃恢复链（`DOC-RELEASE-006`）。
 - `RULE-RELEASE-062`：浏览器策略：仅调用系统默认浏览器打开 `http://127.0.0.1:<port>/`；不安装浏览器、不改浏览器设置、不模拟按键触发全屏（`REQ-PRODUCT-002` 由页面内提示与按钮满足）。
 
 ## 5. 数据与接口
@@ -72,19 +72,28 @@ last_updated: 2026-07-26
 }
 ```
 
-`/api/health` 响应（端点归 `DOC-BACKEND-004`，字段契约在此固定）：
+`/api/v1/health` 响应（`DOC-BACKEND-004` 注册的 `HealthStatusV1` Schema）：
 
 ```json
 {
-  "status": "ready",
-  "package_version": "1.0.0",
-  "build_id": "43d1e4a",
+  "process_state": "ready",
+  "recovery_barrier_active": false,
   "open_world_id": null,
+  "current_revision": 0,
   "uptime_ms": 4200
 }
 ```
 
-`status` 枚举：`starting`（服务已监听但恢复链未完成）/ `ready` / `error`。
+`process_state` 枚举：`starting`（服务已监听但恢复链未完成）/ `ready` / `error`。
+
+`/api/v1/meta` 响应（`AppMetaV1` Schema，用于版本验收）：
+
+```json
+{
+  "package_version": "1.0.0",
+  "build_id": "43d1e4a"
+}
+```
 
 ### 5.2 Launcher 状态机
 
@@ -98,13 +107,13 @@ tray_resident -> shutting_down -> exited          # 保存并退出 / 停止脚�
 launched -- mutex_busy --> focus_existing -> exited
 ```
 
-`POST /api/shutdown`：仅接受回环来源且 `shutdown_token` 匹配；触发与托盘「保存并退出」同一序列；重复调用幂等（已在关闭中则返回进行中状态）。
+`POST /api/v1/shutdown`：仅接受回环来源且 `shutdown_token` 匹配（`DOC-BACKEND-004` 注册）；触发与托盘「保存并退出」同一序列；重复调用幂等（已在关闭中则返回进行中状态）。
 
 ## 6. 正常流程
 
 1. 玩家双击 `启动AI小镇.bat` → Batch 委派 Launcher Process。
 2. Launcher 取得 Mutex，启动内嵌 FastAPI 后端（同进程），绑定随机端口，写 instance.json。
-3. 健康轮询至 `ready`（首启含 `app.sqlite3` 创建/迁移，属 `starting` 阶段）。
+3. 健康轮询 `/api/v1/health` 至 `process_state="ready"`（首启含 `app.sqlite3` 创建/迁移，属 `starting` 阶段）。
 4. 打开默认浏览器进入游戏页；托盘图标出现。
 5. 玩家游玩后从托盘或网页选择「保存并退出」：干净关闭、删除 instance.json、进程退出。
 
@@ -124,7 +133,7 @@ launched -- mutex_busy --> focus_existing -> exited
 
 ## 9. 安全与性能
 
-- 后端仅绑定 `127.0.0.1`；`/api/shutdown` 额外要求 shutdown_token，防止本机其他页面盲发停止请求（同源与 Session 防护归 `DOC-BACKEND-008`）。
+- 后端仅绑定 `127.0.0.1`；`/api/v1/shutdown` 额外要求 shutdown_token，防止本机其他页面盲发停止请求（同源与 Session 防护归 `DOC-BACKEND-008`）。
 - instance.json 不含任何 API Key/Session Secret；shutdown_token 单次启动有效，进程退出即作废并删除文件。
 - 双击到 `ready` 目标：冷启动 ≤ 60 s、二次启动 ≤ 20 s（`DOC-RELEASE-012` 验收阈值）；健康轮询网络开销可忽略。
 - Launcher 不加载游戏资源，常驻内存目标 ≤ 后端进程整体预算内（`DOC-TIME-011`）。
@@ -152,5 +161,5 @@ launched -- mutex_busy --> focus_existing -> exited
 - `DOC-RELEASE-006`：崩溃残留后的恢复链
 - `DOC-RELEASE-007`：shutdown_token 的凭据归类
 - `DOC-TIME-009`：保存并退出的关闭序列
-- `DOC-BACKEND-004`：`/api/health`、`/api/shutdown` 端点注册
+- `DOC-BACKEND-004`：`/api/v1/health`、`/api/v1/meta`、`/api/v1/shutdown` 端点注册与 Schema
 - `DOC-BACKEND-008`：回环绑定与同源防护

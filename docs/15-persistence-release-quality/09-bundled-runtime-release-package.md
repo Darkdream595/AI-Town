@@ -130,7 +130,7 @@ verify_package(package_dir) -> PackageVerifyReport   # 黑名单、Secret 扫描
 
 ## 8. 错误与降级
 
-流水线任何一步失败即整体失败，无部分产出；`verify_package` 失败的包禁止进入验收与分发。运行期发现 manifest 与实际文件哈希不符（玩家改包或下载损坏）：启动继续但 `/api/health` 附 `package_integrity: "modified"`，G9 验收视为失败，玩家场景仅提示重新解压。
+流水线任何一步失败即整体失败，无部分产出；`verify_package` 失败的包禁止进入验收与分发。运行期发现 manifest 与实际文件哈希不符（玩家改包或下载损坏）：启动继续但 `/api/v1/health` 响应附加 `package_integrity: "modified"` 字段（扩展 `HealthStatusV1`，`DOC-BACKEND-004` 定义），G9 验收视为失败，玩家场景仅提示重新解压。
 
 ## 9. 安全与性能
 

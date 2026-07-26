@@ -46,8 +46,8 @@ last_updated: 2026-07-26
 - `RULE-RELEASE-086`：G9 必须在至少两台 Clean Machine 上真实执行：Windows 10 22H2 x64 与 Windows 11 x64 各一（物理机或全新快照虚拟机均可）；执行前自动断言机器干净（PATH 与注册表无 Python/Node/Git），不干净的机器结果无效。
 - `RULE-RELEASE-087`：Environment Matrix 必须完整覆盖第 5.1 节组合，其中强制包含：中文用户名账户、含中文与空格的安装路径（如 `C:\游戏 测试\AI 小镇\`）、桌面路径；全部组合通过 G9 才通过。
 - `RULE-RELEASE-088`：每条 Check 必须记录 `check_id`、执行人、机器标识、结果（`pass`/`fail`）与 Evidence 引用；结果只有 pass/fail 两态——任何 fail 或未执行项都使 G9 不通过，且按 Gate 纪律不得宣称后续阶段完成。
-- `RULE-RELEASE-089`：启动性能阈值：双击到 `/api/health` 返回 `ready`，冷启动（本机首次）≤ 60 s、二次启动 ≤ 20 s；超时即 fail（阈值与 `DOC-RELEASE-008` 一致）。
-- `RULE-RELEASE-090`：版本一致性三方比对为强制 Check：`release-manifest.json`、运行中 `/api/health`、构建源 commit 三者的 `package_version` 与 `build_id` 完全一致，且 manifest 逐文件哈希复算通过；任一不符即 fail（防发布包非最新代码）。
+- `RULE-RELEASE-089`：启动性能阈值：双击到 `/api/v1/health` 返回 `process_state="ready"`，冷启动（本机首次）≤ 60 s、二次启动 ≤ 20 s；超时即 fail（阈值与 `DOC-RELEASE-008` 一致）。
+- `RULE-RELEASE-090`：版本一致性三方比对为强制 Check：`release-manifest.json`、运行中 `/api/v1/meta`（`AppMetaV1`）、构建源 commit 三者的 `package_version` 与 `build_id` 完全一致，且 manifest 逐文件哈希复算通过；任一不符即 fail（防发布包非最新代码）。
 - `RULE-RELEASE-091`：会话后安全扫描为强制 Check：在配置过真实格式 Canary Key 并游玩后，对 `%LOCALAPPDATA%\AI-Town` 全部文件、包目录、浏览器本地存储执行 Secret Scanner（`DOC-RELEASE-010`），发现 Key 形态内容即 fail；同时抽查日志确认无 Prompt/对话原文。
 - `RULE-RELEASE-092`：Acceptance Record 随发布产物归档入库（与包 zip 同处保存）；重跑 G9 生成新 Record 并保留旧 Record 与重跑原因，不覆盖历史。
 
