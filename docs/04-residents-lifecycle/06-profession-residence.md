@@ -39,10 +39,16 @@ last_updated: 2026-07-26
 
 ## 4. 数据与接口
 
-`DES-RESIDENT-006`：
+`DES-RESIDENT-006`：注册 `schema.resident.assignment_state.v1`；required 字段为
+`assignment_schema_version/profession/residence`。`profession` required
+`assignment_id/profession_id/workplace_id/state/effective_from_game_time/effective_until_game_time`；
+`residence` required
+`assignment_id/building_id/interior_scene_id/bed_node_id/state`。该完整对象原样嵌入
+`ResidentAggregateV1.assignment_state`：
 
 ```json
 {
+  "assignment_schema_version": 1,
   "profession": {
     "assignment_id":"01K1AB2CD3EF4GH5JK6MNP7QRA",
     "profession_id":"profession.apothecary",
@@ -116,4 +122,3 @@ last_updated: 2026-07-26
 - `DOC-MAP-008`：Entrance/Interior transfer
 - `DOC-RESIDENT-009`：routine 消费 assignment
 - `DOC-ECON-002..003`：职业、工资、工作日程 canonical owner
-

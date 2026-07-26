@@ -53,8 +53,8 @@ last_updated: 2026-07-26
   "initial_revision":42,
   "given":{
     "resident_id":"01K1AB2CD3EF4GH5JK6MNP7QRS",
-    "hp_current":30,
-    "lifecycle_state":"active"
+    "health_state":{"condition":"healthy","hp_current":30,"hp_max":30},
+    "lifecycle":{"lifecycle_state":"active","defeat":null}
   },
   "when":[
     {
@@ -77,24 +77,28 @@ last_updated: 2026-07-26
     }
   ],
   "then":{
-    "hp_current":0,
-    "lifecycle_state":"unconscious",
+    "health_state":{"condition":"critical","hp_current":0,"hp_max":30},
+    "lifecycle":{"lifecycle_state":"defeated","defeat":{"outcome":"unconscious"}},
     "resident_exists":true,
     "effect_application_count":1,
     "forbidden_states":["dead","deleted"],
-    "final_revision":43
+    "final_revision":43,
+    "golden_event_sequence":["ResidentHealthChanged","ResidentDefeated"]
   }
 }
 ```
 
 Harness 必须支持 `apply_command`、`query_owner_projection`、`inject_failure`、`save_reload`、`advance_game_time` 和 `assert_invariants`。
+`resident.aggregate.round_trip` 必须加载 DOC-RESIDENT-001 完整 fixture，依次通过八个注册子 Schema validator，
+按 canonical key order 序列化、save/reload，再逐字比较；删除任一 required 子对象、替换为旧
+`personality_profile/needs/health/capabilities` 简写，或输入 `ResidentSummaryProjectionV1` 必须失败。
 
 ## 5. 规则与不变量
 
 - `RULE-RESIDENT-066`：所有 `REQ-RESIDENT-001..012` 至少映射一个 Test ID；所有测试固定 Seed、输入 Revision 与预期事件。
 - `RULE-RESIDENT-067`：故障场景必须断言状态、事件、幂等记录和 Revision 均无部分提交。
 - `RULE-RESIDENT-068`：owner-boundary 测试使用 Fake Port，断言 Resident 不计算 Item、damage、schedule 或 AI 决策。
-- `RULE-RESIDENT-069`：恢复测试必须比较保存前后 Resident Snapshot canonical JSON 与 source event application keys。
+- `RULE-RESIDENT-069`：恢复测试必须比较保存前后 `ResidentAggregateV1` canonical JSON、八个子 Schema version 与 source event application keys；Summary Projection 不参与比较。
 - `RULE-RESIDENT-070`：Simulation 每游戏日检查正式居民存在、位置合法、active exclusive task 至多一个、HP/Need 范围和引用完整。
 - `RULE-RESIDENT-071`：测试失败必须输出 scenario ID、Seed、Revision、resident ID 和脱敏 invariant ID。
 
@@ -113,6 +117,7 @@ Harness 必须支持 `apply_command`、`query_owner_projection`、`inject_failur
 - 同一 source effect 用新 command ID 重放仍只应用一次。
 - stale Revision 的 AI/玩家意图不得改变 Resident。
 - 30 日内全部服务者受伤时允许服务中断，但 roster 和恢复路径必须存在。
+- 旧 Health/lifecycle 双状态 fixture 必须按 DOC-RESIDENT-008 迁移；冲突 fixture 保持 Recovery Barrier。
 
 ## 8. 错误与降级
 
@@ -127,13 +132,16 @@ Fixture 不含 API Key、Secret、Prompt 或用户文本。Unit+Contract 目标 
 | 场景 ID | Given / When | 必须断言 |
 |---|---|---|
 | `resident.bootstrap.rollback` | 第 5 名 Inventory 创建失败 | 0 个新 Resident、0 个孤儿 Inventory、Revision 不变 |
+| `resident.aggregate.round_trip` | 完整 Aggregate 保存/重载；旧简写与 Summary 反例 | 八个子 validator 通过、canonical JSON 相等；反例全部拒绝 |
 | `resident.personality.no_authority` | 极端 personality + 非法 Action | Action 仍非法、无状态事件 |
 | `resident.need.threshold` | hunger 799 推进至 800 | 仅一次 critical band event |
 | `resident.long_action.interrupt` | 工作中发生 emergency | TIME 先暂停任务，再允许重规划，无双 Reservation |
-| `resident.health.damage_idempotency` | 致命 damage effect 重放 | 仅应用一次、unconscious、Resident 保留 |
+| `resident.health.damage_idempotency` | 致命 damage effect 重放 | 仅应用一次、`critical + defeated + unconscious outcome`、golden events 两个、Resident 保留 |
+| `resident.lifecycle.migration` | 旧 Health/lifecycle 单值与冲突双值 | 可映射值唯一 upcast；冲突值保持 Recovery Barrier |
 | `resident.captivity.review` | holder 失效且到 review | 安全退出流程存在、无 delete |
 | `resident.inventory.authority` | stale Item projection 申请 use | ECON 拒绝，Resident 不补物品 |
-| `resident.save_reload` | 保存、重载、重复最后命令 | canonical Snapshot 和幂等结果一致 |
+| `resident.roster.coverage` | 8/10/12 人正例及缺失/伪造/低阈值/重复 provider 反例 | 输出 provider set；仅正例通过，raw_materials 为两个不同 key |
+| `resident.save_reload` | 保存、重载、重复最后命令 | `ResidentAggregateV1` canonical JSON 和幂等结果一致 |
 
 全部 `TEST-RESIDENT-001..052` 通过、Requirement coverage 12/12、Critical invariant failure 为 0 才可批准。
 
@@ -163,4 +171,3 @@ Fixture 不含 API Key、Secret、Prompt 或用户文本。Unit+Contract 目标 
 - `DOC-ECON-012`：物品与经济测试
 - `DOC-COMBAT-012`：伤害和 outcome 测试
 - `DOC-TIME-012`：调度、恢复和 Simulation 测试
-

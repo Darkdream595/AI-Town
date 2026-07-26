@@ -32,23 +32,28 @@ last_updated: 2026-07-26
 | 术语 | 定义 |
 |---|---|
 | Age Stage | 首版仅 `adult`、`mature`、`elder` |
-| Defeat State | `unconscious/severely_injured/retreated/captive` |
+| Lifecycle State | 唯一封闭 enum `active/defeated/recovering` |
+| Defeat Outcome | 仅在 `lifecycle_state=defeated` 时存在：`unconscious/severely_injured/retreated/captive` |
 | Captivity Reference | EVENT/WORLD 法律 owner 的持有方、地点、复核与退出条件引用 |
 | Recovery Cost | GameTime、资源、限制、许可、关系修复或风险至少一项 |
-| `active` | 可参与常规生活的生命周期状态 |
+| Operational Projection | 从 lifecycle、Health restriction 与 Reservation 派生的行动资格，不持久化 |
 
 ## 4. 数据与接口
 
-`DES-RESIDENT-008`：
+`DES-RESIDENT-008`：注册 `schema.resident.lifecycle.v1`；required 字段为
+`lifecycle_schema_version/age_stage/age_stage_since_game_time/lifecycle_state/defeat`。
+`defeat` 在 `active/recovering` 时必须为 `null`，在 `defeated` 时 required
+`defeat_id/outcome/source_event_id/started_at_game_time/holder_entity_id/location_id/review_at_game_time/exit_condition_ids/minimum_cost_tags`：
 
 ```json
 {
+  "lifecycle_schema_version":1,
   "age_stage":"adult",
   "age_stage_since_game_time":0,
-  "lifecycle_state":"captive",
+  "lifecycle_state":"defeated",
   "defeat":{
     "defeat_id":"01K1AB2CD3EF4GH5JK6MNP7QRE",
-    "state":"captive",
+    "outcome":"captive",
     "source_event_id":"01K1AB2CD3EF4GH5JK6MNP7QRF",
     "started_at_game_time":1900,
     "holder_entity_id":"faction.ashen_band",
@@ -60,31 +65,41 @@ last_updated: 2026-07-26
 }
 ```
 
-状态机：
+唯一持久状态机：
 
 ```text
-active/recovering
-  -> unconscious | severely_injured | retreated | captive
-  -> recovering
-  -> active
+active -> defeated -> recovering -> active
+active -> recovering
+recovering -> defeated
 ```
 
-不存在 `dead/deleted/permadeath` 状态或转移。
+`active -> recovering` 仅用于非 defeat 的术后/病后恢复；不存在
+`dead/deleted/permadeath` 状态或转移。Health 与 lifecycle 组合矩阵：
+
+| `lifecycle_state` | `defeat` | 允许 `health.condition` | derived `can_initiate_actions` |
+|---|---|---|---|
+| `active` | `null` | `healthy/impaired` | true，但仍应用具体 restriction |
+| `defeated` | non-null | `critical`，或 `retreated/captive` 后经规则提升为 `impaired` | false |
+| `recovering` | `null` | `critical/impaired/healthy` | 仅允许 recovery policy 明列的 Action |
+
+`hp_current=0` 只允许 `defeated + critical`。`unconscious` 只出现在
+`defeat.outcome`，`recovering` 只出现在 `lifecycle_state`，二者不在
+`health.condition` 重复表达。
 
 ## 5. 规则与不变量
 
 - `RULE-RESIDENT-041`：正式 Resident aggregate 永不物理删除、永不进入 death terminal、永不以同名替代角色复位。
-- `RULE-RESIDENT-042`：每个 defeat 必有 source event、起始 GameTime、至少一个退出条件与至少一个非零 cost tag。
+- `RULE-RESIDENT-042`：`defeated` 必有合法 outcome、source event、起始 GameTime、至少一个退出条件与至少一个非零 cost tag；非 `defeated` 时 `defeat` 必为 null。
 - `RULE-RESIDENT-043`：captivity 必有 holder、location、`review_at_game_time` 和退出条件；review 最迟为开始后 1440 游戏分钟。
-- `RULE-RESIDENT-044`：恢复只能经已提交治疗、营救、撤退完成、释放或适应事件推进；不能因加载/重启自动满状态。
+- `RULE-RESIDENT-044`：恢复只能经已提交治疗、营救、撤退完成、释放或适应事件执行 `defeated -> recovering -> active`；不能因加载/重启自动满状态。
 - `RULE-RESIDENT-045`：Age Stage 只由版本化 World/Resident 规则与 GameTime 事件改变，不从现实时间推进；首版无死亡终点。
-- `RULE-RESIDENT-046`：Defeat 不清空 Inventory、Skill、Memory、关系、职业历史或承诺；外部 owner 单独处理合法转移/暂停。
+- `RULE-RESIDENT-046`：Defeat 不清空 Inventory、Skill、Memory、关系、职业历史或承诺；外部 owner 单独处理合法转移/暂停。Operational Projection 只派生，不持久化回 aggregate。
 
 ## 6. 正常流程
 
 1. COMBAT/EVENT 结算致命或失败结果，提供合法 defeat outcome ID。
 2. Resident 根据当前位置、结果与规则校验目标状态。
-3. 原子写入 defeat、Health/lifecycle 限制及 `ResidentDefeated`。
+3. 原子写入 `health.condition`、`lifecycle_state=defeated`、defeat outcome 及 `ResidentDefeated`。
 4. TIME 排定 review/recovery，事件系统产生治疗、营救或协商路径。
 5. 满足退出条件并付出记录成本后转 `recovering`，最终回 `active`。
 
@@ -93,7 +108,12 @@ active/recovering
 - 全队失败可为不同居民选择不同合法 outcome。
 - Holder 被移除或 location 不可达时，review 触发安全 relocation/释放流程，不删除 Resident。
 - 无治疗资源时生成求助与长期限制，不能永久锁死。
-- 旧事件含 `dead` 枚举时 Migration 必须停止并要求显式 upcast 到可审计 defeat state。
+- v1 修订前的 `health.state=unconscious` 或 `lifecycle_state=unconscious` 统一迁移为
+  `health.condition=critical + lifecycle_state=defeated + defeat.outcome=unconscious`；
+  任一旧 `recovering` 值迁移为 `lifecycle_state=recovering`，Health condition 由 HP/Injury 确定。
+- 同一旧记录提供互相冲突的 Health/lifecycle outcome 时不得猜测，保持 Recovery Barrier 并返回
+  `RESIDENT_LIFECYCLE_MIGRATION_CONFLICT`。
+- 旧事件含 `dead` 枚举时 Migration 必须停止并要求显式 upcast 到可审计 defeat outcome。
 
 ## 8. 错误与降级
 
@@ -105,7 +125,8 @@ active/recovering
 
 ## 10. 验收标准
 
-- 任意致命输入都映射到四个非永久 outcome 之一。
+- 任意致命输入都原子映射为 `critical + defeated + 四个 outcome 之一`。
+- 组合矩阵外状态、非 defeated 携带 defeat、Health 中出现 unconscious/recovering 均被拒绝。
 - 保存/重载、模型离线、全队失败均保留同一 Resident ID。
 - captivity 具有 review 与可达退出路径。
 - 恢复至少消耗一项有事件证据的成本。
@@ -115,7 +136,7 @@ active/recovering
 | 测试 ID | 断言 |
 |---|---|
 | `TEST-RESIDENT-029` | 致命值 Property Test 无 dead/delete |
-| `TEST-RESIDENT-030` | 四 outcome 状态机可达性与不可达非法边 |
+| `TEST-RESIDENT-030` | 唯一 lifecycle 状态机、Health 组合矩阵、四 outcome 可达性与非法边 |
 | `TEST-RESIDENT-031` | captivity review/holder失效/不可达恢复 |
 | `TEST-RESIDENT-032` | reload 与离线模型保持 ID 和非零成本 |
 
@@ -125,4 +146,3 @@ active/recovering
 - `DOC-RESIDENT-007`：Health 状态
 - `DOC-COMBAT-009`：战斗 outcome owner
 - `DOC-EVENT-005`：Aftermath 与营救
-

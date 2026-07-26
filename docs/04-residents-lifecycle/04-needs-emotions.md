@@ -38,7 +38,12 @@ last_updated: 2026-07-26
 
 ## 4. 数据与接口
 
-`DES-RESIDENT-004`：
+`DES-RESIDENT-004`：注册 `schema.resident.needs_state.v1`；required 字段为
+`needs_schema_version/values/emotion`；`values` required properties 为
+`hunger/fatigue/safety/social/comfort`，每个 Need required
+`value_q1000/last_updated_game_time`，Emotion required
+`primary/intensity_q1000/cause_event_ids/updated_at_game_time/decay_rate_q1000_per_game_hour`。
+该完整对象原样嵌入 `ResidentAggregateV1.needs_state`：
 
 ```json
 {
@@ -116,4 +121,3 @@ Need/Emotion 是游戏状态，不用于医学诊断。按阈值或小时事件�
 - `DOC-RESIDENT-007`：健康安全限制
 - `DOC-TIME-004`：下游居民调度
 - `DOC-AI-011`：Utility AI 消费安全信号
-

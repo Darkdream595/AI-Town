@@ -38,7 +38,9 @@ last_updated: 2026-07-26
 
 ## 4. 数据与接口
 
-`DES-RESIDENT-003`：
+`DES-RESIDENT-003`：注册 `schema.resident.personality.v1`；required 字段为
+`schema_version/dimensions/values/preferences/fears/profile_revision`，且完整对象原样嵌入
+`ResidentAggregateV1.personality`：
 
 ```json
 {
@@ -120,4 +122,3 @@ Resident 发布 `get_personality_utility_inputs(resident_id, revision)`；AI own
 - `DOC-RESIDENT-004`：短期 Emotion 与 Need
 - `DOC-AI-004..006`：下游 ActionProposal 与计划
 - `DOC-FOUNDATION-003`：AI projection 边界
-

@@ -7,7 +7,7 @@ owner_domain: resident
 canonical_for:
   - resident-persistent-health
   - injury-illness-lifecycle
-  - unconscious-state
+  - health-lifecycle-integration
 depends_on:
   - DOC-FOUNDATION-005
   - DOC-WORLD-010
@@ -22,7 +22,7 @@ last_updated: 2026-07-26
 
 ## 1. 目的
 
-`REQ-RESIDENT-007`：定义居民持久 Health、Injury、Illness、Unconscious 状态、限制与恢复；COMBAT 拥有 damage/healing 数值结果，Resident 只验证并应用已提交效果。
+`REQ-RESIDENT-007`：定义居民持久 Health condition、Injury、Illness、限制与恢复，并规定致命效果如何原子触发唯一 lifecycle 状态机；COMBAT 拥有 damage/healing 数值结果，Resident 只验证并应用已提交效果。
 
 ## 2. 非目标
 
@@ -32,7 +32,8 @@ last_updated: 2026-07-26
 
 | 术语 | 定义 |
 |---|---|
-| Health State | `healthy/impaired/unconscious/recovering`；`captive` 属于 DOC-RESIDENT-008 的 lifecycle state，不是健康诊断 |
+| Health Condition | 封闭 enum `healthy/impaired/critical`，只表达身体状况 |
+| Unconscious | `DOC-RESIDENT-008` 的 defeat outcome，不是 Health condition 或第二状态机 |
 | Injury | `injury.*` 定义的持久伤情实例 |
 | Illness | `illness.*` 定义的病程实例 |
 | Health Effect | COMBAT/MAGIC/EVENT 等 owner 已结算的 delta/状态命令 |
@@ -40,12 +41,15 @@ last_updated: 2026-07-26
 
 ## 4. 数据与接口
 
-`DES-RESIDENT-007`：
+`DES-RESIDENT-007`：注册 `schema.resident.health_state.v1`；required 字段为
+`health_schema_version/condition/hp_current/hp_max/injuries/illnesses/restrictions/health_revision`，
+完整对象原样嵌入 `ResidentAggregateV1.health_state`。Health Schema 不包含
+`unconscious/recovering/captive`：
 
 ```json
 {
   "health_schema_version": 1,
-  "state": "impaired",
+  "condition": "impaired",
   "hp_current": 12,
   "hp_max": 30,
   "injuries": [{
@@ -57,7 +61,6 @@ last_updated: 2026-07-26
   }],
   "illnesses": [],
   "restrictions": [{"capability_tag":"movement.fast","mode":"forbidden"}],
-  "unconscious_reason": null,
   "health_revision": 11
 }
 ```
@@ -66,10 +69,10 @@ last_updated: 2026-07-26
 
 ## 5. 规则与不变量
 
-- `RULE-RESIDENT-035`：`0 <= hp_current <= hp_max` 且 `hp_max >= 1`；正式居民 HP 到 0 必须进入 `unconscious` 或 DOC-RESIDENT-008 的其他非永久后果。
+- `RULE-RESIDENT-035`：`0 <= hp_current <= hp_max` 且 `hp_max >= 1`；`hp_current=0` 时 `condition` 必须为 `critical`，并在同一事务把 `lifecycle.lifecycle_state` 置为 `defeated`、设置 DOC-RESIDENT-008 的合法 `defeat.outcome`。
 - `RULE-RESIDENT-036`：damage/healing 数值只接受 COMBAT/MAGIC/EVENT owner 已结算效果；Resident 不重算、不接受 AI/Client 数值。
 - `RULE-RESIDENT-037`：Injury/Illness 实例必须有 definition、source event、severity、恢复进度和明确退出条件。
-- `RULE-RESIDENT-038`：unconscious 居民不能发起 move/work/talk/cast/start_encounter；允许被治疗、转运、营救和时间恢复。
+- `RULE-RESIDENT-038`：行动资格由 `ResidentOperationalProjection` 派生；当 `lifecycle_state=defeated` 时 `can_initiate_actions=false`，允许的外部目标行为仅为治疗、转运、营救和 review，禁止用 Health condition 单独推导第二套生命周期。
 - `RULE-RESIDENT-039`：相同 `(resident_id, source_event_id, effect_definition_id)` 最多应用一次。
 - `RULE-RESIDENT-040`：Health restriction 只影响当前可用性，不删除 Skill、Ability、身份、Inventory 引用、Memory 或关系。
 
@@ -78,15 +81,16 @@ last_updated: 2026-07-26
 1. COMBAT/MAGIC/EVENT owner 结算并提交来源结果。
 2. Orchestrator 传入不可变 Health Effect。
 3. Resident 校验 owner、source Revision、幂等键、范围和生命周期。
-4. 应用 HP、Injury/Illness、restriction；必要时进入 unconscious。
-5. 生成 `ResidentHealthChanged`，TIME 排定恢复检查，AI 收到合法能力投影。
+4. 应用 HP、Injury/Illness、restriction；若 HP 到 0，同一 Resident 事务调用唯一 lifecycle transition，写入 `defeated + outcome`。
+5. 同一 Revision 依序生成 `ResidentHealthChanged`、`ResidentDefeated`；TIME 排定恢复检查，AI 只收到派生的 `ResidentOperationalProjection`。
 
 ## 7. 边界情况
 
 - 同事务多种 effect 按 `source_event_id + effect_definition_id` 排序。
 - Healing 超过上限截到 `hp_max`，但仍记录实际 applied delta。
 - Illness 恢复中再次暴露可增加 severity；不得生成重复实例，除非 Catalog 允许多株。
-- Unconscious 时 arrival 位置仍须 MAP 合法；转运失败不改变位置。
+- `defeat.outcome=unconscious` 时 arrival 位置仍须 MAP 合法；转运失败不改变位置。
+- `health.condition=critical` 且 lifecycle 仍为 `active` 属于 invariant violation，事务必须回滚。
 
 ## 8. 错误与降级
 
@@ -100,7 +104,7 @@ last_updated: 2026-07-26
 
 - combat damage 在 Resident 仅应用一次且数值不重算。
 - HP=0 永不产生 death/delete。
-- unconscious 合法/非法命令矩阵准确。
+- lifecycle-derived operational 合法/非法命令矩阵准确，Health 不产生第二状态机。
 - 恢复后 Skill/Ability/身份保持不变。
 
 ## 11. 测试追踪
@@ -109,7 +113,7 @@ last_updated: 2026-07-26
 |---|---|
 | `TEST-RESIDENT-025` | HP 上下界、overheal 与 effect 幂等 |
 | `TEST-RESIDENT-026` | COMBAT-owned damage 边界 Contract Test |
-| `TEST-RESIDENT-027` | unconscious 命令能力矩阵 |
+| `TEST-RESIDENT-027` | Health/lifecycle 组合矩阵、unconscious 派生行动能力与非法组合拒绝 |
 | `TEST-RESIDENT-028` | Injury/Illness 恢复与持久数据保留 |
 
 ## 12. 关联文档

@@ -37,7 +37,10 @@ last_updated: 2026-07-26
 
 ## 4. 数据与接口
 
-`DES-RESIDENT-005`：
+`DES-RESIDENT-005`：注册 `schema.resident.capability_state.v1`；required 字段为
+`capability_schema_version/skills/ability_ids/capability_revision`，每个 Skill required
+`rating/xp/last_practiced_game_time`。该完整对象原样嵌入
+`ResidentAggregateV1.capability_state`：
 
 ```json
 {
@@ -114,4 +117,3 @@ Client/模型不能提交 XP 数值或解锁结果。每居民最多 64 个非�
 - `DOC-RESIDENT-007`：能力临时限制
 - `DOC-ECON-010`：制造结算 owner
 - `DOC-COMBAT-004`：战斗公式 owner
-

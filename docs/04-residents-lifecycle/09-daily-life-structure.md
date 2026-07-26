@@ -40,7 +40,11 @@ last_updated: 2026-07-26
 
 ## 4. 数据与接口
 
-`DES-RESIDENT-009`：
+`DES-RESIDENT-009`：注册 `schema.resident.routine_state.v1`；required 字段为
+`routine_schema_version/schedule_profile_id/windows/active_long_action_id/routine_revision`，
+每个 window required
+`window_id/day_type/start_minute_of_day/end_minute_of_day/candidate_activity_tags/preferred_destination_ids/flexibility_game_minutes/interruptibility`。
+该完整对象原样嵌入 `ResidentAggregateV1.routine_state`：
 
 ```json
 {
@@ -119,4 +123,3 @@ Scheduler 按下个 boundary 事件驱动，不逐 Tick 扫描全部 window。�
 - `DOC-RESIDENT-006`：assignment 目的地
 - `DOC-TIME-004..007`：调度与长行动 canonical owner
 - `DOC-AI-006`：三层规划 canonical owner
-

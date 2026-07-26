@@ -37,7 +37,9 @@ last_updated: 2026-07-26
 
 ## 4. 数据与接口
 
-`DES-RESIDENT-002`：
+`DES-RESIDENT-002`：注册 `schema.resident.identity.v1`；required 字段为
+`identity_schema_version/display_name/self_name/pronoun_id/ancestry_id/culture_ids/language_proficiencies/appearance`，
+且该完整对象原样嵌入 `ResidentAggregateV1.identity`：
 
 ```json
 {
@@ -114,4 +116,3 @@ last_updated: 2026-07-26
 - `DOC-WORLD-005`：族裔与文化 canonical 语义
 - `DOC-RENDER-004`：Sprite/Portrait 合约
 - `DOC-RESIDENT-011`：初始化组合
-
