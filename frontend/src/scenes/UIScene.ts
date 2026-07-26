@@ -1,266 +1,199 @@
 /**
- * UIScene - 常驻 UI orchestrator
+ * UIScene - UI 场景
  *
- * 符合 DOC-RENDER-001、DOC-RENDER-002 规范：
- * - RULE-RENDER-001: UIScene 与 WorldScene 并行运行
- * - 职责：管理所有 UI 元素，不参与地图/实体渲染
- *
- * 职责：
- * - 显示 HUD（时间、天气、季节）
- * - 显示对话框和居民卡片
- * - 显示交互提示
- * - 显示调试信息（可选）
- * - 处理 UI 输入事件
+ * 符合 DOC-RENDER-009 规范：
+ * - 通过 PhaserDomBridge 更新 #ui-overlay
+ * - 不再使用 Phaser 绘图
+ * - 保留 EventBus 通信和场景生命周期
  */
 
 import Phaser from 'phaser';
-import type { RenderEventEnvelope } from '../types/rendering';
+import { EventBus } from '../core/EventBus';
+import { PhaserDomBridge } from '../ui/PhaserDomBridge';
+import type { UiRenderProjection } from '../types/ui_projection';
 
 export class UIScene extends Phaser.Scene {
-  // HUD 元素
-  private hudContainer!: Phaser.GameObjects.Container;
-  private timeText!: Phaser.GameObjects.Text;
-  private weatherText!: Phaser.GameObjects.Text;
-  private seasonText!: Phaser.GameObjects.Text;
-
-  // 调试信息
-  private debugContainer!: Phaser.GameObjects.Container;
-  private debugText!: Phaser.GameObjects.Text;
+  private domBridge!: PhaserDomBridge;
+  private currentRevision: number = -1;
   private debugEnabled: boolean = false;
-
-  // 对话框容器
-  private dialogueContainer!: Phaser.GameObjects.Container;
 
   constructor() {
     super({ key: 'UIScene' });
   }
 
   create(): void {
-    console.log('[UIScene] Initializing...');
+    console.log('UIScene created');
 
-    // 创建 HUD
-    this.createHUD();
+    // 初始化 DOM Bridge
+    this.domBridge = new PhaserDomBridge();
 
-    // 创建调试面板
-    this.createDebugPanel();
+    // 监听 EventBus 事件
+    EventBus.on('ui:update', this.handleUiUpdate, this);
+    EventBus.on('ui:show-dialogue', this.handleShowDialogue, this);
+    EventBus.on('ui:show-mayor-panel', this.handleShowMayorPanel, this);
 
-    // 创建对话框容器
-    this.createDialogueContainer();
-
-    // 设置输入
-    this.setupInput();
-
-    console.log('[UIScene] Ready');
-  }
-
-  /**
-   * 创建 HUD
-   *
-   * 显示时间、天气、季节等基础信息
-   */
-  private createHUD(): void {
-    const width = this.cameras.main.width;
-
-    this.hudContainer = this.add.container(0, 0);
-    this.hudContainer.setDepth(200000); // UI 层级最高
-
-    // HUD 背景（羊皮纸风格）
-    const hudBg = this.add.rectangle(0, 0, width, 60, 0xf4e4c1, 0.9);
-    hudBg.setOrigin(0, 0);
-    this.hudContainer.add(hudBg);
-
-    // 时间显示
-    this.timeText = this.add.text(20, 20, '时间: --:--', {
-      fontSize: '18px',
-      color: '#5a4a3a',
-      fontFamily: 'serif',
-    });
-    this.hudContainer.add(this.timeText);
-
-    // 天气显示
-    this.weatherText = this.add.text(200, 20, '天气: 晴朗', {
-      fontSize: '18px',
-      color: '#5a4a3a',
-      fontFamily: 'serif',
-    });
-    this.hudContainer.add(this.weatherText);
-
-    // 季节显示
-    this.seasonText = this.add.text(380, 20, '季节: 春季', {
-      fontSize: '18px',
-      color: '#5a4a3a',
-      fontFamily: 'serif',
-    });
-    this.hudContainer.add(this.seasonText);
-  }
-
-  /**
-   * 创建调试面板
-   *
-   * 显示 FPS、实体数量、相机位置等调试信息
-   */
-  private createDebugPanel(): void {
-    const width = this.cameras.main.width;
-
-    this.debugContainer = this.add.container(0, 0);
-    this.debugContainer.setDepth(300000); // 调试层级更高
-    this.debugContainer.setVisible(false); // 默认隐藏
-
-    // 调试背景
-    const debugBg = this.add.rectangle(width - 250, 70, 240, 200, 0x000000, 0.7);
-    debugBg.setOrigin(0, 0);
-    this.debugContainer.add(debugBg);
-
-    // 调试文本
-    this.debugText = this.add.text(width - 240, 80, '', {
-      fontSize: '14px',
-      color: '#00ff00',
-      fontFamily: 'monospace',
-    });
-    this.debugContainer.add(this.debugText);
-  }
-
-  /**
-   * 创建对话框容器
-   *
-   * 用于显示 NPC 对话、系统提示等
-   */
-  private createDialogueContainer(): void {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
-
-    this.dialogueContainer = this.add.container(0, 0);
-    this.dialogueContainer.setDepth(250000);
-    this.dialogueContainer.setVisible(false); // 默认隐藏
-
-    // 对话框背景（羊皮纸风格，底部居中）
-    const dialogueBg = this.add.rectangle(width / 2, height - 120, width - 200, 200, 0xf4e4c1, 0.95);
-    dialogueBg.setOrigin(0.5, 0.5);
-    dialogueBg.setStrokeStyle(4, 0x8b7355);
-    this.dialogueContainer.add(dialogueBg);
-
-    // 对话框文本（暂时留空，后续会根据事件填充）
-  }
-
-  /**
-   * 设置输入
-   */
-  private setupInput(): void {
-    // F3 切换调试面板
+    // F3 切换调试信息
     this.input.keyboard?.on('keydown-F3', () => {
       this.debugEnabled = !this.debugEnabled;
-      this.debugContainer.setVisible(this.debugEnabled);
+      EventBus.emit('ui:toggle-debug', this.debugEnabled);
     });
+
+    // 初始 UI projection（占位数据）
+    this.updateUI({
+      protocol_version: 'ui.v1',
+      world_id: 'test_world',
+      revision: 0,
+      game_time: 0,
+      hud: {
+        player_name: '玩家',
+        season: '春季',
+        weather: '晴朗',
+        time_display: '第0年1月1日 00:00',
+      },
+    });
+
+    EventBus.emit('ui-scene-ready');
   }
 
   /**
-   * 更新 HUD 信息
-   *
-   * 由外部调用（后续会通过 EventBus 接收状态更新）
+   * 更新 UI projection
    */
-  public updateHUD(data: {
-    time?: string;
-    weather?: string;
-    season?: string;
-  }): void {
-    if (data.time) {
-      this.timeText.setText(`时间: ${data.time}`);
-    }
-    if (data.weather) {
-      this.weatherText.setText(`天气: ${data.weather}`);
-    }
-    if (data.season) {
-      this.seasonText.setText(`季节: ${data.season}`);
-    }
+  private handleUiUpdate(projection: UiRenderProjection): void {
+    this.updateUI(projection);
   }
 
   /**
    * 显示对话框
-   *
-   * 后续会根据 RenderEventEnvelope 中的对话事件显示
    */
-  public showDialogue(speaker: string, text: string): void {
-    this.dialogueContainer.setVisible(true);
+  private handleShowDialogue(data: { speaker: string; text: string }): void {
+    const projection: UiRenderProjection = {
+      protocol_version: 'ui.v1',
+      world_id: 'test_world',
+      revision: ++this.currentRevision,
+      game_time: 0,
+      hud: this.getCurrentHud(),
+      dialogue: {
+        conversation_id: 'temp_conversation',
+        speaker_name: data.speaker,
+        speaker_entity_id: 'temp_entity',
+        text: data.text,
+      },
+    };
 
-    // 清空旧内容
-    this.dialogueContainer.removeAll(true);
-
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
-
-    // 对话框背景
-    const dialogueBg = this.add.rectangle(width / 2, height - 120, width - 200, 200, 0xf4e4c1, 0.95);
-    dialogueBg.setOrigin(0.5, 0.5);
-    dialogueBg.setStrokeStyle(4, 0x8b7355);
-    this.dialogueContainer.add(dialogueBg);
-
-    // 说话者名字
-    const speakerText = this.add.text(width / 2 - (width - 200) / 2 + 20, height - 200, speaker, {
-      fontSize: '20px',
-      color: '#5a4a3a',
-      fontFamily: 'serif',
-      fontStyle: 'bold',
-    });
-    this.dialogueContainer.add(speakerText);
-
-    // 对话内容
-    const dialogueText = this.add.text(width / 2 - (width - 200) / 2 + 20, height - 170, text, {
-      fontSize: '18px',
-      color: '#5a4a3a',
-      fontFamily: 'serif',
-      wordWrap: { width: width - 240 },
-    });
-    this.dialogueContainer.add(dialogueText);
+    this.updateUI(projection);
   }
 
   /**
-   * 隐藏对话框
+   * 显示镇长面板
    */
-  public hideDialogue(): void {
-    this.dialogueContainer.setVisible(false);
+  private handleShowMayorPanel(): void {
+    const projection: UiRenderProjection = {
+      protocol_version: 'ui.v1',
+      world_id: 'test_world',
+      revision: ++this.currentRevision,
+      game_time: 0,
+      hud: this.getCurrentHud(),
+      mayor_panel: {
+        budget_copper: 10000,
+        population: 12,
+        satisfaction: 75,
+        available_commands: [
+          {
+            command_id: 'build_house',
+            display_name: '建造房屋',
+            description: '为新居民建造住所',
+            cost_copper: 5000,
+          },
+          {
+            command_id: 'host_festival',
+            display_name: '举办节日',
+            description: '提升居民满意度',
+            cost_copper: 2000,
+          },
+        ],
+      },
+    };
+
+    this.updateUI(projection);
   }
 
   /**
-   * 处理渲染事件
-   *
-   * 根据 RenderEventEnvelope 更新 UI 状态
+   * 更新 UI（通过 DOM Bridge）
    */
-  public handleRenderEvent(event: RenderEventEnvelope): void {
-    // RenderEventEnvelope 的判别字段是 render.kind（见 DES-RENDER-001）
-    // 对话/时间等 UI 状态走 UIScene 的 projection 通道，不在 render event 里
-    switch (event.render.kind) {
-      case 'entity_spawned':
-      case 'entity_despawned':
-        // 实体增删只影响 WorldScene，UI 暂无需响应
-        break;
-      case 'entity_moved':
-      case 'entity_animation_changed':
-        // 后续用于跟随选中实体的信息面板
-        break;
-    }
-  }
-
-  update(_time: number, _delta: number): void {
-    if (this.debugEnabled) {
-      this.updateDebugInfo();
-    }
+  private updateUI(projection: UiRenderProjection): void {
+    this.domBridge.patch(projection);
+    this.currentRevision = projection.revision;
   }
 
   /**
-   * 更新调试信息
+   * 获取当前 HUD 数据
    */
-  private updateDebugInfo(): void {
-    const worldScene = this.scene.get('WorldScene') as any;
-    const camera = worldScene?.cameras?.main;
+  private getCurrentHud() {
+    return {
+      player_name: '玩家',
+      season: '春季',
+      weather: '晴朗',
+      time_display: '第0年1月1日 00:00',
+    };
+  }
 
-    const debugInfo = [
-      `FPS: ${Math.round(this.game.loop.actualFps)}`,
-      `Delta: ${this.game.loop.delta.toFixed(2)} ms`,
-      camera ? `Camera: (${Math.round(camera.scrollX)}, ${Math.round(camera.scrollY)})` : 'Camera: N/A',
-      camera ? `Zoom: ${camera.zoom.toFixed(2)}` : 'Zoom: N/A',
-      worldScene?.entities ? `Entities: ${worldScene.entities.size}` : 'Entities: 0',
-    ];
+  /**
+   * 更新游戏时间显示
+   */
+  public updateTime(timeDisplay: string): void {
+    const projection: UiRenderProjection = {
+      protocol_version: 'ui.v1',
+      world_id: 'test_world',
+      revision: ++this.currentRevision,
+      game_time: 0,
+      hud: {
+        ...this.getCurrentHud(),
+        time_display: timeDisplay,
+      },
+    };
 
-    this.debugText.setText(debugInfo.join('\n'));
+    this.updateUI(projection);
+  }
+
+  /**
+   * 更新天气显示
+   */
+  public updateWeather(weather: string): void {
+    const projection: UiRenderProjection = {
+      protocol_version: 'ui.v1',
+      world_id: 'test_world',
+      revision: ++this.currentRevision,
+      game_time: 0,
+      hud: {
+        ...this.getCurrentHud(),
+        weather,
+      },
+    };
+
+    this.updateUI(projection);
+  }
+
+  /**
+   * 更新季节显示
+   */
+  public updateSeason(season: string): void {
+    const projection: UiRenderProjection = {
+      protocol_version: 'ui.v1',
+      world_id: 'test_world',
+      revision: ++this.currentRevision,
+      game_time: 0,
+      hud: {
+        ...this.getCurrentHud(),
+        season,
+      },
+    };
+
+    this.updateUI(projection);
+  }
+
+  shutdown(): void {
+    EventBus.off('ui:update', this.handleUiUpdate, this);
+    EventBus.off('ui:show-dialogue', this.handleShowDialogue, this);
+    EventBus.off('ui:show-mayor-panel', this.handleShowMayorPanel, this);
   }
 }

@@ -1,0 +1,238 @@
+/* 羊皮纸 UI 视觉系统 - 符合 DOC-RENDER-009 */
+
+#ui-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+/* 所有 UI 子元素可交互 */
+#ui-overlay > * {
+  pointer-events: auto;
+}
+
+/* HUD 容器 */
+.hud-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: rgba(244, 228, 193, 0.9);
+  border-bottom: 2px solid rgba(139, 90, 43, 0.5);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 0 20px;
+}
+
+.hud-item {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.hud-label {
+  color: #5d4e37;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.hud-value {
+  color: #2c2416;
+  font-size: 14px;
+}
+
+/* 对话框 */
+.dialogue-box {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 200px);
+  max-width: 800px;
+  background: rgba(244, 228, 193, 0.95);
+  border: 3px solid rgba(139, 90, 43, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+}
+
+.dialogue-speaker {
+  font-size: 18px;
+  font-weight: bold;
+  color: #5d4e37;
+  margin-bottom: 10px;
+}
+
+.dialogue-text {
+  font-size: 16px;
+  color: #2c2416;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.dialogue-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.dialogue-option {
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(139, 90, 43, 0.5);
+  border-radius: 4px;
+  padding: 10px 15px;
+  font-size: 14px;
+  color: #2c2416;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.dialogue-option:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 1);
+  border-color: rgba(139, 90, 43, 0.8);
+  transform: translateX(5px);
+}
+
+.dialogue-option:focus {
+  outline: 3px solid #ff9800;
+  outline-offset: 2px;
+}
+
+.dialogue-option:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dialogue-close {
+  background: rgba(200, 180, 150, 0.8);
+  border: 2px solid rgba(139, 90, 43, 0.5);
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #2c2416;
+  cursor: pointer;
+  float: right;
+}
+
+.dialogue-close:hover {
+  background: rgba(200, 180, 150, 1);
+}
+
+.dialogue-close:focus {
+  outline: 3px solid #ff9800;
+  outline-offset: 2px;
+}
+
+/* 镇长面板 */
+.mayor-panel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  background: rgba(244, 228, 193, 0.95);
+  border: 3px solid rgba(139, 90, 43, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  padding: 20px;
+}
+
+.mayor-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #5d4e37;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.mayor-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #2c2416;
+}
+
+.mayor-commands {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.mayor-command {
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(139, 90, 43, 0.5);
+  border-radius: 4px;
+  padding: 10px 15px;
+  font-size: 14px;
+  color: #2c2416;
+  cursor: pointer;
+  text-align: left;
+}
+
+.mayor-command:hover {
+  background: rgba(255, 255, 255, 1);
+  border-color: rgba(139, 90, 43, 0.8);
+}
+
+.mayor-command:focus {
+  outline: 3px solid #ff9800;
+  outline-offset: 2px;
+}
+
+.mayor-close {
+  background: rgba(200, 180, 150, 0.8);
+  border: 2px solid rgba(139, 90, 43, 0.5);
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #2c2416;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+}
+
+.mayor-close:hover {
+  background: rgba(200, 180, 150, 1);
+}
+
+.mayor-close:focus {
+  outline: 3px solid #ff9800;
+  outline-offset: 2px;
+}
+
+/* 焦点可见样式（无障碍） */
+*:focus {
+  outline: 3px solid #ff9800;
+  outline-offset: 2px;
+}
+
+/* 高对比度回退（纹理/字体失败时） */
+@media (prefers-contrast: high) {
+  .hud-container,
+  .dialogue-box,
+  .mayor-panel {
+    background: #ffffff !important;
+    border-color: #000000 !important;
+  }
+
+  .hud-label,
+  .hud-value,
+  .dialogue-speaker,
+  .dialogue-text,
+  .mayor-title,
+  .mayor-stats {
+    color: #000000 !important;
+  }
+}
