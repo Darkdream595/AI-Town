@@ -58,7 +58,7 @@ last_updated: 2026-07-26
 
 | 字段 | 说明 |
 |---|---|
-| `record_id` | Stable Catalog ID，例如 `history.silver_ash_fall` |
+| `record_id` | 已注册的 `history.*` Stable Catalog ID，不允许仅在示例中出现 |
 | `start_game_year` / `end_game_year` | 王冠历整数年；纪元前使用负数 |
 | `fact_summary` | 可对玩家公开的客观摘要 |
 | `evidence_ids` | 宪章、遗迹、矿务记录等 stable ID |
@@ -66,18 +66,34 @@ last_updated: 2026-07-26
 | `knowledge_access` | `public`, `community`, `faction` 等访问级别 |
 | `affected_region_ids` | 只能引用已登记地区或更广泛非可玩背景地名 |
 
+Approved Historical Fact Catalog 固定为：
+
+| `record_id` | 年份/区间 | objective fact | 主要证据 |
+|---|---:|---|---|
+| `history.starweave_first_observations` | 纪元前 900 年以前 | 多个族群已记录星织潮与季节、矿物、灵体反应相关 | 跨文化季候记录与遗迹刻痕 |
+| `history.silver_ash_fall` | 纪元前 312 年 | 天体碎片坠入河谷，随后形成银灰矿脉与异常植被 | `evidence.site.silver_ash_crater` |
+| `history.crown_northroad_established` | 王冠历 1–88 年 | 洛文王国建立北境道路、河关与持续行政联系 | `evidence.archive.northroad_ledger` |
+| `history.creek_forest_oath` | 王冠历 9 年 | 王国拓殖者与暮语森林守林社群签署土地与取用盟誓 | `evidence.document.creek_forest_oath_copy` |
+| `history.trade_flourishing` | 王冠历 89–418 年 | 河运、矿业、草药和手工业推动聚落扩大 | `evidence.archive.crown_creek_trade_rolls` |
+| `history.border_war_disruption` | 王冠历 419–478 年 | 边境战争持续扰动商路并推动难民迁入 | `evidence.archive.refugee_and_toll_rolls` |
+| `history.greyvein_disaster` | 王冠历 461 年 | 银烬矿洞深层坍塌并发生魔力污染，矿洞随后封闭 | `evidence.archive.greyvein_mine_roll` |
+| `history.reopening_charter` | 王冠历 479 年 | 王室授予有限自治、跨族群定居与有条件复矿权 | `evidence.document.reopening_charter_seal` |
+| `history.mine_safety_reopening` | 王冠历 479–487 年 | 矿洞只在支护、许可和封锁分区下逐步恢复作业 | `evidence.archive.silver_ash_safety_inspections` |
+
+上述九项是本版本全部 approved historical facts。年代摘要只能引用这些 `record_id`；新事实必须先新增 `HistoricalRecord` 并经 `DOC-WORLD-011` Registry/linter 审核，不能留在叙述正文中成为无 ID 事实。
+
 历史事实进入 `DecisionContext` 前仍按角色知识与 Secret ACL 过滤。
 
 ## 6. 正常流程
 
-| 年代 | 时间 | 已登记事实 | 当前遗产 |
-|---|---:|---|---|
-| 星织初醒 | 纪元前 900 年以前 | 各族群发现星织潮与季节、矿物、灵体反应相关 | 多种起源解释并存 |
-| 银烬时代 | 纪元前 312–1 年 | 银烬坠落；河谷出现银灰矿脉和异常植被 | 矿洞、魔晶、森林禁忌的物质基础 |
-| 王冠开拓 | 王冠历 1–88 年 | 洛文王国设置北境道路与河关；王冠历 9 年签署溪林盟誓 | 镇区管辖权与森林取用边界 |
-| 商路繁盛 | 王冠历 89–418 年 | 河运、矿业、草药和手工业使聚落扩大 | 行会、混合语言与多族群街区形成 |
-| 余烬动荡 | 王冠历 419–478 年 | 边境战争波及商路；王冠历 461 年灰脉灾变后封矿 | 难民迁入、失业、旧债与责任争议 |
-| 重建年代 | 王冠历 479–至今 | 重开宪章授予有限自治，矿洞在安全分区下重开 | 当前的机会、紧张和治理负担 |
+| 年代 Stable ID | 中文名 | 时间 | 引用的 Approved Historical Fact | 当前遗产 |
+|---|---|---:|---|---|
+| `history.era.starweave_awakening` | 星织初醒 | 纪元前 900 年以前 | `history.starweave_first_observations` | 多种起源解释并存 |
+| `history.era.silver_ash` | 银烬时代 | 纪元前 312–1 年 | `history.silver_ash_fall` | 矿洞、魔晶、森林禁忌的物质基础 |
+| `history.era.crown_expansion` | 王冠开拓 | 王冠历 1–88 年 | `history.crown_northroad_established`, `history.creek_forest_oath` | 镇区管辖权与森林取用边界 |
+| `history.era.trade_flourishing` | 商路繁盛 | 王冠历 89–418 年 | `history.trade_flourishing` | 行会、混合语言与多族群街区形成 |
+| `history.era.ember_unrest` | 余烬动荡 | 王冠历 419–478 年 | `history.border_war_disruption`, `history.greyvein_disaster` | 难民迁入、失业、旧债与责任争议 |
+| `history.era.reconstruction` | 重建年代 | 王冠历 479–至今 | `history.reopening_charter`, `history.mine_safety_reopening` | 当前的机会、紧张和治理负担 |
 
 王冠溪镇存在的现实原因是河渡与旧王道交汇、森林提供可再生资源、矿洞提供稀缺矿石与魔晶、宪章允许跨族群定居，且溪林盟誓要求镇方共同维护边界和灾害响应。
 
@@ -99,7 +115,7 @@ last_updated: 2026-07-26
 ## 10. 验收标准
 
 - 所有首版日期可换算并明确落在王冠历 487 年的相对时间。
-- 三个区域、四个关键历史事实和重建现状能形成无矛盾因果链。
+- 三个区域、九项 Approved Historical Fact 和六个年代 Stable ID 能形成无矛盾因果链。
 - 至少三个群体对灰脉灾变拥有不同解释，但共享同一事故日期与封矿事实。
 - 随机世界初始化一百次均不改变关键事件、当前年份或区域数量。
 - 未登记的“第四大陆入口”或改变格局的神战提案被 Canon 校验拒绝。
@@ -108,7 +124,7 @@ last_updated: 2026-07-26
 
 | 测试 ID | 覆盖项 | 方法与断言 |
 |---|---|---|
-| `TEST-WORLD-007` | `REQ-WORLD-007`, `RULE-WORLD-009` | Catalog 测试核对日期、事件和当前年 |
+| `TEST-WORLD-007` | `REQ-WORLD-007`, `RULE-WORLD-009` | Catalog 测试核对九个 `history.*` fact ID、六个 `history.era.*` ID、日期和当前年；任何正文历史断言都必须反向解析到一个 Approved Historical Fact |
 | `TEST-WORLD-008` | `REQ-WORLD-008`, `RULE-WORLD-010..011` | Lore 审计证明聚落成因完整且不产生越权魔法/永久死亡 |
 | `TEST-WORLD-009` | `REQ-WORLD-009`, `RULE-WORLD-012` | Seed property test 保持 Canon，冲突生成内容被拒绝 |
 

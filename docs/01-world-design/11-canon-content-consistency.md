@@ -81,19 +81,30 @@ last_updated: 2026-07-26
 | 洛文王国 | `polity.rowen_kingdom` | 王国（上下文唯一时） |
 | 王冠历 | `calendar.crown` | 无 |
 | 星织潮 | `phenomenon.starweave_tide` | 星织 |
+| 银烬坠落 | `history.silver_ash_fall` | 无 |
+| 溪林盟誓 | `history.creek_forest_oath` | 盟誓（上下文唯一时） |
 | 灰脉灾变 | `history.greyvein_disaster` | 灰脉事故（非礼仪语境） |
-| 重开宪章 | `charter.crown_creek_reopening` | 宪章 |
+| 重开宪章 | `history.reopening_charter` | 宪章 |
 
-其他条目从 DOC-WORLD-004..010 的 Catalog 生成，不复制第二份可写值。
+Registry projection 的来源固定为：
+
+| Source document | 导入 Registry 的 owner 数据 | Linter 断言 |
+|---|---|---|
+| `DOC-WORLD-003` | 九个 Approved `HistoricalRecord.record_id`、六个年代 ID、历史中文主名与允许简称 | 每个 approved fact 恰有一个 `history.*` CanonEntry；年代只引用已登记 fact；不得存在示例专用或正文孤立历史 ID |
+| `DOC-WORLD-004` | 三个 Region、node semantic 与 hook Stable ID | Region 恰好三个，语义 ID 唯一 |
+| `DOC-WORLD-005..010` | ancestry、culture、组织、Calendar、Festival、法律、视觉与内容边界 Catalog | 按 owner 字段导入，不复制第二份可写值 |
+
+因此 Registry 生成范围是 `DOC-WORLD-003..010`，其中历史 Canon 的唯一数据源是 `DOC-WORLD-003`；本表显示的四个关键历史主名是该 Catalog 的查询入口，不是另一份历史事实定义。
 
 ## 6. 正常流程
 
-1. 内容作者/工具用 canonical topic 查询 Naming Registry 与 owner 文档。
-2. 组装内容时只引用 stable ID，并标明是 Canon、Runtime Fact、Belief 还是 Generated Detail。
-3. Canon linter 检查 ID、日期、地区数量、法律、非永久死亡、内容强度和禁止模仿。
-4. 运行时上下文构造器再按角色知识与 Secret ACL 过滤。
-5. 模型输出经 Schema、Canon 和 owner 规则校验；合法表达可提交，冲突表达只作为明确的角色错误 Belief 或直接拒绝。
-6. 需要改变 Canon 时走 owner 变更评审、影响分析、版本升级、追踪和迁移，不在运行时隐式学习。
+1. Registry 构建器先从 `DOC-WORLD-003` 提取完整 Approved Historical Fact Catalog，再从 `DOC-WORLD-004..010` 提取各 owner Catalog。
+2. 构建器拒绝未以 `history.*` 命名的 approved historical fact、正文中无法反向解析到 `record_id` 的历史断言，以及未被任何 owner source 产出的 Registry 条目。
+3. 内容作者/工具用 canonical topic 查询 Naming Registry 与 owner 文档；组装内容时只引用 stable ID，并标明是 Canon、Runtime Fact、Belief 还是 Generated Detail。
+4. Canon linter 检查历史 Catalog 完整性、ID、日期、地区数量、法律、非永久死亡、内容强度和禁止模仿。
+5. 运行时上下文构造器再按角色知识与 Secret ACL 过滤。
+6. 模型输出经 Schema、Canon 和 owner 规则校验；合法表达可提交，冲突表达只作为明确的角色错误 Belief 或直接拒绝。
+7. 需要改变 Canon 时先修改 `DOC-WORLD-003` 的 HistoricalRecord 或对应 owner Catalog，再走影响分析、版本升级、追踪和迁移，不在 Registry 或运行时隐式学习。
 
 ## 7. 边界情况
 
@@ -114,6 +125,7 @@ Canon Registry 构建为版本化不可变索引，按 stable ID O(1) 查询。�
 ## 10. 验收标准
 
 - 核心 Naming Registry 无重复中文主名、Stable ID 或竞争 owner。
+- `DOC-WORLD-003` 的九个 Approved Historical Fact 与六个年代 ID 全部进入 Registry，银烬坠落、溪林盟誓、灰脉灾变和重开宪章分别解析到唯一 `history.*` ID。
 - 生成内容对地区数、当前年份、法律、身份和非永久死亡的冲突均被拒绝。
 - 同一事件的 objective fact、居民 Belief 与对话表达可分层保存且互不覆盖。
 - Seed 变体和旧内容 upcast 不改变核心 Canon。
@@ -124,7 +136,7 @@ Canon Registry 构建为版本化不可变索引，按 stable ID O(1) 查询。�
 | 测试 ID | 覆盖项 | 方法与断言 |
 |---|---|---|
 | `TEST-WORLD-036` | `REQ-WORLD-036`, `RULE-WORLD-047..049` | 多层事实优先级与 owner 竞争检测 |
-| `TEST-WORLD-037` | `REQ-WORLD-037`, `RULE-WORLD-050` | Naming Registry 唯一性与 retired ID 测试 |
+| `TEST-WORLD-037` | `REQ-WORLD-037`, `RULE-WORLD-050` | Naming Registry 唯一性、`DOC-WORLD-003` 九个 fact/六个 era 全量导入、四个关键历史主名解析与 retired ID 测试 |
 | `TEST-WORLD-038` | `REQ-WORLD-038`, `RULE-WORLD-051..052` | 生成内容 red-team 与临时开发文本 lint |
 | `TEST-WORLD-039` | `REQ-WORLD-039` | Canon change dry-run 检查版本、影响、迁移与追踪 |
 

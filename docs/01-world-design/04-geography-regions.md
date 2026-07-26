@@ -66,6 +66,14 @@ last_updated: 2026-07-26
 | `region.twilight_whisper_forest` | `4096 × 4096 wu` | 草药、木材、食材、灵性遗迹与调查 | 守誓营地、南径休息点 | 雾谷、风倒木带、盟誓禁采圈外沿 |
 | `region.silver_ash_mine` | `3072 × 3072 wu` | 矿石、魔晶、石料、工业风险与灾变证据 | 入矿棚、第一升降台、已支护主巷 | 渗水支巷、魔晶脉、深层封锁门前 |
 
+`public_or_work_node_semantics[]` 与 `weather_or_event_hooks[]` 是 WORLD 拥有的非坐标化语义；MAP 后续为 node semantic 分配具体 Semantic Node、站立点和坐标，EVENT 后续把 hook 映射到注册 Trigger/EventTemplate，均不得改变下表语义：
+
+| Region Stable ID | `public_or_work_node_semantics[]` | `weather_or_event_hooks[]` |
+|---|---|---|
+| `region.crown_creek_town` | `node_semantic.town.crown_square_public`（公共集会与公告）；`node_semantic.town.creek_bridge_market`（合法摊位与商队交接）；`node_semantic.town.public_well_service`（公共取水）；`node_semantic.town.clinic_service`（治疗与救助）；`node_semantic.town.craft_work`（制作与修理） | `hook.weather.town.river_rise`（涨水影响河岸）；`hook.weather.town.storm_shelter`（暴雨开放避难）；`hook.event.town.market_arrival`（商队抵达）；`hook.event.town.warehouse_night_risk`（夜间仓区风险） |
+| `region.twilight_whisper_forest` | `node_semantic.forest.oathkeeper_camp`（守誓、记录与调解）；`node_semantic.forest.south_trail_rest`（休息与转场准备）；`node_semantic.forest.renewable_gathering`（受再生规则约束的采集）；`node_semantic.forest.oath_boundary_marker`（读取边界与禁采信息） | `hook.weather.forest.fog_thickening`（雾降低可见度）；`hook.weather.forest.windfall`（风倒木改变通路）；`hook.event.forest.herb_bloom`（限时可再生资源）；`hook.event.forest.oath_boundary_dispute`（取用争议） |
+| `region.silver_ash_mine` | `node_semantic.mine.entry_shed_service`（许可、装备与核名）；`node_semantic.mine.first_lift_transfer`（矿内层级转移）；`node_semantic.mine.supported_work_face`（已批准采掘）；`node_semantic.mine.safety_checkpoint`（支护与撤离检查） | `hook.weather.mine.seepage_increase`（地表降水增加渗水）；`hook.event.mine.crystal_surge`（魔晶异常）；`hook.event.mine.support_failure`（支护失效）；`hook.event.mine.sealed_gate_anomaly`（深层封锁门异常但不扩区） |
+
 固定直接转场对为镇区北林门 ↔ 森林南径、镇区西矿道 ↔ 矿洞东侧入矿棚；具体 node ID、坐标与 Transform 由 MAP owner 发布。
 
 ## 6. 正常流程
@@ -98,7 +106,9 @@ Region Catalog 在构建期验证恰好三条、ID 唯一、尺寸有限。Activ
 
 - Catalog 恰好解析出三个可玩 Region，名称、Stable ID 和尺寸与本文件一致。
 - 镇区可分别到达森林和矿洞，且不存在森林到矿洞的直接 Semantic Exit。
-- 每个 Region 至少有一个安全核心、一个风险边缘、一个工作节点类别和一个事件钩子。
+- 王冠溪镇逐项包含 `crown_square_public`、`creek_bridge_market`、`public_well_service`、`clinic_service`、`craft_work` 五类 node semantic，以及 `river_rise`、`storm_shelter`、`market_arrival`、`warehouse_night_risk` 四类 hook。
+- 暮语森林逐项包含 `oathkeeper_camp`、`south_trail_rest`、`renewable_gathering`、`oath_boundary_marker` 四类 node semantic，以及 `fog_thickening`、`windfall`、`herb_bloom`、`oath_boundary_dispute` 四类 hook。
+- 银烬矿洞逐项包含 `entry_shed_service`、`first_lift_transfer`、`supported_work_face`、`safety_checkpoint` 四类 node semantic，以及 `seepage_increase`、`crystal_surge`、`support_failure`、`sealed_gate_anomaly` 四类 hook。
 - 所有 Interior Scene 具有父 Region 与成对出口，统计仍为三个 Region。
 - 动态建筑、灾害和备用入口组合下关键通路均可验证。
 
@@ -109,7 +119,7 @@ Region Catalog 在构建期验证恰好三条、ID 唯一、尺寸有限。Activ
 | `TEST-WORLD-010` | `REQ-WORLD-010`, `RULE-WORLD-013..014` | Catalog/拓扑测试恰好三 Region，Interior 不计数 |
 | `TEST-WORLD-011` | `REQ-WORLD-011`, `RULE-WORLD-015..016` | 资源链与五层地图责任审计 |
 | `TEST-WORLD-012` | `REQ-WORLD-012`, `RULE-WORLD-017` | Semantic Exit Contract Test，无直达或隐藏第四区 |
-| `TEST-WORLD-013` | `REQ-WORLD-013` | 三地区语义覆盖和关键通路 Property Test |
+| `TEST-WORLD-013` | `REQ-WORLD-013` | 按 Region 断言镇区 5 node/4 hook、森林 4 node/4 hook、矿洞 4 node/4 hook 的完整 Stable ID 集；逐项验证 MAP/EVENT projection 存在且不改写 WORLD 语义 |
 
 ## 12. 关联文档
 
