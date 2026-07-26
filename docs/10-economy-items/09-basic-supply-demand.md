@@ -169,6 +169,6 @@ Golden vectors：
 ## 12. 关联文档
 
 - `DOC-WORLD-004`：三个 Region 的资源角色
-- `DOC-ECON-008`：scarcity/demand multiplier
+- `DOC-ECON-008`：以 `scarcity_q1000` 作为唯一供需 multiplier 的 Quote
 - `DOC-ECON-010`：Recipe 与资源消费
 - `DOC-ECON-012`：30 日平衡测试

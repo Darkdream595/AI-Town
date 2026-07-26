@@ -41,8 +41,8 @@ last_updated: 2026-07-26
 ## 4. 规则与不变量
 
 - `RULE-ECON-029`：所有价格以 CopperFeather 整数计算；中间乘法使用有界大整数，最终 `round_half_up`，不得使用二进制浮点。
-- `RULE-ECON-030`：单位价格公式为 `clamp(round_half_up(base × scarcity_q1000 × demand_q1000 × event_q1000 × margin_q1000 × discount_q1000 / 1000^5), floor, ceiling)`。
-- `RULE-ECON-031`：各 multiplier 必须处于注册范围：scarcity/demand/event `500..2000`、margin `1000..1600`、discount `700..1000`；`floor>=1` 且 `ceiling>=floor`。
+- `RULE-ECON-030`：单位价格公式为 `clamp(round_half_up(base × scarcity_q1000 × event_q1000 × margin_q1000 × discount_q1000 / 1000^4), floor, ceiling)`；`scarcity_q1000` 是 supply、committed demand 与 unmet demand 的唯一供需输入，禁止第二个 demand multiplier。
+- `RULE-ECON-031`：各 multiplier 必须处于注册范围：scarcity `700..2000`、event `500..2000`、margin `1000..1600`、discount `700..1000`；`floor>=1` 且 `ceiling>=floor`。
 - `RULE-ECON-032`：Quote 固定输入 Revision/hash，默认有效 10 GameTime 分钟；接受时仍重新验证库存、entitlement、税与 Reservation，不能把 Quote 当已成交事实。
 
 ## 5. 数据与接口
@@ -57,14 +57,19 @@ last_updated: 2026-07-26
   "item_definition_id": "item.potion.healing_small",
   "quantity": 2,
   "base_unit_price_copper_feather": 100,
+  "scarcity_provenance": {
+    "policy_id": "scarcity_policy.local_market.v1",
+    "policy_version": 1,
+    "market_snapshot_hash": "sha256:30cb762b7a104a553fbcf801f248c929366b55958dfab609f012ca351ddc4c49",
+    "market_snapshot_revision": 200
+  },
   "multipliers_q1000": {
     "scarcity": 1200,
-    "demand": 1100,
     "event": 1000,
     "margin": 1250,
     "discount": 900
   },
-  "unit_price_copper_feather": 149,
+  "unit_price_copper_feather": 135,
   "floor_copper_feather": 50,
   "ceiling_copper_feather": 300,
   "observed_revision": 200,
@@ -73,19 +78,46 @@ last_updated: 2026-07-26
 }
 ```
 
+Quote 使用以下 strict contract；全部 record 拒绝额外字段，因此加入 `demand` 或其他未登记 multiplier 必须 Schema 失败：
+
+```json
+{
+  "strict_quote_contract_version": 1,
+  "additional_properties": false,
+  "quote_exact_fields": ["schema_version", "quote_id", "shop_id", "item_definition_id", "quantity", "base_unit_price_copper_feather", "scarcity_provenance", "multipliers_q1000", "unit_price_copper_feather", "floor_copper_feather", "ceiling_copper_feather", "observed_revision", "expires_at_game_time", "input_hash"],
+  "scarcity_provenance_exact_fields": ["policy_id", "policy_version", "market_snapshot_hash", "market_snapshot_revision"],
+  "multiplier_exact_fields": ["scarcity", "event", "margin", "discount"],
+  "multiplier_ranges_q1000": {
+    "scarcity": [700, 2000],
+    "event": [500, 2000],
+    "margin": [1000, 1600],
+    "discount": [700, 1000]
+  },
+  "integer_ranges": {
+    "quantity": [1, 9999],
+    "base_unit_price_copper_feather": [1, 9223372036854775807],
+    "unit_price_copper_feather": [1, 9223372036854775807],
+    "floor_copper_feather": [1, 9223372036854775807],
+    "ceiling_copper_feather": [1, 9223372036854775807]
+  }
+}
+```
+
+对正整数定义 `round_half_up(n/d)=floor((2*n+d)/(2*d))`。实现先用有界大整数计算 `numerator=base×scarcity×event×margin×discount` 与 `denominator=1000^4`，再执行一次 round 和 clamp；不得逐 multiplier 舍入。`input_hash` 必须覆盖 strict contract version、全部 Quote 字段、ScarcityPolicy ID/version 和 market snapshot hash/revision。
+
 折扣输入是 ECON-owned `discount_entitlement={entitlement_id,band,discount_q1000,issued_revision,expires_at}`；Orchestrator 可从其他 owner 的授权投影映射，但 ECON 不 import、不存储 affection/trust 等关系维度。
 
 ## 6. 正常流程
 
 1. 读取 Shop 本地 stock、已提交 demand window，以及 `DOC-ECON-009` 产生的 policy ID/version、market snapshot hash 与 `scarcity_q1000`，再读取公开地区 modifier 与 Catalog Base Price。
 2. 读取调用者可披露的折扣 entitlement；缺失时使用 `1000`。
-3. 重新计算/校验 scarcity golden formula，逐项限幅并按固定顺序计算 Q1000 公式；input hash 必须覆盖 scarcity policy/version 和 market snapshot hash。
+3. 重新计算/校验 scarcity golden formula，拒绝任何独立 demand field，逐项限幅并按单次 rounding 公式计算；input hash 覆盖 scarcity policy/version 和 market snapshot hash。
 4. 返回只含本地可知因素摘要的 Quote。
 5. 接受 Quote 时检查 expiry、hash、Revision-sensitive inputs 与 buyer maximum unit price，再进入 Reservation/Transaction。
 
 ## 7. 边界情况
 
-- 公式示例的 `100×1200×1100×1000×1250×900/1000^5=148.5`，`round_half_up=149`。
+- 公式示例的 `100×1200×1000×1250×900/1000^4=135`，`round_half_up=135`；同一 demand window 已包含在 scarcity 中，不再乘第二次。
 - 库存为 0 时不因 ceiling 生成虚假 Offer，直接 `out_of_stock`。
 - 公开灾害 modifier 到期后旧 Quote 可在其固定有效期内使用，但提交仍按定义的 quote policy 验证；税变更总是要求重报价。
 - actor 可提交 `maximum_unit_price` 作为拒绝阈值，不能指定更低结算价。
@@ -93,7 +125,7 @@ last_updated: 2026-07-26
 
 ## 8. 错误与降级
 
-返回 `base_price_missing`、`price_multiplier_out_of_range`、`quote_expired`、`quote_input_changed`、`maximum_price_exceeded` 或 `discount_entitlement_invalid`。需求投影暂不可用时可使用 multiplier `1000` 并在 Quote 标记 `pricing_fallback=neutral_demand`，仍受 floor/ceiling。
+返回 `base_price_missing`、`price_multiplier_out_of_range`、`quote_schema_additional_property`、`scarcity_provenance_invalid`、`quote_expired`、`quote_input_changed`、`maximum_price_exceeded` 或 `discount_entitlement_invalid`。市场投影为空时只能采用 ScarcityPolicy 定义的 `neutral_empty_window=1000`；暂时不可用但存在历史 committed snapshot 时沿用完整 policy/hash 并标记 stale，不能另造 demand fallback。
 
 ## 9. 安全与性能
 
@@ -101,8 +133,9 @@ Quote 不披露商店成本、完整库存或私人关系数值。相同 input h
 
 ## 10. 验收标准
 
-- 固定向量逐项得到指定整数结果，跨 Python/TypeScript fixture 一致。
+- 固定向量 `base=100, scarcity=1200, event=1000, margin=1250, discount=900` 得到 `135`，跨 Python/TypeScript fixture 一致。
 - 所有 multiplier 与最终 unit price 永远在注册界限内。
+- strict Quote 只接受 scarcity/event/margin/discount 四项，独立 demand 字段被拒绝且需求只由 scarcity 计入一次。
 - Quote 过期、税/库存变化、entitlement 撤销与最大价限制均有拒绝路径。
 - AI/玩家只能接受/拒绝或给 maximum price，不能指定结算值。
 - 居民的经济上下文不包含未观察的其他 Shop 库存或未来需求。
@@ -120,5 +153,5 @@ Quote 不披露商店成本、完整库存或私人关系数值。相同 input h
 
 - `DOC-FOUNDATION-006`：整数货币
 - `DOC-ECON-007`：Shop Offer
-- `DOC-ECON-009`：scarcity/demand 输入
+- `DOC-ECON-009`：唯一供需输入 `scarcity_q1000`
 - `DOC-ECON-006`：Quote 接受后的 Transaction
