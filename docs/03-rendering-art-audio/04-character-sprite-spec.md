@@ -10,7 +10,7 @@ canonical_for:
   - portrait-rendering
 depends_on:
   - DOC-RENDER-003
-  - DOC-RESIDENT-002
+  - DOC-FOUNDATION-002
 requirements:
   - REQ-RENDER-004
 last_updated: 2026-07-26
@@ -51,7 +51,7 @@ last_updated: 2026-07-26
 
 ## 6. 正常流程
 
-1. Resident appearance projection 给出 sprite、portrait 与 palette variant ID。
+1. Backend/Orchestrator 将 Resident owner 已提交事实映射为 immutable appearance projection，给出 sprite、portrait 与 palette variant ID；RENDER 不直接 import Resident contract。
 2. `WorldScene` 注册 texture atlas，按 facing 选择动画 key。
 3. `UIScene` 以 portrait ID 渲染对话和镇民卡片，缺失时显示通用剪影。
 
@@ -81,3 +81,4 @@ last_updated: 2026-07-26
 
 - `DOC-RENDER-005`：动画状态机
 - `DOC-RENDER-011`：资源 Manifest
+- 非 direct owner：Resident identity/appearance owner 仅通过 Backend/Orchestrator 发布的只读 projection 提供已授权外观字段。

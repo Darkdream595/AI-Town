@@ -10,8 +10,7 @@ canonical_for:
   - vfx-accessibility
 depends_on:
   - DOC-RENDER-005
-  - DOC-MAGIC-011
-  - DOC-COMBAT-011
+  - DOC-FOUNDATION-002
 requirements:
   - REQ-RENDER-008
 last_updated: 2026-07-26
@@ -49,6 +48,8 @@ last_updated: 2026-07-26
 {"vfx_id":"vfx.arcane.spark_burst","asset_id":"vfx.arcane.spark_atlas","attach_point":"target_center","duration_ms":420,"render":{"blend_mode":"add","z_policy":"above_entities"}}
 ```
 
+Magic/Combat owner 的已提交结果由 Backend/Orchestrator 映射为上述 render payload；RENDER 不 import Spell、Encounter 或 damage schema。
+
 ## 6. 正常流程
 
 1. 解析 event 的 VFX ID、anchor 与 Revision。
@@ -81,3 +82,4 @@ last_updated: 2026-07-26
 
 - `DOC-RENDER-005`：动画状态机
 - `DOC-RENDER-007`：天气视觉
+- 非 direct owner：Magic/Combat 仅通过 `DOC-RENDER-001` RenderEvent envelope 提供表现输入。

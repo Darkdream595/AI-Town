@@ -10,8 +10,7 @@ canonical_for:
   - missing-animation-fallback
 depends_on:
   - DOC-RENDER-004
-  - DOC-COMBAT-003
-  - DOC-MAGIC-004
+  - DOC-FOUNDATION-002
 requirements:
   - REQ-RENDER-005
 last_updated: 2026-07-26
@@ -46,6 +45,8 @@ last_updated: 2026-07-26
 
 `DES-RENDER-005`：Animation Mapping key 是 `animation_id`，例如 `anim.resident.cast_east`，value 包含 atlas frame range、fps、loop 与 fallback key；映射在构建期唯一。
 
+Combat/Magic owner 的结果先由 Backend/Orchestrator 映射为 `DOC-RENDER-001` 的只读 desired animation state；本状态机不直接依赖其 Action/Spell contract。
+
 ## 6. 正常流程
 
 1. 将每个 render event 归并为实体的最新 desired state。
@@ -78,3 +79,4 @@ last_updated: 2026-07-26
 
 - `DOC-RENDER-004`：角色素材
 - `DOC-RENDER-008`：战斗与魔法 VFX
+- 非 direct owner：Combat/Magic 只通过已提交事件映射后的 render projection 影响动画。

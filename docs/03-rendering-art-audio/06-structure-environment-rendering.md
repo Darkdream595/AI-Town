@@ -10,8 +10,7 @@ canonical_for:
   - world-diff-rendering
 depends_on:
   - DOC-RENDER-003
-  - DOC-EVENT-007
-  - DOC-EVENT-011
+  - DOC-MAP-006
 requirements:
   - REQ-RENDER-006
 last_updated: 2026-07-26
@@ -43,7 +42,7 @@ last_updated: 2026-07-26
 
 ## 5. 数据与接口
 
-`DES-RENDER-006`：`StructureRenderProjection` 含 `building_id`、`stage`、`asset_id`、`footprint_version`、`shadow_asset_id`、`occluder_asset_ids` 与 affected slice IDs。
+`DES-RENDER-006`：Backend/Orchestrator 将 Event owner 的已提交 Building/WorldDiff 映射为 immutable `StructureRenderProjection`；它含 `building_id`、`stage`、`asset_id`、`footprint_version`、`shadow_asset_id`、`occluder_asset_ids` 与 affected slice IDs。RENDER 不直接读取 Event aggregate。
 
 ## 6. 正常流程
 
@@ -77,3 +76,4 @@ last_updated: 2026-07-26
 
 - `DOC-RENDER-003`：地图合成
 - `DOC-RENDER-010`：区域环境音
+- 非 direct owner：Building/WorldDiff owner 经 Backend/Orchestrator render adapter 发布只读 stage projection。

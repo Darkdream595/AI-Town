@@ -39,15 +39,17 @@ last_updated: 2026-07-26
 
 - `RULE-RENDER-028`：音频状态只从确认的 Scene/Weather/Encounter projection 派生，Client 不自行推断危险或战斗。
 - `RULE-RENDER-029`：区域切换使用 500 ms crossfade；同类 layer 只能有一个活动实例。
-- `RULE-RENDER-030`：每个音频 asset 必须有 `license_id`、source、author、terms、acquired_at 和 content hash；不合规资产不可进入 release Manifest。
+- `RULE-RENDER-030`：每个音频 asset 必须通过 `license_id` 解析到 `DOC-RENDER-011` 的 machine-readable `LicenseRecord`，其 source、author、terms、acquired_at、license text path/hash 均非空；asset 自身 path/hash 也必须匹配。不合规资产不可进入 release Manifest。
 
 ## 5. 数据与接口
 
 `DES-RENDER-010`：
 
 ```json
-{"asset_id":"audio.music.crown_creek.base","audio_state_id":"audio_state.crown_creek.day.clear","bus":"music","loop":true,"license_id":"license.cc_by_4_0.example_001"}
+{"asset_id":"audio.music.crown_creek.base","audio_state_id":"audio_state.crown_creek.day.clear","bus":"music","loop":true,"license_id":"license.project_original_001"}
 ```
+
+Audio registry 只引用 `asset_id/license_id`；文件 path、SHA-256 与完整 license record 由 Asset Manifest canonical schema 提供，避免音频状态复制授权元数据。
 
 ## 6. 正常流程
 
@@ -61,7 +63,7 @@ last_updated: 2026-07-26
 
 ## 8. 错误与降级
 
-单个资源失败时其 bus 静音并记录 asset ID，其他 bus 不受影响；无音乐时保留必要 UI/告警音的视觉等价提示。
+单个资源失败时其 bus 静音并记录 asset ID，其他 bus 不受影响；license lookup/hash 失败在 build 阶段使用 `RENDER_LICENSE_*` 诊断码阻断发布。无音乐时保留必要 UI/告警音的视觉等价提示。
 
 ## 9. 安全与性能
 
@@ -75,7 +77,7 @@ last_updated: 2026-07-26
 
 | 测试 ID | 断言 |
 |---|---|
-| `TEST-RENDER-010` | Audio State transition、autoplay 恢复、并发上限与 license lint。 |
+| `TEST-RENDER-010` | Audio State transition、autoplay 恢复、并发上限，以及 audio asset → LicenseRecord → license text path/hash 的完整 license lint。 |
 
 ## 12. 关联文档
 
