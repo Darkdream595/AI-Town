@@ -11,7 +11,7 @@ canonical_for:
 depends_on:
   - DOC-FOUNDATION-003
   - DOC-FOUNDATION-005
-  - DOC-WORLD-009
+  - DOC-WORLD-006
   - DOC-RESIDENT-001
   - DOC-MEMORY-006
 requirements:
@@ -180,4 +180,4 @@ v1 graph index 无持久业务权威，可丢弃重建；edge/overlay Schema mig
 - `DOC-MEMORY-006`：五维 edge 与 delta
 - `DOC-MEMORY-008`：谣言沿社会连接传播但不自动授权
 - `DOC-MEMORY-009`：graph query/access policy
-- `DOC-WORLD-009`：Faction 与 community 客观语义
+- `DOC-WORLD-006`：Faction 与 community 客观语义
