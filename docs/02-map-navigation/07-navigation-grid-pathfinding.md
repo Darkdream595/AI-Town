@@ -34,30 +34,61 @@ last_updated: 2026-07-26
 |---|---|
 | Navigation Cell | 与 Scene 原点对齐的 `16 × 16 wu` 单元 |
 | Traversable Edge | Agent 从相邻 cell center 进行 Swept Disc 检查后合法的边 |
+| Directed Edge Terrain | 有向边 `u -> v` 固定采样 destination cell `v` 中心解析出的 Surface/Modifier |
 | 8-neighbor A* | 使用四个正交与四个对角邻居的 A* |
 | Corner Cutting | 对角移动穿过两个不可通行正交邻居之间的角 |
 | Navigation Revision | 生成当前网格/索引的已提交 World Revision |
 | Path Budget | 单次查询允许扩展的最大节点数 |
+| Minimum Edge Cost | 从同一完整 edge formula、最小 traversable terrain/modifier 和零 additive 计算的 heuristic 下界 |
 
 ## 4. 规则与不变量
 
 - `RULE-MAP-025`：Navigation Cell 固定 `16 wu`，cell `(cx,cy)` 中心为 `(cx*16+8, cy*16+8)`；网格只由规则层栅格化。
-- `RULE-MAP-026`：A* 使用 8-neighbor；正交 step cost=`1000`，对角=`1414`，对角边要求两个相邻正交边均可通行，禁止 Corner Cutting。
+- `RULE-MAP-026`：A* 使用 8-neighbor；正交 step cost=`1000`，对角=`1414`。每条有向边只按 destination cell 中心的 resolved terrain/modifier/additive 收费；对角边要求两个相邻正交边均可通行，禁止 Corner Cutting。
 - `RULE-MAP-027`：查询和结果必须携带 Navigation Revision；提交移动前 revision 不一致即重新规划，不能沿旧路径继续。
-- `RULE-MAP-028`：同一 Scene、profile、start、goal、revision 与 modifier 集合必须返回相同 status 和 waypoint 序列；tie-break 固定为较小 `f`、`h`、`cy`、`cx`、node key。
+- `RULE-MAP-028`：Heuristic 必须使用本文完整 edge formula 的可证明下界且不得包含正 additive；同一 Scene、profile、start、goal、revision 与 modifier 集合必须返回相同 status 和 waypoint 序列，tie-break 固定为较小 `f`、`h`、`cy`、`cx`、node key。
 
 ## 5. 数据与接口
 
-`DES-MAP-007`：cell 可通行当且仅当其 center 对 profile 通过 `is_standable`；edge 还必须通过 `sweep_disc`。成本使用整数 fixed-point：
+`DES-MAP-007`：cell 可通行当且仅当其 center 对 profile 通过 `is_standable`；edge 还必须通过 `sweep_disc`。对有向边 `u -> v`，`terrain_q1000(v)` 使用 `DOC-MAP-005` 在 destination center `v` 解析的确定 Surface；重叠时沿用最低 cost、再按 `surface_id` 决胜。只有 shape 包含 `v` 中心的动态 modifier 参与该边收费。
+
+Modifier 按 `modifier_id` 字典序用整数运算组合：
 
 ```text
-terrain_q1000 = surface.base_cost_q1000
-modifier_q1000 = 按 modifier_id 字典序逐项相乘、每步向上取整，并夹取到 [250,4000]
-edge_cost = ceil(step_cost * terrain_q1000 * modifier_q1000 / 1_000_000)
-          + sum(additive_cost)
+modifier_q1000 = 1000
+for each modifier m:
+    modifier_q1000 = ceil_div(modifier_q1000 * m.multiplier_q1000, 1000)
+modifier_q1000 = clamp(modifier_q1000, 250, 4000)
+additive_cost = clamp(sum(m.additive_cost), 0, 100000)
 ```
 
-`blocked=true` 直接移除 cell/edge；additive 总和夹取到 `100000`。启发式采用 octile distance 乘当前 snapshot 计算出的全局最小合法 cost multiplier，并向下取整，保证 admissible。
+完整 directed edge integer formula：
+
+```text
+numerator = step_cost * terrain_q1000(v) * modifier_q1000(v)
+scaled_cost = ceil_div(numerator, 1_000_000)
+edge_cost(u -> v) = scaled_cost + additive_cost(v)
+ceil_div(a,b) = floor((a + b - 1) / b), a >= 0, b > 0
+```
+
+`blocked=true` 直接移除 destination cell 及所有入边；所有乘法使用无符号 64-bit checked arithmetic，溢出使查询失败。
+
+Heuristic 在当前 NavigationSnapshot 与 profile 上计算：
+
+```text
+min_terrain_q1000 = min(terrain_q1000(v)) over traversable destination cells
+min_modifier_q1000 = min(modifier_q1000(v)) over traversable destination cells
+min_orth_edge_cost = ceil_div(1000 * min_terrain_q1000 * min_modifier_q1000, 1_000_000) + 0
+min_diag_edge_cost = ceil_div(1414 * min_terrain_q1000 * min_modifier_q1000, 1_000_000) + 0
+dx = abs(goal.cx - current.cx)
+dy = abs(goal.cy - current.cy)
+diagonal_steps = min(dx,dy)
+straight_steps = max(dx,dy) - diagonal_steps
+h = diagonal_steps * min(min_diag_edge_cost, 2 * min_orth_edge_cost)
+  + straight_steps * min_orth_edge_cost
+```
+
+terrain 与 modifier 的最小值即使来自不同 cell，其乘积也不大于任何真实 edge 的对应乘积；additive 下界固定为零，因此 `h` 不高估剩余成本。空 traversable edge 集直接返回 `unreachable`，不构造 heuristic。
 
 ```json
 {
@@ -106,6 +137,8 @@ nearest_legal_cell(point, profile, max_chebyshev_cells=2) -> Cell | none
 - 起点因恢复错误位于 Collision 时返回 `invalid_start`，只允许 `DOC-MAP-012` 的 safe recovery 处理。
 - goal 是被占用 Door approach 时可返回路径至 queue point，不把 Door Collision 临时忽略。
 - cost 相同的绕行由 tie-break 固定，不依赖 hash/map iteration order。
+- 有向边反向时重新按新的 destination cell 收费；terrain 不同可导致 `cost(u->v) != cost(v->u)`，但合法性仍分别执行 Swept Disc。
+- `road.primary=800` 与最小 modifier `250`、零 additive 时，orthogonal edge=`200`，diagonal edge=`283`；heuristic 必须采用相同两个下界。
 - Path Budget 耗尽与 `unreachable` 分开，调用方可延迟重试但不能宣称无路。
 - Active 使用完整网格；Warm/Background 可使用 Semantic graph 估算，但位置提交仍需在 Active 规则上复核。
 
@@ -120,6 +153,8 @@ Region 最大约 `256 × 256` cells，矿洞 `192 × 192`；每查询默认上�
 ## 10. 验收标准
 
 - 直路、对角、窄门、障碍绕行和无路 fixture 的成本与路径确定。
+- Directed edge destination sampling、modifier 顺序、ceil rounding 与 additive clamp 有逐值 fixture。
+- `road.primary=800 + modifier=250 + additive=0` fixture 中 A* 与零 heuristic Dijkstra 的 total cost/path optimum 相同。
 - 所有路径段均通过当前 revision 的 Swept Disc 复核。
 - 动态 cost 会改变择路但不绕过 blocked/Collision。
 - 玩家与 NPC 相同输入得到 byte-equivalent status、cost 和 waypoints。
@@ -129,9 +164,9 @@ Region 最大约 `256 × 256` cells，矿洞 `192 × 192`；每查询默认上�
 
 | 测试 ID | 断言 |
 |---|---|
-| `TEST-MAP-025` | `16 wu` 栅格、8-neighbor cost 与 no-corner-cutting |
-| `TEST-MAP-026` | admissible heuristic 与 A* 最优成本对照 Dijkstra |
-| `TEST-MAP-027` | modifier 组合、tie-break、snap 和 smoothing 确定性 |
+| `TEST-MAP-025` | `16 wu` 栅格、directed destination terrain、8-neighbor cost 与 no-corner-cutting |
+| `TEST-MAP-026` | 完整 formula minimum edge cost；road+minimum-modifier 的 A* 与 Dijkstra 等价 |
+| `TEST-MAP-027` | modifier 组合、ceil rounding、additive、tie-break、snap 和 smoothing 确定性 |
 | `TEST-MAP-028` | stale revision、budget、unreachable 与玩家/NPC parity |
 
 ## 12. 关联文档
