@@ -52,6 +52,7 @@ last_updated: 2026-07-26
 ```json
 {
   "schema_version": 1,
+  "hash_contract_id": "quote_input_hash.sha256_canonical_json.v1",
   "quote_id": "01K1AB2CD3EF4GH5JK6MNP7QRS",
   "shop_id": "01K1AB2CD3EF4GH5JK6MNP7QRT",
   "item_definition_id": "item.potion.healing_small",
@@ -74,7 +75,7 @@ last_updated: 2026-07-26
   "ceiling_copper_feather": 300,
   "observed_revision": 200,
   "expires_at_game_time": 610,
-  "input_hash": "sha256:2a1b9d4f7d6e33f29d3e3d7340a7a74c8c651f366cf942a653fcfd7e9b087a6a"
+  "input_hash": "sha256:18aa059a94c920a5f03c3f0ac5c489941b643143be6f4c8a6e27c59f52b5fee2"
 }
 ```
 
@@ -84,7 +85,7 @@ Quote 使用以下 strict contract；全部 record 拒绝额外字段，因此�
 {
   "strict_quote_contract_version": 1,
   "additional_properties": false,
-  "quote_exact_fields": ["schema_version", "quote_id", "shop_id", "item_definition_id", "quantity", "base_unit_price_copper_feather", "scarcity_provenance", "multipliers_q1000", "unit_price_copper_feather", "floor_copper_feather", "ceiling_copper_feather", "observed_revision", "expires_at_game_time", "input_hash"],
+  "quote_exact_fields": ["schema_version", "hash_contract_id", "quote_id", "shop_id", "item_definition_id", "quantity", "base_unit_price_copper_feather", "scarcity_provenance", "multipliers_q1000", "unit_price_copper_feather", "floor_copper_feather", "ceiling_copper_feather", "observed_revision", "expires_at_game_time", "input_hash"],
   "scarcity_provenance_exact_fields": ["policy_id", "policy_version", "market_snapshot_hash", "market_snapshot_revision"],
   "multiplier_exact_fields": ["scarcity", "event", "margin", "discount"],
   "multiplier_ranges_q1000": {
@@ -92,6 +93,21 @@ Quote 使用以下 strict contract；全部 record 拒绝额外字段，因此�
     "event": [500, 2000],
     "margin": [1000, 1600],
     "discount": [700, 1000]
+  },
+  "hash_contract": {
+    "contract_id": "quote_input_hash.sha256_canonical_json.v1",
+    "algorithm": "sha256",
+    "digest_encoding": "lowercase_hex",
+    "wire_prefix": "sha256:",
+    "preimage_excluded_fields": ["input_hash", "signature", "signature_algorithm"],
+    "object_key_order": "recursive_utf8_byte_ascending",
+    "array_order": "preserve",
+    "integer_encoding": "base10_no_leading_zero",
+    "null_policy": "required_nullable_fields_emit_null",
+    "missing_policy": "exact_field_missing_is_schema_error",
+    "whitespace": "none",
+    "utf8_bom": false,
+    "trailing_newline": false
   },
   "integer_ranges": {
     "quantity": [1, 9999],
@@ -103,7 +119,30 @@ Quote 使用以下 strict contract；全部 record 拒绝额外字段，因此�
 }
 ```
 
-对正整数定义 `round_half_up(n/d)=floor((2*n+d)/(2*d))`。实现先用有界大整数计算 `numerator=base×scarcity×event×margin×discount` 与 `denominator=1000^4`，再执行一次 round 和 clamp；不得逐 multiplier 舍入。`input_hash` 必须覆盖 strict contract version、全部 Quote 字段、ScarcityPolicy ID/version 和 market snapshot hash/revision。
+对正整数定义 `round_half_up(n/d)=floor((2*n+d)/(2*d))`。实现先用有界大整数计算 `numerator=base×scarcity×event×margin×discount` 与 `denominator=1000^4`，再执行一次 round 和 clamp；不得逐 multiplier 舍入。
+
+`input_hash` 的 preimage 是 `quote_exact_fields - {input_hash, signature, signature_algorithm}`；后两个字段是未来签名版本的保留排除项，在 strict v1 Quote 中本就不允许出现。禁止把 digest、`sha256:` wire prefix 或任何签名值放回 preimage，因此不存在自引用。Canonical JSON v1 规则：
+
+1. Object key 在每一层按未转义 key 的 UTF-8 bytes 升序排列；当前 ASCII `snake_case` key 在 Python/TypeScript 中顺序一致。
+2. Array 保留 Schema 顺序；不得排序或去重。
+3. 整数使用十进制最短形式：0 仅为 `0`，正数无 `+`/前导零，负数只带一个 `-`；禁止 float、指数和 `-0`。
+4. String 使用 JSON 双引号；只转义 `"`、`\` 和 U+0000..U+001F，控制字符用 lowercase `\u00xx`；`/` 不转义，其他 Unicode 直接编码为 UTF-8。
+5. Boolean 为 `true/false`；Schema-required nullable field 必须写 `null`，不能以缺失替代；exact field 缺失或多余均为 Schema error。
+6. `:`/`,` 外无空白，不写 UTF-8 BOM 和尾随换行。对 preimage UTF-8 bytes 计算 SHA-256，输出 64 位 lowercase hex，并仅在 wire value 前加 `sha256:`。
+
+完整 golden Quote 即本节第一个 JSON；排除其 `input_hash` 后的 canonical preimage 必须逐字节为：
+
+```text
+{"base_unit_price_copper_feather":100,"ceiling_copper_feather":300,"expires_at_game_time":610,"floor_copper_feather":50,"hash_contract_id":"quote_input_hash.sha256_canonical_json.v1","item_definition_id":"item.potion.healing_small","multipliers_q1000":{"discount":900,"event":1000,"margin":1250,"scarcity":1200},"observed_revision":200,"quantity":2,"quote_id":"01K1AB2CD3EF4GH5JK6MNP7QRS","scarcity_provenance":{"market_snapshot_hash":"sha256:30cb762b7a104a553fbcf801f248c929366b55958dfab609f012ca351ddc4c49","market_snapshot_revision":200,"policy_id":"scarcity_policy.local_market.v1","policy_version":1},"schema_version":1,"shop_id":"01K1AB2CD3EF4GH5JK6MNP7QRT","unit_price_copper_feather":135}
+```
+
+其 SHA-256 wire value 必须为：
+
+```text
+sha256:18aa059a94c920a5f03c3f0ac5c489941b643143be6f4c8a6e27c59f52b5fee2
+```
+
+把 `quantity` 从 `2` 改为 `3` 但保留旧 hash 的 tamper fixture 必须返回 `quote_input_changed`；重新 canonicalize 后摘要必须不同。`hash_contract_id` 是 strict Quote 的必需字段并进入 preimage，因此 contract 版本选择也受 hash 保护。
 
 折扣输入是 ECON-owned `discount_entitlement={entitlement_id,band,discount_q1000,issued_revision,expires_at}`；Orchestrator 可从其他 owner 的授权投影映射，但 ECON 不 import、不存储 affection/trust 等关系维度。
 
@@ -111,7 +150,7 @@ Quote 使用以下 strict contract；全部 record 拒绝额外字段，因此�
 
 1. 读取 Shop 本地 stock、已提交 demand window，以及 `DOC-ECON-009` 产生的 policy ID/version、market snapshot hash 与 `scarcity_q1000`，再读取公开地区 modifier 与 Catalog Base Price。
 2. 读取调用者可披露的折扣 entitlement；缺失时使用 `1000`。
-3. 重新计算/校验 scarcity golden formula，拒绝任何独立 demand field，逐项限幅并按单次 rounding 公式计算；input hash 覆盖 scarcity policy/version 和 market snapshot hash。
+3. 重新计算/校验 scarcity golden formula，拒绝任何独立 demand field，逐项限幅并按单次 rounding 公式计算；按 canonical hash contract 生成 input hash，随后以相同 preimage 验签。
 4. 返回只含本地可知因素摘要的 Quote。
 5. 接受 Quote 时检查 expiry、hash、Revision-sensitive inputs 与 buyer maximum unit price，再进入 Reservation/Transaction。
 
@@ -137,6 +176,7 @@ Quote 不披露商店成本、完整库存或私人关系数值。相同 input h
 - 所有 multiplier 与最终 unit price 永远在注册界限内。
 - strict Quote 只接受 scarcity/event/margin/discount 四项，独立 demand 字段被拒绝且需求只由 scarcity 计入一次。
 - Quote 过期、税/库存变化、entitlement 撤销与最大价限制均有拒绝路径。
+- 完整 golden Quote 的 canonical preimage 与 SHA-256 逐字节匹配；任一被覆盖字段 tamper 都使验签失败。
 - AI/玩家只能接受/拒绝或给 maximum price，不能指定结算值。
 - 居民的经济上下文不包含未观察的其他 Shop 库存或未来需求。
 
