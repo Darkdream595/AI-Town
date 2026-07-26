@@ -1,7 +1,15 @@
 /**
  * BootScene - 启动场景
- * 负责初始化和资源加载
+ *
+ * 符合 DOC-RENDER-001 规范：
+ * - RULE-RENDER-001: BootScene -> PreloadScene -> WorldScene + UIScene 是唯一启动次序
+ *
+ * 职责：
+ * - 建立字体、通用占位和配置
+ * - 注册 fallback 资源
+ * - 启动 PreloadScene
  */
+
 import Phaser from 'phaser';
 
 export class BootScene extends Phaser.Scene {
@@ -10,68 +18,89 @@ export class BootScene extends Phaser.Scene {
   }
 
   preload(): void {
-    // 显示加载进度
-    this.createLoadingBar();
+    // 加载 fallback 资源
+    this.loadFallbackAssets();
   }
 
   create(): void {
-    console.log('AI Town 启动场景已初始化');
+    console.log('[BootScene] Boot complete, starting PreloadScene...');
 
-    // 显示欢迎信息
-    const centerX = this.cameras.main.width / 2;
-    const centerY = this.cameras.main.height / 2;
+    // 设置全局配置
+    this.setupGlobalConfig();
 
-    this.add.text(centerX, centerY - 50, 'AI 小镇', {
-      fontSize: '48px',
-      color: '#ffffff',
-      fontFamily: 'Microsoft YaHei',
-    }).setOrigin(0.5);
-
-    this.add.text(centerX, centerY + 20, '后端连接中...', {
-      fontSize: '20px',
-      color: '#888888',
-      fontFamily: 'Microsoft YaHei',
-    }).setOrigin(0.5);
-
-    this.add.text(centerX, centerY + 60, '按 F11 进入全屏', {
-      fontSize: '16px',
-      color: '#666666',
-      fontFamily: 'Microsoft YaHei',
-    }).setOrigin(0.5);
-
-    // 测试后端连接
-    this.testBackendConnection();
+    // RULE-RENDER-001: 启动 PreloadScene
+    this.scene.start('PreloadScene');
   }
 
-  private createLoadingBar(): void {
-    const centerX = this.cameras.main.width / 2;
-    const centerY = this.cameras.main.height / 2;
+  /**
+   * 加载 fallback 资源
+   *
+   * DOC-RENDER-001: 资源或动画缺失时使用 fallback
+   */
+  private loadFallbackAssets(): void {
+    // 创建 checkerboard fallback（用于缺失的地图切片）
+    this.createCheckerboardTexture();
 
-    const progressBar = this.add.graphics();
-    const progressBox = this.add.graphics();
-    progressBox.fillStyle(0x222222, 0.8);
-    progressBox.fillRect(centerX - 160, centerY - 30, 320, 50);
-
-    this.load.on('progress', (value: number) => {
-      progressBar.clear();
-      progressBar.fillStyle(0xffffff, 1);
-      progressBar.fillRect(centerX - 150, centerY - 20, 300 * value, 30);
-    });
-
-    this.load.on('complete', () => {
-      progressBar.destroy();
-      progressBox.destroy();
-    });
+    // 创建 silhouette fallback（用于缺失的角色 sprite）
+    this.createSilhouetteTexture();
   }
 
-  private async testBackendConnection(): Promise<void> {
-    try {
-      const response = await fetch('http://localhost:8000/api/health');
-      const data = await response.json();
-      console.log('后端连接成功:', data);
-    } catch (error) {
-      console.error('后端连接失败:', error);
-      console.log('请确保后端服务已启动: python backend/src/main.py');
+  /**
+   * 创建 checkerboard 纹理（棋盘格）
+   */
+  private createCheckerboardTexture(): void {
+    const size = 64;
+    const cellSize = 8;
+    const graphics = this.add.graphics();
+
+    for (let y = 0; y < size; y += cellSize) {
+      for (let x = 0; x < size; x += cellSize) {
+        const isEven = ((x / cellSize) + (y / cellSize)) % 2 === 0;
+        graphics.fillStyle(isEven ? 0xff00ff : 0x000000, 1);
+        graphics.fillRect(x, y, cellSize, cellSize);
+      }
     }
+
+    graphics.generateTexture('asset.fallback.checkerboard', size, size);
+    graphics.destroy();
+  }
+
+  /**
+   * 创建 silhouette 纹理（角色剪影）
+   */
+  private createSilhouetteTexture(): void {
+    const width = 32;
+    const height = 48;
+    const graphics = this.add.graphics();
+
+    // 绘制简单的人形剪影
+    graphics.fillStyle(0x666666, 1);
+
+    // 头部
+    graphics.fillCircle(width / 2, height * 0.2, width * 0.15);
+
+    // 身体
+    graphics.fillRect(width * 0.3, height * 0.3, width * 0.4, height * 0.5);
+
+    // 腿
+    graphics.fillRect(width * 0.35, height * 0.7, width * 0.12, height * 0.25);
+    graphics.fillRect(width * 0.53, height * 0.7, width * 0.12, height * 0.25);
+
+    graphics.generateTexture('asset.fallback.resident_silhouette', width, height);
+    graphics.destroy();
+  }
+
+  /**
+   * 设置全局配置
+   */
+  private setupGlobalConfig(): void {
+    // 纹理过滤在 game config 的 pixelArt 中统一设定，运行期不再改 renderer
+
+    // 禁用右键菜单
+    this.input.mouse?.disableContextMenu();
+
+    // 记录游戏配置
+    console.log('[BootScene] Renderer:', this.renderer.type === Phaser.WEBGL ? 'WebGL' : 'Canvas');
+    console.log('[BootScene] Resolution:', this.scale.width, 'x', this.scale.height);
   }
 }

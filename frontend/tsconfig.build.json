@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    /* 骨架阶段存在大量预留字段与占位参数，构建时不因未使用报错；类型正确性仍由 strict 保证 */
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
+  },
+  /* 测试文件由 Vitest 处理，不进入产物编译 */
+  "exclude": ["src/**/__tests__/**", "src/**/*.test.ts"]
+}

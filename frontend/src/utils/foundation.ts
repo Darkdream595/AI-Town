@@ -1,8 +1,8 @@
-"""
-Foundation 工具函数 - TypeScript
-
-与后端 Python 版本对应的客户端实现
-"""
+/**
+ * Foundation 工具函数 - TypeScript
+ *
+ * 与后端 Python 版本对应的客户端实现
+ */
 
 import {
   WorldCoordinate,

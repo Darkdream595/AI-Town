@@ -16,6 +16,7 @@
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
+    /* 下划线前缀参数视为有意忽略（Phaser 回调签名固定，无法省略前置参数） */
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 

@@ -1,8 +1,8 @@
-"""
-共享类型定义 - TypeScript
-
-与后端 Python 版本对应
-"""
+/**
+ * 共享类型定义 - TypeScript
+ *
+ * 与后端 Python 版本对应
+ */
 
 // RULE-FOUNDATION-040: 坐标单位常量
 export const TILE_SIZE = 32; // 1 tile = 32 wu

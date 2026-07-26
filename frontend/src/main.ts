@@ -4,6 +4,9 @@
  */
 import Phaser from 'phaser';
 import { BootScene } from './scenes/BootScene';
+import { PreloadScene } from './scenes/PreloadScene';
+import { WorldScene } from './scenes/WorldScene';
+import { UIScene } from './scenes/UIScene';
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -11,7 +14,9 @@ const config: Phaser.Types.Core.GameConfig = {
   width: 1280,
   height: 720,
   backgroundColor: '#2d2d2d',
-  scene: [BootScene],
+  // 像素美术需要 nearest-neighbor 采样，避免缩放时糊边
+  pixelArt: true,
+  scene: [BootScene, PreloadScene, WorldScene, UIScene],
   physics: {
     default: 'arcade',
     arcade: {
