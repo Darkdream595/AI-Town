@@ -102,16 +102,22 @@ class TestTimeSimulator:
 
         sim.register_handler(handler)
 
-        # 1440 分钟后（1 天）
+        # 1440 分钟后（1 天），但从第 1 天开始，所以是到第 2 天
+        # 第 0 年 1 月 1 日 → 第 0 年 1 月 2 日
         current_time = RealTime(timestamp_ms=1000000 + 1440 * 60 * 1000)
         sim.update(current_time)
 
         assert "day_changed" in events_triggered
+        # 跨日但不跨月，不应该有 month_changed
+        assert "month_changed" not in events_triggered
 
     def test_month_changed_event(self):
         """测试跨月事件"""
         creation_time = RealTime(timestamp_ms=1000000)
+
+        # 从第 29 天开始（避免从 0 跳太远）
         sim = TimeSimulator(creation_time)
+        sim.state.current_game_time = 29 * 1440  # 第 0 年 1 月 30 日
 
         events_triggered = []
 
@@ -120,8 +126,10 @@ class TestTimeSimulator:
 
         sim.register_handler(handler)
 
-        # 43200 分钟后（30 天 = 1 个月）
-        current_time = RealTime(timestamp_ms=1000000 + 43200 * 60 * 1000)
+        # 再推进 1 天，跨到第 2 个月
+        # 第 0 年 1 月 30 日 → 第 0 年 2 月 1 日
+        current_time = RealTime(timestamp_ms=1000000 + 30 * 1440 * 60 * 1000)
         sim.update(current_time)
 
         assert "month_changed" in events_triggered
+        assert "day_changed" in events_triggered  # 跨月也会跨日
