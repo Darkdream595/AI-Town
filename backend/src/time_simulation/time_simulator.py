@@ -53,11 +53,13 @@ class TimeSimulator:
 
     def update(self, current_real_time: RealTime):
         """更新游戏时间"""
+        old_game_time = self.state.current_game_time
+
         new_game_time_obj = real_to_game_time(current_real_time, self.state.world_creation_time)
         new_game_time = new_game_time_obj.game_minutes
 
         # 检查是否跨越重要时间点
-        self._check_time_events(self.state.current_game_time, new_game_time)
+        self._check_time_events(old_game_time, new_game_time)
 
         self.state.current_game_time = new_game_time
 
