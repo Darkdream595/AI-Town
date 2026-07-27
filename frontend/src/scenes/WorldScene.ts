@@ -22,6 +22,7 @@ import type {
   WorldPoint,
 } from '../types/rendering';
 import { calculateEntityDepth, facingToDirection } from '../types/rendering';
+import { SpriteLoader } from '../utils/SpriteLoader';
 
 interface EntitySprite {
   sprite: Phaser.GameObjects.Sprite;
@@ -66,7 +67,66 @@ export class WorldScene extends Phaser.Scene {
     // 设置输入处理
     this.setupInput();
 
+    // 测试：显示所有10个角色
+    this.createTestCharacters();
+
     console.log('[WorldScene] Ready');
+  }
+
+  /**
+   * 创建测试角色（用于验证美术资源）
+   */
+  private createTestCharacters(): void {
+    const characters = SpriteLoader.getSupportedCharacters();
+    const startX = 200;
+    const startY = 300;
+    const spacing = 150;
+
+    characters.forEach((character, index) => {
+      const x = startX + (index % 5) * spacing;
+      const y = startY + Math.floor(index / 5) * spacing;
+
+      // 创建角色 sprite
+      const sprite = SpriteLoader.createSprite(this, x, y, character);
+
+      // 添加到实体层
+      this.entityLayer.add(sprite);
+
+      // 添加名字标签
+      const nameText = this.add.text(x, y - 80, character, {
+        fontSize: '12px',
+        color: '#ffffff',
+        backgroundColor: '#000000',
+        padding: { x: 4, y: 2 },
+      }).setOrigin(0.5);
+      this.entityLayer.add(nameText);
+
+      console.log(`[WorldScene] Created test character: ${character} at (${x}, ${y})`);
+
+      // 测试动画切换：每3秒切换一次动作
+      let actionIndex = 0;
+      const actions = ['idle', 'walk', 'run', 'spellcast'];
+      const directions = ['south', 'east', 'north', 'west'];
+      let directionIndex = 0;
+
+      this.time.addEvent({
+        delay: 3000,
+        callback: () => {
+          const action = actions[actionIndex % actions.length];
+          const direction = directions[directionIndex % directions.length];
+
+          SpriteLoader.playAnimation(sprite, character, action, direction);
+
+          actionIndex++;
+          if (actionIndex % actions.length === 0) {
+            directionIndex++;
+          }
+        },
+        loop: true,
+      });
+    });
+
+    console.log(`[WorldScene] Created ${characters.length} test characters`);
   }
 
   /**

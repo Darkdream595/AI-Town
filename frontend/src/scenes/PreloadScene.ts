@@ -12,6 +12,7 @@
  */
 
 import Phaser from 'phaser';
+import { SpriteLoader } from '../utils/SpriteLoader';
 
 export class PreloadScene extends Phaser.Scene {
   private loadingText!: Phaser.GameObjects.Text;
@@ -36,17 +37,28 @@ export class PreloadScene extends Phaser.Scene {
   }
 
   create(): void {
-    console.log('[PreloadScene] Assets loaded, starting WorldScene and UIScene...');
+    console.log('[PreloadScene] Assets loaded, loading character sprites...');
 
-    // RULE-RENDER-001: 启动 WorldScene + UIScene
-    // WorldScene 是主要的游戏场景
-    this.scene.launch('WorldScene');
+    // 加载所有角色的动画帧
+    const characters = SpriteLoader.getSupportedCharacters();
+    characters.forEach(character => {
+      SpriteLoader.loadCharacter(this, character);
+    });
 
-    // UIScene 是常驻 UI orchestrator
-    this.scene.launch('UIScene');
+    // 等待所有角色加载完成后启动游戏场景
+    this.load.once('complete', () => {
+      console.log('[PreloadScene] All character sprites loaded, starting WorldScene and UIScene...');
 
-    // 停止 PreloadScene
-    this.scene.stop('PreloadScene');
+      // RULE-RENDER-001: 启动 WorldScene + UIScene
+      this.scene.launch('WorldScene');
+      this.scene.launch('UIScene');
+      this.scene.stop('PreloadScene');
+    });
+
+    // 如果没有需要加载的资源，直接启动
+    if (!this.load.isLoading()) {
+      this.load.start();
+    }
   }
 
   /**
@@ -120,16 +132,26 @@ export class PreloadScene extends Phaser.Scene {
    * DOC-RENDER-011: Asset Manifest 与 fallback
    */
   private loadTestAssets(): void {
-    // 这里暂时为空，后续会添加实际的资源加载逻辑
-    // 例如：
-    // - 地图切片（Ground Art、Structure）
-    // - 角色 Sprite
-    // - UI 素材
-    // - 音频资源
+    // 加载角色 sprite frames
+    // 10个角色的所有动画帧
+    const characters = [
+      'human_farmer',
+      'elf_mage',
+      'dwarf_blacksmith',
+      'halfling_merchant',
+      'human_guard',
+      'human_priest',
+      'human_innkeeper',
+      'elf_alchemist',
+      'human_hunter',
+      'dwarf_miner',
+    ];
 
-    // 模拟一些加载时间（测试用）
-    for (let i = 0; i < 10; i++) {
-      this.load.image(`dummy_${i}`, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==');
-    }
+    // 为每个角色加载所有帧
+    characters.forEach(character => {
+      // 加载 atlas 配置和动画配置
+      this.load.json(`${character}_atlas`, `assets/sprites/atlases/${character}.json`);
+      this.load.json(`${character}_animations`, `assets/sprites/atlases/${character}_animations.json`);
+    });
   }
 }

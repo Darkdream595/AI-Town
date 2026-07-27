@@ -1,0 +1,678 @@
+{
+  "1h_backslash_east": {
+    "frames": [
+      "1h_backslash_east_0",
+      "1h_backslash_east_1",
+      "1h_backslash_east_2",
+      "1h_backslash_east_3",
+      "1h_backslash_east_4",
+      "1h_backslash_east_5",
+      "1h_backslash_east_6",
+      "1h_backslash_east_7",
+      "1h_backslash_east_8",
+      "1h_backslash_east_9",
+      "1h_backslash_east_10",
+      "1h_backslash_east_11",
+      "1h_backslash_east_12"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "1h_backslash_north": {
+    "frames": [
+      "1h_backslash_north_0",
+      "1h_backslash_north_1",
+      "1h_backslash_north_2",
+      "1h_backslash_north_3",
+      "1h_backslash_north_4",
+      "1h_backslash_north_5",
+      "1h_backslash_north_6",
+      "1h_backslash_north_7",
+      "1h_backslash_north_8",
+      "1h_backslash_north_9",
+      "1h_backslash_north_10",
+      "1h_backslash_north_11",
+      "1h_backslash_north_12"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "1h_backslash_south": {
+    "frames": [
+      "1h_backslash_south_0",
+      "1h_backslash_south_1",
+      "1h_backslash_south_2",
+      "1h_backslash_south_3",
+      "1h_backslash_south_4",
+      "1h_backslash_south_5",
+      "1h_backslash_south_6",
+      "1h_backslash_south_7",
+      "1h_backslash_south_8",
+      "1h_backslash_south_9",
+      "1h_backslash_south_10",
+      "1h_backslash_south_11",
+      "1h_backslash_south_12"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "1h_backslash_west": {
+    "frames": [
+      "1h_backslash_west_0",
+      "1h_backslash_west_1",
+      "1h_backslash_west_2",
+      "1h_backslash_west_3",
+      "1h_backslash_west_4",
+      "1h_backslash_west_5",
+      "1h_backslash_west_6",
+      "1h_backslash_west_7",
+      "1h_backslash_west_8",
+      "1h_backslash_west_9",
+      "1h_backslash_west_10",
+      "1h_backslash_west_11",
+      "1h_backslash_west_12"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "1h_halfslash_east": {
+    "frames": [
+      "1h_halfslash_east_0",
+      "1h_halfslash_east_1",
+      "1h_halfslash_east_2",
+      "1h_halfslash_east_3",
+      "1h_halfslash_east_4",
+      "1h_halfslash_east_5"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "1h_halfslash_north": {
+    "frames": [
+      "1h_halfslash_north_0",
+      "1h_halfslash_north_1",
+      "1h_halfslash_north_2",
+      "1h_halfslash_north_3",
+      "1h_halfslash_north_4",
+      "1h_halfslash_north_5"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "1h_halfslash_south": {
+    "frames": [
+      "1h_halfslash_south_0",
+      "1h_halfslash_south_1",
+      "1h_halfslash_south_2",
+      "1h_halfslash_south_3",
+      "1h_halfslash_south_4",
+      "1h_halfslash_south_5"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "1h_halfslash_west": {
+    "frames": [
+      "1h_halfslash_west_0",
+      "1h_halfslash_west_1",
+      "1h_halfslash_west_2",
+      "1h_halfslash_west_3",
+      "1h_halfslash_west_4",
+      "1h_halfslash_west_5"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "climb_north": {
+    "frames": [
+      "climb_north_0",
+      "climb_north_1",
+      "climb_north_2",
+      "climb_north_3",
+      "climb_north_4",
+      "climb_north_5"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "combat_idle_east": {
+    "frames": [
+      "combat_idle_east_0",
+      "combat_idle_east_1"
+    ],
+    "frameRate": 10,
+    "repeat": -1
+  },
+  "combat_idle_north": {
+    "frames": [
+      "combat_idle_north_0",
+      "combat_idle_north_1"
+    ],
+    "frameRate": 10,
+    "repeat": -1
+  },
+  "combat_idle_south": {
+    "frames": [
+      "combat_idle_south_0",
+      "combat_idle_south_1"
+    ],
+    "frameRate": 10,
+    "repeat": -1
+  },
+  "combat_idle_west": {
+    "frames": [
+      "combat_idle_west_0",
+      "combat_idle_west_1"
+    ],
+    "frameRate": 10,
+    "repeat": -1
+  },
+  "emote_east": {
+    "frames": [
+      "emote_east_0",
+      "emote_east_1",
+      "emote_east_2"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "emote_north": {
+    "frames": [
+      "emote_north_0",
+      "emote_north_1",
+      "emote_north_2"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "emote_south": {
+    "frames": [
+      "emote_south_0",
+      "emote_south_1",
+      "emote_south_2"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "emote_west": {
+    "frames": [
+      "emote_west_0",
+      "emote_west_1",
+      "emote_west_2"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "hurt_south": {
+    "frames": [
+      "hurt_south_0",
+      "hurt_south_1",
+      "hurt_south_2",
+      "hurt_south_3",
+      "hurt_south_4",
+      "hurt_south_5"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "idle_east": {
+    "frames": [
+      "idle_east_0",
+      "idle_east_1"
+    ],
+    "frameRate": 10,
+    "repeat": -1
+  },
+  "idle_north": {
+    "frames": [
+      "idle_north_0",
+      "idle_north_1"
+    ],
+    "frameRate": 10,
+    "repeat": -1
+  },
+  "idle_south": {
+    "frames": [
+      "idle_south_0",
+      "idle_south_1"
+    ],
+    "frameRate": 10,
+    "repeat": -1
+  },
+  "idle_west": {
+    "frames": [
+      "idle_west_0",
+      "idle_west_1"
+    ],
+    "frameRate": 10,
+    "repeat": -1
+  },
+  "jump_east": {
+    "frames": [
+      "jump_east_0",
+      "jump_east_1",
+      "jump_east_2",
+      "jump_east_3",
+      "jump_east_4"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "jump_north": {
+    "frames": [
+      "jump_north_0",
+      "jump_north_1",
+      "jump_north_2",
+      "jump_north_3",
+      "jump_north_4"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "jump_south": {
+    "frames": [
+      "jump_south_0",
+      "jump_south_1",
+      "jump_south_2",
+      "jump_south_3",
+      "jump_south_4"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "jump_west": {
+    "frames": [
+      "jump_west_0",
+      "jump_west_1",
+      "jump_west_2",
+      "jump_west_3",
+      "jump_west_4"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "run_east": {
+    "frames": [
+      "run_east_0",
+      "run_east_1",
+      "run_east_2",
+      "run_east_3",
+      "run_east_4",
+      "run_east_5",
+      "run_east_6",
+      "run_east_7"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "run_north": {
+    "frames": [
+      "run_north_0",
+      "run_north_1",
+      "run_north_2",
+      "run_north_3",
+      "run_north_4",
+      "run_north_5",
+      "run_north_6",
+      "run_north_7"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "run_south": {
+    "frames": [
+      "run_south_0",
+      "run_south_1",
+      "run_south_2",
+      "run_south_3",
+      "run_south_4",
+      "run_south_5",
+      "run_south_6",
+      "run_south_7"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "run_west": {
+    "frames": [
+      "run_west_0",
+      "run_west_1",
+      "run_west_2",
+      "run_west_3",
+      "run_west_4",
+      "run_west_5",
+      "run_west_6",
+      "run_west_7"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "shoot_east": {
+    "frames": [
+      "shoot_east_0",
+      "shoot_east_1",
+      "shoot_east_2",
+      "shoot_east_3",
+      "shoot_east_4",
+      "shoot_east_5",
+      "shoot_east_6",
+      "shoot_east_7",
+      "shoot_east_8",
+      "shoot_east_9",
+      "shoot_east_10",
+      "shoot_east_11",
+      "shoot_east_12"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "shoot_north": {
+    "frames": [
+      "shoot_north_0",
+      "shoot_north_1",
+      "shoot_north_2",
+      "shoot_north_3",
+      "shoot_north_4",
+      "shoot_north_5",
+      "shoot_north_6",
+      "shoot_north_7",
+      "shoot_north_8",
+      "shoot_north_9",
+      "shoot_north_10",
+      "shoot_north_11",
+      "shoot_north_12"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "shoot_south": {
+    "frames": [
+      "shoot_south_0",
+      "shoot_south_1",
+      "shoot_south_2",
+      "shoot_south_3",
+      "shoot_south_4",
+      "shoot_south_5",
+      "shoot_south_6",
+      "shoot_south_7",
+      "shoot_south_8",
+      "shoot_south_9",
+      "shoot_south_10",
+      "shoot_south_11",
+      "shoot_south_12"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "shoot_west": {
+    "frames": [
+      "shoot_west_0",
+      "shoot_west_1",
+      "shoot_west_2",
+      "shoot_west_3",
+      "shoot_west_4",
+      "shoot_west_5",
+      "shoot_west_6",
+      "shoot_west_7",
+      "shoot_west_8",
+      "shoot_west_9",
+      "shoot_west_10",
+      "shoot_west_11",
+      "shoot_west_12"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "sit_east": {
+    "frames": [
+      "sit_east_0",
+      "sit_east_1",
+      "sit_east_2"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "sit_north": {
+    "frames": [
+      "sit_north_0",
+      "sit_north_1",
+      "sit_north_2"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "sit_south": {
+    "frames": [
+      "sit_south_0",
+      "sit_south_1",
+      "sit_south_2"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "sit_west": {
+    "frames": [
+      "sit_west_0",
+      "sit_west_1",
+      "sit_west_2"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "slash_east": {
+    "frames": [
+      "slash_east_0",
+      "slash_east_1",
+      "slash_east_2",
+      "slash_east_3",
+      "slash_east_4",
+      "slash_east_5"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "slash_north": {
+    "frames": [
+      "slash_north_0",
+      "slash_north_1",
+      "slash_north_2",
+      "slash_north_3",
+      "slash_north_4",
+      "slash_north_5"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "slash_south": {
+    "frames": [
+      "slash_south_0",
+      "slash_south_1",
+      "slash_south_2",
+      "slash_south_3",
+      "slash_south_4",
+      "slash_south_5"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "slash_west": {
+    "frames": [
+      "slash_west_0",
+      "slash_west_1",
+      "slash_west_2",
+      "slash_west_3",
+      "slash_west_4",
+      "slash_west_5"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "spellcast_east": {
+    "frames": [
+      "spellcast_east_0",
+      "spellcast_east_1",
+      "spellcast_east_2",
+      "spellcast_east_3",
+      "spellcast_east_4",
+      "spellcast_east_5",
+      "spellcast_east_6"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "spellcast_north": {
+    "frames": [
+      "spellcast_north_0",
+      "spellcast_north_1",
+      "spellcast_north_2",
+      "spellcast_north_3",
+      "spellcast_north_4",
+      "spellcast_north_5",
+      "spellcast_north_6"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "spellcast_south": {
+    "frames": [
+      "spellcast_south_0",
+      "spellcast_south_1",
+      "spellcast_south_2",
+      "spellcast_south_3",
+      "spellcast_south_4",
+      "spellcast_south_5",
+      "spellcast_south_6"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "spellcast_west": {
+    "frames": [
+      "spellcast_west_0",
+      "spellcast_west_1",
+      "spellcast_west_2",
+      "spellcast_west_3",
+      "spellcast_west_4",
+      "spellcast_west_5",
+      "spellcast_west_6"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "thrust_east": {
+    "frames": [
+      "thrust_east_0",
+      "thrust_east_1",
+      "thrust_east_2",
+      "thrust_east_3",
+      "thrust_east_4",
+      "thrust_east_5",
+      "thrust_east_6",
+      "thrust_east_7"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "thrust_north": {
+    "frames": [
+      "thrust_north_0",
+      "thrust_north_1",
+      "thrust_north_2",
+      "thrust_north_3",
+      "thrust_north_4",
+      "thrust_north_5",
+      "thrust_north_6",
+      "thrust_north_7"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "thrust_south": {
+    "frames": [
+      "thrust_south_0",
+      "thrust_south_1",
+      "thrust_south_2",
+      "thrust_south_3",
+      "thrust_south_4",
+      "thrust_south_5",
+      "thrust_south_6",
+      "thrust_south_7"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "thrust_west": {
+    "frames": [
+      "thrust_west_0",
+      "thrust_west_1",
+      "thrust_west_2",
+      "thrust_west_3",
+      "thrust_west_4",
+      "thrust_west_5",
+      "thrust_west_6",
+      "thrust_west_7"
+    ],
+    "frameRate": 10,
+    "repeat": 0
+  },
+  "walk_east": {
+    "frames": [
+      "walk_east_0",
+      "walk_east_1",
+      "walk_east_2",
+      "walk_east_3",
+      "walk_east_4",
+      "walk_east_5",
+      "walk_east_6",
+      "walk_east_7",
+      "walk_east_8"
+    ],
+    "frameRate": 10,
+    "repeat": -1
+  },
+  "walk_north": {
+    "frames": [
+      "walk_north_0",
+      "walk_north_1",
+      "walk_north_2",
+      "walk_north_3",
+      "walk_north_4",
+      "walk_north_5",
+      "walk_north_6",
+      "walk_north_7",
+      "walk_north_8"
+    ],
+    "frameRate": 10,
+    "repeat": -1
+  },
+  "walk_south": {
+    "frames": [
+      "walk_south_0",
+      "walk_south_1",
+      "walk_south_2",
+      "walk_south_3",
+      "walk_south_4",
+      "walk_south_5",
+      "walk_south_6",
+      "walk_south_7",
+      "walk_south_8"
+    ],
+    "frameRate": 10,
+    "repeat": -1
+  },
+  "walk_west": {
+    "frames": [
+      "walk_west_0",
+      "walk_west_1",
+      "walk_west_2",
+      "walk_west_3",
+      "walk_west_4",
+      "walk_west_5",
+      "walk_west_6",
+      "walk_west_7",
+      "walk_west_8"
+    ],
+    "frameRate": 10,
+    "repeat": -1
+  }
+}
