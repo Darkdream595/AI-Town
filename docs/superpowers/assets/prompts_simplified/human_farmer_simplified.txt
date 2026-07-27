@@ -1,0 +1,483 @@
+# Human Farmer - Simplified Prompts
+# Total: 9 prompts (3 directions × 3 states)
+# Naming: human_farmer_{direction}_{state}.png
+
+================================================================================
+
+## human_farmer_north_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Farmer - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Middle-aged human male farmer with a weathered, kind face.
+Character details:
+- Age: Around 40-45 years old
+- Build: Average height (170cm), slightly stocky build from physical labor
+- Face: Round friendly face with smile lines, short brown beard neatly trimmed, warm brown eyes
+- Hair: Short brown hair with slight graying at temples, slightly messy from work
+- Clothing: Worn brown tunic (earth tone, #8B4513), patched beige linen pants rolled at ankles, simple rope belt
+- Accessory: Wide-brimmed straw hat (golden wheat color) with small tear on brim, worn leather work boots
+- Tool: Wooden hoe with weathered handle, metal blade shows signs of use
+- Posture: Slightly hunched shoulders from farm work, callused hands
+- Expression: Gentle smile, crow's feet around eyes from sun exposure
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli hand-painted, warm earthy palette (browns #8B4513, beiges #F5DEB3, greens #6B8E23)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_farmer_north_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Farmer - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Middle-aged human male farmer with a weathered, kind face.
+Character details:
+- Age: Around 40-45 years old
+- Build: Average height (170cm), slightly stocky build from physical labor
+- Face: Round friendly face with smile lines, short brown beard neatly trimmed, warm brown eyes
+- Hair: Short brown hair with slight graying at temples, slightly messy from work
+- Clothing: Worn brown tunic (earth tone, #8B4513), patched beige linen pants rolled at ankles, simple rope belt
+- Accessory: Wide-brimmed straw hat (golden wheat color) with small tear on brim, worn leather work boots
+- Tool: Wooden hoe with weathered handle, metal blade shows signs of use
+- Posture: Slightly hunched shoulders from farm work, callused hands
+- Expression: Gentle smile, crow's feet around eyes from sun exposure
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli hand-painted, warm earthy palette (browns #8B4513, beiges #F5DEB3, greens #6B8E23)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_farmer_north_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Farmer - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Middle-aged human male farmer with a weathered, kind face.
+Character details:
+- Age: Around 40-45 years old
+- Build: Average height (170cm), slightly stocky build from physical labor
+- Face: Round friendly face with smile lines, short brown beard neatly trimmed, warm brown eyes
+- Hair: Short brown hair with slight graying at temples, slightly messy from work
+- Clothing: Worn brown tunic (earth tone, #8B4513), patched beige linen pants rolled at ankles, simple rope belt
+- Accessory: Wide-brimmed straw hat (golden wheat color) with small tear on brim, worn leather work boots
+- Tool: Wooden hoe with weathered handle, metal blade shows signs of use
+- Posture: Slightly hunched shoulders from farm work, callused hands
+- Expression: Gentle smile, crow's feet around eyes from sun exposure
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli hand-painted, warm earthy palette (browns #8B4513, beiges #F5DEB3, greens #6B8E23)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_farmer_south_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Farmer - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Middle-aged human male farmer with a weathered, kind face.
+Character details:
+- Age: Around 40-45 years old
+- Build: Average height (170cm), slightly stocky build from physical labor
+- Face: Round friendly face with smile lines, short brown beard neatly trimmed, warm brown eyes
+- Hair: Short brown hair with slight graying at temples, slightly messy from work
+- Clothing: Worn brown tunic (earth tone, #8B4513), patched beige linen pants rolled at ankles, simple rope belt
+- Accessory: Wide-brimmed straw hat (golden wheat color) with small tear on brim, worn leather work boots
+- Tool: Wooden hoe with weathered handle, metal blade shows signs of use
+- Posture: Slightly hunched shoulders from farm work, callused hands
+- Expression: Gentle smile, crow's feet around eyes from sun exposure
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli hand-painted, warm earthy palette (browns #8B4513, beiges #F5DEB3, greens #6B8E23)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_farmer_south_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Farmer - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Middle-aged human male farmer with a weathered, kind face.
+Character details:
+- Age: Around 40-45 years old
+- Build: Average height (170cm), slightly stocky build from physical labor
+- Face: Round friendly face with smile lines, short brown beard neatly trimmed, warm brown eyes
+- Hair: Short brown hair with slight graying at temples, slightly messy from work
+- Clothing: Worn brown tunic (earth tone, #8B4513), patched beige linen pants rolled at ankles, simple rope belt
+- Accessory: Wide-brimmed straw hat (golden wheat color) with small tear on brim, worn leather work boots
+- Tool: Wooden hoe with weathered handle, metal blade shows signs of use
+- Posture: Slightly hunched shoulders from farm work, callused hands
+- Expression: Gentle smile, crow's feet around eyes from sun exposure
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli hand-painted, warm earthy palette (browns #8B4513, beiges #F5DEB3, greens #6B8E23)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_farmer_south_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Farmer - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Middle-aged human male farmer with a weathered, kind face.
+Character details:
+- Age: Around 40-45 years old
+- Build: Average height (170cm), slightly stocky build from physical labor
+- Face: Round friendly face with smile lines, short brown beard neatly trimmed, warm brown eyes
+- Hair: Short brown hair with slight graying at temples, slightly messy from work
+- Clothing: Worn brown tunic (earth tone, #8B4513), patched beige linen pants rolled at ankles, simple rope belt
+- Accessory: Wide-brimmed straw hat (golden wheat color) with small tear on brim, worn leather work boots
+- Tool: Wooden hoe with weathered handle, metal blade shows signs of use
+- Posture: Slightly hunched shoulders from farm work, callused hands
+- Expression: Gentle smile, crow's feet around eyes from sun exposure
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli hand-painted, warm earthy palette (browns #8B4513, beiges #F5DEB3, greens #6B8E23)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_farmer_east_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Farmer - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Middle-aged human male farmer with a weathered, kind face.
+Character details:
+- Age: Around 40-45 years old
+- Build: Average height (170cm), slightly stocky build from physical labor
+- Face: Round friendly face with smile lines, short brown beard neatly trimmed, warm brown eyes
+- Hair: Short brown hair with slight graying at temples, slightly messy from work
+- Clothing: Worn brown tunic (earth tone, #8B4513), patched beige linen pants rolled at ankles, simple rope belt
+- Accessory: Wide-brimmed straw hat (golden wheat color) with small tear on brim, worn leather work boots
+- Tool: Wooden hoe with weathered handle, metal blade shows signs of use
+- Posture: Slightly hunched shoulders from farm work, callused hands
+- Expression: Gentle smile, crow's feet around eyes from sun exposure
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli hand-painted, warm earthy palette (browns #8B4513, beiges #F5DEB3, greens #6B8E23)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_farmer_east_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Farmer - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Middle-aged human male farmer with a weathered, kind face.
+Character details:
+- Age: Around 40-45 years old
+- Build: Average height (170cm), slightly stocky build from physical labor
+- Face: Round friendly face with smile lines, short brown beard neatly trimmed, warm brown eyes
+- Hair: Short brown hair with slight graying at temples, slightly messy from work
+- Clothing: Worn brown tunic (earth tone, #8B4513), patched beige linen pants rolled at ankles, simple rope belt
+- Accessory: Wide-brimmed straw hat (golden wheat color) with small tear on brim, worn leather work boots
+- Tool: Wooden hoe with weathered handle, metal blade shows signs of use
+- Posture: Slightly hunched shoulders from farm work, callused hands
+- Expression: Gentle smile, crow's feet around eyes from sun exposure
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli hand-painted, warm earthy palette (browns #8B4513, beiges #F5DEB3, greens #6B8E23)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_farmer_east_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Farmer - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Middle-aged human male farmer with a weathered, kind face.
+Character details:
+- Age: Around 40-45 years old
+- Build: Average height (170cm), slightly stocky build from physical labor
+- Face: Round friendly face with smile lines, short brown beard neatly trimmed, warm brown eyes
+- Hair: Short brown hair with slight graying at temples, slightly messy from work
+- Clothing: Worn brown tunic (earth tone, #8B4513), patched beige linen pants rolled at ankles, simple rope belt
+- Accessory: Wide-brimmed straw hat (golden wheat color) with small tear on brim, worn leather work boots
+- Tool: Wooden hoe with weathered handle, metal blade shows signs of use
+- Posture: Slightly hunched shoulders from farm work, callused hands
+- Expression: Gentle smile, crow's feet around eyes from sun exposure
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli hand-painted, warm earthy palette (browns #8B4513, beiges #F5DEB3, greens #6B8E23)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+

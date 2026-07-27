@@ -1,0 +1,501 @@
+# Elf Alchemist - Simplified Prompts
+# Total: 9 prompts (3 directions × 3 states)
+# Naming: elf_alchemist_{direction}_{state}.png
+
+================================================================================
+
+## elf_alchemist_north_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Elf Alchemist - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Focused female elf alchemist with scholarly air.
+Character details:
+- Age appearance: Looks young (early 20s) but has century of experience
+- Build: Slender and petite (168cm), delicate but precise movements
+- Face: Delicate features with focused intensity, sharp green eyes with analytical gaze, pointed chin
+- Hair: Medium-length auburn hair tied back in practical ponytail, loose strands fall in face
+- Ears: Pointed elf ears (3cm), often one exposed when hair tucked
+- Clothing: Teal-green robe (#008080) with many pockets, rolled sleeves revealing pale arms, leather gloves with fingertips cut off for precision
+- Apron: Leather alchemy apron with potion stains (various colors), tool loops holding vials
+- Accessory: Magnifying goggles pushed up on forehead, many small vials on belt with colored liquids
+- Tool: Currently holding small potion bottle (swirling purple-pink liquid with inner glow)
+- Posture: Leaning forward slightly in concentration, examining potion closely, precise careful movements
+- Expression: Intense focus with slight frown of concentration, scholarly curiosity, analytical
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli scholarly alchemy, jewel-tone palette (teals #008080, potion colors, mystical glows)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## elf_alchemist_north_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Elf Alchemist - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Focused female elf alchemist with scholarly air.
+Character details:
+- Age appearance: Looks young (early 20s) but has century of experience
+- Build: Slender and petite (168cm), delicate but precise movements
+- Face: Delicate features with focused intensity, sharp green eyes with analytical gaze, pointed chin
+- Hair: Medium-length auburn hair tied back in practical ponytail, loose strands fall in face
+- Ears: Pointed elf ears (3cm), often one exposed when hair tucked
+- Clothing: Teal-green robe (#008080) with many pockets, rolled sleeves revealing pale arms, leather gloves with fingertips cut off for precision
+- Apron: Leather alchemy apron with potion stains (various colors), tool loops holding vials
+- Accessory: Magnifying goggles pushed up on forehead, many small vials on belt with colored liquids
+- Tool: Currently holding small potion bottle (swirling purple-pink liquid with inner glow)
+- Posture: Leaning forward slightly in concentration, examining potion closely, precise careful movements
+- Expression: Intense focus with slight frown of concentration, scholarly curiosity, analytical
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli scholarly alchemy, jewel-tone palette (teals #008080, potion colors, mystical glows)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## elf_alchemist_north_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Elf Alchemist - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Focused female elf alchemist with scholarly air.
+Character details:
+- Age appearance: Looks young (early 20s) but has century of experience
+- Build: Slender and petite (168cm), delicate but precise movements
+- Face: Delicate features with focused intensity, sharp green eyes with analytical gaze, pointed chin
+- Hair: Medium-length auburn hair tied back in practical ponytail, loose strands fall in face
+- Ears: Pointed elf ears (3cm), often one exposed when hair tucked
+- Clothing: Teal-green robe (#008080) with many pockets, rolled sleeves revealing pale arms, leather gloves with fingertips cut off for precision
+- Apron: Leather alchemy apron with potion stains (various colors), tool loops holding vials
+- Accessory: Magnifying goggles pushed up on forehead, many small vials on belt with colored liquids
+- Tool: Currently holding small potion bottle (swirling purple-pink liquid with inner glow)
+- Posture: Leaning forward slightly in concentration, examining potion closely, precise careful movements
+- Expression: Intense focus with slight frown of concentration, scholarly curiosity, analytical
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli scholarly alchemy, jewel-tone palette (teals #008080, potion colors, mystical glows)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## elf_alchemist_south_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Elf Alchemist - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Focused female elf alchemist with scholarly air.
+Character details:
+- Age appearance: Looks young (early 20s) but has century of experience
+- Build: Slender and petite (168cm), delicate but precise movements
+- Face: Delicate features with focused intensity, sharp green eyes with analytical gaze, pointed chin
+- Hair: Medium-length auburn hair tied back in practical ponytail, loose strands fall in face
+- Ears: Pointed elf ears (3cm), often one exposed when hair tucked
+- Clothing: Teal-green robe (#008080) with many pockets, rolled sleeves revealing pale arms, leather gloves with fingertips cut off for precision
+- Apron: Leather alchemy apron with potion stains (various colors), tool loops holding vials
+- Accessory: Magnifying goggles pushed up on forehead, many small vials on belt with colored liquids
+- Tool: Currently holding small potion bottle (swirling purple-pink liquid with inner glow)
+- Posture: Leaning forward slightly in concentration, examining potion closely, precise careful movements
+- Expression: Intense focus with slight frown of concentration, scholarly curiosity, analytical
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli scholarly alchemy, jewel-tone palette (teals #008080, potion colors, mystical glows)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## elf_alchemist_south_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Elf Alchemist - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Focused female elf alchemist with scholarly air.
+Character details:
+- Age appearance: Looks young (early 20s) but has century of experience
+- Build: Slender and petite (168cm), delicate but precise movements
+- Face: Delicate features with focused intensity, sharp green eyes with analytical gaze, pointed chin
+- Hair: Medium-length auburn hair tied back in practical ponytail, loose strands fall in face
+- Ears: Pointed elf ears (3cm), often one exposed when hair tucked
+- Clothing: Teal-green robe (#008080) with many pockets, rolled sleeves revealing pale arms, leather gloves with fingertips cut off for precision
+- Apron: Leather alchemy apron with potion stains (various colors), tool loops holding vials
+- Accessory: Magnifying goggles pushed up on forehead, many small vials on belt with colored liquids
+- Tool: Currently holding small potion bottle (swirling purple-pink liquid with inner glow)
+- Posture: Leaning forward slightly in concentration, examining potion closely, precise careful movements
+- Expression: Intense focus with slight frown of concentration, scholarly curiosity, analytical
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli scholarly alchemy, jewel-tone palette (teals #008080, potion colors, mystical glows)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## elf_alchemist_south_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Elf Alchemist - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Focused female elf alchemist with scholarly air.
+Character details:
+- Age appearance: Looks young (early 20s) but has century of experience
+- Build: Slender and petite (168cm), delicate but precise movements
+- Face: Delicate features with focused intensity, sharp green eyes with analytical gaze, pointed chin
+- Hair: Medium-length auburn hair tied back in practical ponytail, loose strands fall in face
+- Ears: Pointed elf ears (3cm), often one exposed when hair tucked
+- Clothing: Teal-green robe (#008080) with many pockets, rolled sleeves revealing pale arms, leather gloves with fingertips cut off for precision
+- Apron: Leather alchemy apron with potion stains (various colors), tool loops holding vials
+- Accessory: Magnifying goggles pushed up on forehead, many small vials on belt with colored liquids
+- Tool: Currently holding small potion bottle (swirling purple-pink liquid with inner glow)
+- Posture: Leaning forward slightly in concentration, examining potion closely, precise careful movements
+- Expression: Intense focus with slight frown of concentration, scholarly curiosity, analytical
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli scholarly alchemy, jewel-tone palette (teals #008080, potion colors, mystical glows)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## elf_alchemist_east_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Elf Alchemist - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Focused female elf alchemist with scholarly air.
+Character details:
+- Age appearance: Looks young (early 20s) but has century of experience
+- Build: Slender and petite (168cm), delicate but precise movements
+- Face: Delicate features with focused intensity, sharp green eyes with analytical gaze, pointed chin
+- Hair: Medium-length auburn hair tied back in practical ponytail, loose strands fall in face
+- Ears: Pointed elf ears (3cm), often one exposed when hair tucked
+- Clothing: Teal-green robe (#008080) with many pockets, rolled sleeves revealing pale arms, leather gloves with fingertips cut off for precision
+- Apron: Leather alchemy apron with potion stains (various colors), tool loops holding vials
+- Accessory: Magnifying goggles pushed up on forehead, many small vials on belt with colored liquids
+- Tool: Currently holding small potion bottle (swirling purple-pink liquid with inner glow)
+- Posture: Leaning forward slightly in concentration, examining potion closely, precise careful movements
+- Expression: Intense focus with slight frown of concentration, scholarly curiosity, analytical
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli scholarly alchemy, jewel-tone palette (teals #008080, potion colors, mystical glows)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## elf_alchemist_east_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Elf Alchemist - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Focused female elf alchemist with scholarly air.
+Character details:
+- Age appearance: Looks young (early 20s) but has century of experience
+- Build: Slender and petite (168cm), delicate but precise movements
+- Face: Delicate features with focused intensity, sharp green eyes with analytical gaze, pointed chin
+- Hair: Medium-length auburn hair tied back in practical ponytail, loose strands fall in face
+- Ears: Pointed elf ears (3cm), often one exposed when hair tucked
+- Clothing: Teal-green robe (#008080) with many pockets, rolled sleeves revealing pale arms, leather gloves with fingertips cut off for precision
+- Apron: Leather alchemy apron with potion stains (various colors), tool loops holding vials
+- Accessory: Magnifying goggles pushed up on forehead, many small vials on belt with colored liquids
+- Tool: Currently holding small potion bottle (swirling purple-pink liquid with inner glow)
+- Posture: Leaning forward slightly in concentration, examining potion closely, precise careful movements
+- Expression: Intense focus with slight frown of concentration, scholarly curiosity, analytical
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli scholarly alchemy, jewel-tone palette (teals #008080, potion colors, mystical glows)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## elf_alchemist_east_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Elf Alchemist - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Focused female elf alchemist with scholarly air.
+Character details:
+- Age appearance: Looks young (early 20s) but has century of experience
+- Build: Slender and petite (168cm), delicate but precise movements
+- Face: Delicate features with focused intensity, sharp green eyes with analytical gaze, pointed chin
+- Hair: Medium-length auburn hair tied back in practical ponytail, loose strands fall in face
+- Ears: Pointed elf ears (3cm), often one exposed when hair tucked
+- Clothing: Teal-green robe (#008080) with many pockets, rolled sleeves revealing pale arms, leather gloves with fingertips cut off for precision
+- Apron: Leather alchemy apron with potion stains (various colors), tool loops holding vials
+- Accessory: Magnifying goggles pushed up on forehead, many small vials on belt with colored liquids
+- Tool: Currently holding small potion bottle (swirling purple-pink liquid with inner glow)
+- Posture: Leaning forward slightly in concentration, examining potion closely, precise careful movements
+- Expression: Intense focus with slight frown of concentration, scholarly curiosity, analytical
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli scholarly alchemy, jewel-tone palette (teals #008080, potion colors, mystical glows)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+

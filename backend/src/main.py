@@ -6,6 +6,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
+from .api.residents import router as residents_router
+
 app = FastAPI(
     title="AI Town Backend",
     description="AI 小镇权威世界服务器",
@@ -15,11 +17,14 @@ app = FastAPI(
 # CORS 配置（本地开发）
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["http://localhost:5173", "http://localhost:4173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# 注册路由
+app.include_router(residents_router)
 
 
 @app.get("/api/health")

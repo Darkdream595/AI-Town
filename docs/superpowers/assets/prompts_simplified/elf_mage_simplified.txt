@@ -1,0 +1,492 @@
+# Elf Mage - Simplified Prompts
+# Total: 9 prompts (3 directions × 3 states)
+# Naming: elf_mage_{direction}_{state}.png
+
+================================================================================
+
+## elf_mage_north_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Elf Mage - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Graceful female elf mage with ethereal beauty.
+Character details:
+- Age appearance: Looks 25 but ancient, timeless grace
+- Build: Tall and slender (175cm), elegant posture, long limbs
+- Face: Delicate angular features, high cheekbones, almond-shaped violet eyes with inner glow
+- Hair: Flowing silver-white hair reaching waist, slight wave, luminous strands
+- Ears: Long pointed ears (4cm) extending upward through hair
+- Clothing: Flowing robes in deep blue-purple gradient (#4B0082 to #8A2BE2), gold embroidered trim showing arcane symbols, wide sleeves
+- Accessory: Thin silver circlet on forehead with sapphire gem, multiple silver rings with runes
+- Tool: Tall wooden staff (her height + 20cm) with gnarled top, blue crystal orb hovering in grip, faint magical aura
+- Posture: Upright and regal, movements fluid like water
+- Expression: Serene wisdom, slight mysterious smile
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli magical fantasy, cool mystical palette (blues #4B0082, purples #8A2BE2, silver #C0C0C0, glowing effects)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## elf_mage_north_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Elf Mage - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Graceful female elf mage with ethereal beauty.
+Character details:
+- Age appearance: Looks 25 but ancient, timeless grace
+- Build: Tall and slender (175cm), elegant posture, long limbs
+- Face: Delicate angular features, high cheekbones, almond-shaped violet eyes with inner glow
+- Hair: Flowing silver-white hair reaching waist, slight wave, luminous strands
+- Ears: Long pointed ears (4cm) extending upward through hair
+- Clothing: Flowing robes in deep blue-purple gradient (#4B0082 to #8A2BE2), gold embroidered trim showing arcane symbols, wide sleeves
+- Accessory: Thin silver circlet on forehead with sapphire gem, multiple silver rings with runes
+- Tool: Tall wooden staff (her height + 20cm) with gnarled top, blue crystal orb hovering in grip, faint magical aura
+- Posture: Upright and regal, movements fluid like water
+- Expression: Serene wisdom, slight mysterious smile
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli magical fantasy, cool mystical palette (blues #4B0082, purples #8A2BE2, silver #C0C0C0, glowing effects)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## elf_mage_north_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Elf Mage - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Graceful female elf mage with ethereal beauty.
+Character details:
+- Age appearance: Looks 25 but ancient, timeless grace
+- Build: Tall and slender (175cm), elegant posture, long limbs
+- Face: Delicate angular features, high cheekbones, almond-shaped violet eyes with inner glow
+- Hair: Flowing silver-white hair reaching waist, slight wave, luminous strands
+- Ears: Long pointed ears (4cm) extending upward through hair
+- Clothing: Flowing robes in deep blue-purple gradient (#4B0082 to #8A2BE2), gold embroidered trim showing arcane symbols, wide sleeves
+- Accessory: Thin silver circlet on forehead with sapphire gem, multiple silver rings with runes
+- Tool: Tall wooden staff (her height + 20cm) with gnarled top, blue crystal orb hovering in grip, faint magical aura
+- Posture: Upright and regal, movements fluid like water
+- Expression: Serene wisdom, slight mysterious smile
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli magical fantasy, cool mystical palette (blues #4B0082, purples #8A2BE2, silver #C0C0C0, glowing effects)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## elf_mage_south_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Elf Mage - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Graceful female elf mage with ethereal beauty.
+Character details:
+- Age appearance: Looks 25 but ancient, timeless grace
+- Build: Tall and slender (175cm), elegant posture, long limbs
+- Face: Delicate angular features, high cheekbones, almond-shaped violet eyes with inner glow
+- Hair: Flowing silver-white hair reaching waist, slight wave, luminous strands
+- Ears: Long pointed ears (4cm) extending upward through hair
+- Clothing: Flowing robes in deep blue-purple gradient (#4B0082 to #8A2BE2), gold embroidered trim showing arcane symbols, wide sleeves
+- Accessory: Thin silver circlet on forehead with sapphire gem, multiple silver rings with runes
+- Tool: Tall wooden staff (her height + 20cm) with gnarled top, blue crystal orb hovering in grip, faint magical aura
+- Posture: Upright and regal, movements fluid like water
+- Expression: Serene wisdom, slight mysterious smile
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli magical fantasy, cool mystical palette (blues #4B0082, purples #8A2BE2, silver #C0C0C0, glowing effects)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## elf_mage_south_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Elf Mage - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Graceful female elf mage with ethereal beauty.
+Character details:
+- Age appearance: Looks 25 but ancient, timeless grace
+- Build: Tall and slender (175cm), elegant posture, long limbs
+- Face: Delicate angular features, high cheekbones, almond-shaped violet eyes with inner glow
+- Hair: Flowing silver-white hair reaching waist, slight wave, luminous strands
+- Ears: Long pointed ears (4cm) extending upward through hair
+- Clothing: Flowing robes in deep blue-purple gradient (#4B0082 to #8A2BE2), gold embroidered trim showing arcane symbols, wide sleeves
+- Accessory: Thin silver circlet on forehead with sapphire gem, multiple silver rings with runes
+- Tool: Tall wooden staff (her height + 20cm) with gnarled top, blue crystal orb hovering in grip, faint magical aura
+- Posture: Upright and regal, movements fluid like water
+- Expression: Serene wisdom, slight mysterious smile
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli magical fantasy, cool mystical palette (blues #4B0082, purples #8A2BE2, silver #C0C0C0, glowing effects)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## elf_mage_south_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Elf Mage - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Graceful female elf mage with ethereal beauty.
+Character details:
+- Age appearance: Looks 25 but ancient, timeless grace
+- Build: Tall and slender (175cm), elegant posture, long limbs
+- Face: Delicate angular features, high cheekbones, almond-shaped violet eyes with inner glow
+- Hair: Flowing silver-white hair reaching waist, slight wave, luminous strands
+- Ears: Long pointed ears (4cm) extending upward through hair
+- Clothing: Flowing robes in deep blue-purple gradient (#4B0082 to #8A2BE2), gold embroidered trim showing arcane symbols, wide sleeves
+- Accessory: Thin silver circlet on forehead with sapphire gem, multiple silver rings with runes
+- Tool: Tall wooden staff (her height + 20cm) with gnarled top, blue crystal orb hovering in grip, faint magical aura
+- Posture: Upright and regal, movements fluid like water
+- Expression: Serene wisdom, slight mysterious smile
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli magical fantasy, cool mystical palette (blues #4B0082, purples #8A2BE2, silver #C0C0C0, glowing effects)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## elf_mage_east_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Elf Mage - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Graceful female elf mage with ethereal beauty.
+Character details:
+- Age appearance: Looks 25 but ancient, timeless grace
+- Build: Tall and slender (175cm), elegant posture, long limbs
+- Face: Delicate angular features, high cheekbones, almond-shaped violet eyes with inner glow
+- Hair: Flowing silver-white hair reaching waist, slight wave, luminous strands
+- Ears: Long pointed ears (4cm) extending upward through hair
+- Clothing: Flowing robes in deep blue-purple gradient (#4B0082 to #8A2BE2), gold embroidered trim showing arcane symbols, wide sleeves
+- Accessory: Thin silver circlet on forehead with sapphire gem, multiple silver rings with runes
+- Tool: Tall wooden staff (her height + 20cm) with gnarled top, blue crystal orb hovering in grip, faint magical aura
+- Posture: Upright and regal, movements fluid like water
+- Expression: Serene wisdom, slight mysterious smile
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli magical fantasy, cool mystical palette (blues #4B0082, purples #8A2BE2, silver #C0C0C0, glowing effects)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## elf_mage_east_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Elf Mage - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Graceful female elf mage with ethereal beauty.
+Character details:
+- Age appearance: Looks 25 but ancient, timeless grace
+- Build: Tall and slender (175cm), elegant posture, long limbs
+- Face: Delicate angular features, high cheekbones, almond-shaped violet eyes with inner glow
+- Hair: Flowing silver-white hair reaching waist, slight wave, luminous strands
+- Ears: Long pointed ears (4cm) extending upward through hair
+- Clothing: Flowing robes in deep blue-purple gradient (#4B0082 to #8A2BE2), gold embroidered trim showing arcane symbols, wide sleeves
+- Accessory: Thin silver circlet on forehead with sapphire gem, multiple silver rings with runes
+- Tool: Tall wooden staff (her height + 20cm) with gnarled top, blue crystal orb hovering in grip, faint magical aura
+- Posture: Upright and regal, movements fluid like water
+- Expression: Serene wisdom, slight mysterious smile
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli magical fantasy, cool mystical palette (blues #4B0082, purples #8A2BE2, silver #C0C0C0, glowing effects)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## elf_mage_east_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Elf Mage - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Graceful female elf mage with ethereal beauty.
+Character details:
+- Age appearance: Looks 25 but ancient, timeless grace
+- Build: Tall and slender (175cm), elegant posture, long limbs
+- Face: Delicate angular features, high cheekbones, almond-shaped violet eyes with inner glow
+- Hair: Flowing silver-white hair reaching waist, slight wave, luminous strands
+- Ears: Long pointed ears (4cm) extending upward through hair
+- Clothing: Flowing robes in deep blue-purple gradient (#4B0082 to #8A2BE2), gold embroidered trim showing arcane symbols, wide sleeves
+- Accessory: Thin silver circlet on forehead with sapphire gem, multiple silver rings with runes
+- Tool: Tall wooden staff (her height + 20cm) with gnarled top, blue crystal orb hovering in grip, faint magical aura
+- Posture: Upright and regal, movements fluid like water
+- Expression: Serene wisdom, slight mysterious smile
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli magical fantasy, cool mystical palette (blues #4B0082, purples #8A2BE2, silver #C0C0C0, glowing effects)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+

@@ -1,0 +1,510 @@
+# Dwarf Miner - Simplified Prompts
+# Total: 9 prompts (3 directions × 3 states)
+# Naming: dwarf_miner_{direction}_{state}.png
+
+================================================================================
+
+## dwarf_miner_north_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Dwarf Miner - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Hardworking male dwarf miner with determined spirit.
+Character details:
+- Age: Older working dwarf (around 100 dwarf years, looks 50s human), experienced
+- Build: Short and sturdy (135cm), thick powerful arms, broad back, barrel-chested
+- Face: Weathered square face with coal dust marks, thick gray-brown beard to waist (single thick braid), tired but determined brown eyes
+- Hair: Hidden under helmet, beard shows gray streaking through brown
+- Skin: Covered in rock dust and coal smudges, calloused hands
+- Helmet: Heavy iron mining helmet with lit oil lantern mounted on front (orange flame glow), leather straps
+- Clothing: Filthy brown work shirt (torn and patched), thick canvas pants with knee patches, heavy leather belt
+- Boots: Steel-toed mining boots (scuffed and dented), thick leather
+- Tool: Large iron pickaxe (well-used, chipped edge), sturdy oak handle worn smooth
+- Gear: Coil of rope on belt, small ore pouch, water canteen
+- Posture: Hunched from mine work, strong solid stance, ready to swing pickaxe
+- Expression: Tired but proud, determination despite exhaustion, hardworking spirit
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli industrial underground, dark mining palette (browns #654321, iron grays, orange lantern glow #FF8C00)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_miner_north_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Dwarf Miner - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Hardworking male dwarf miner with determined spirit.
+Character details:
+- Age: Older working dwarf (around 100 dwarf years, looks 50s human), experienced
+- Build: Short and sturdy (135cm), thick powerful arms, broad back, barrel-chested
+- Face: Weathered square face with coal dust marks, thick gray-brown beard to waist (single thick braid), tired but determined brown eyes
+- Hair: Hidden under helmet, beard shows gray streaking through brown
+- Skin: Covered in rock dust and coal smudges, calloused hands
+- Helmet: Heavy iron mining helmet with lit oil lantern mounted on front (orange flame glow), leather straps
+- Clothing: Filthy brown work shirt (torn and patched), thick canvas pants with knee patches, heavy leather belt
+- Boots: Steel-toed mining boots (scuffed and dented), thick leather
+- Tool: Large iron pickaxe (well-used, chipped edge), sturdy oak handle worn smooth
+- Gear: Coil of rope on belt, small ore pouch, water canteen
+- Posture: Hunched from mine work, strong solid stance, ready to swing pickaxe
+- Expression: Tired but proud, determination despite exhaustion, hardworking spirit
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli industrial underground, dark mining palette (browns #654321, iron grays, orange lantern glow #FF8C00)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_miner_north_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Dwarf Miner - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Hardworking male dwarf miner with determined spirit.
+Character details:
+- Age: Older working dwarf (around 100 dwarf years, looks 50s human), experienced
+- Build: Short and sturdy (135cm), thick powerful arms, broad back, barrel-chested
+- Face: Weathered square face with coal dust marks, thick gray-brown beard to waist (single thick braid), tired but determined brown eyes
+- Hair: Hidden under helmet, beard shows gray streaking through brown
+- Skin: Covered in rock dust and coal smudges, calloused hands
+- Helmet: Heavy iron mining helmet with lit oil lantern mounted on front (orange flame glow), leather straps
+- Clothing: Filthy brown work shirt (torn and patched), thick canvas pants with knee patches, heavy leather belt
+- Boots: Steel-toed mining boots (scuffed and dented), thick leather
+- Tool: Large iron pickaxe (well-used, chipped edge), sturdy oak handle worn smooth
+- Gear: Coil of rope on belt, small ore pouch, water canteen
+- Posture: Hunched from mine work, strong solid stance, ready to swing pickaxe
+- Expression: Tired but proud, determination despite exhaustion, hardworking spirit
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli industrial underground, dark mining palette (browns #654321, iron grays, orange lantern glow #FF8C00)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_miner_south_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Dwarf Miner - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Hardworking male dwarf miner with determined spirit.
+Character details:
+- Age: Older working dwarf (around 100 dwarf years, looks 50s human), experienced
+- Build: Short and sturdy (135cm), thick powerful arms, broad back, barrel-chested
+- Face: Weathered square face with coal dust marks, thick gray-brown beard to waist (single thick braid), tired but determined brown eyes
+- Hair: Hidden under helmet, beard shows gray streaking through brown
+- Skin: Covered in rock dust and coal smudges, calloused hands
+- Helmet: Heavy iron mining helmet with lit oil lantern mounted on front (orange flame glow), leather straps
+- Clothing: Filthy brown work shirt (torn and patched), thick canvas pants with knee patches, heavy leather belt
+- Boots: Steel-toed mining boots (scuffed and dented), thick leather
+- Tool: Large iron pickaxe (well-used, chipped edge), sturdy oak handle worn smooth
+- Gear: Coil of rope on belt, small ore pouch, water canteen
+- Posture: Hunched from mine work, strong solid stance, ready to swing pickaxe
+- Expression: Tired but proud, determination despite exhaustion, hardworking spirit
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli industrial underground, dark mining palette (browns #654321, iron grays, orange lantern glow #FF8C00)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_miner_south_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Dwarf Miner - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Hardworking male dwarf miner with determined spirit.
+Character details:
+- Age: Older working dwarf (around 100 dwarf years, looks 50s human), experienced
+- Build: Short and sturdy (135cm), thick powerful arms, broad back, barrel-chested
+- Face: Weathered square face with coal dust marks, thick gray-brown beard to waist (single thick braid), tired but determined brown eyes
+- Hair: Hidden under helmet, beard shows gray streaking through brown
+- Skin: Covered in rock dust and coal smudges, calloused hands
+- Helmet: Heavy iron mining helmet with lit oil lantern mounted on front (orange flame glow), leather straps
+- Clothing: Filthy brown work shirt (torn and patched), thick canvas pants with knee patches, heavy leather belt
+- Boots: Steel-toed mining boots (scuffed and dented), thick leather
+- Tool: Large iron pickaxe (well-used, chipped edge), sturdy oak handle worn smooth
+- Gear: Coil of rope on belt, small ore pouch, water canteen
+- Posture: Hunched from mine work, strong solid stance, ready to swing pickaxe
+- Expression: Tired but proud, determination despite exhaustion, hardworking spirit
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli industrial underground, dark mining palette (browns #654321, iron grays, orange lantern glow #FF8C00)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_miner_south_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Dwarf Miner - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Hardworking male dwarf miner with determined spirit.
+Character details:
+- Age: Older working dwarf (around 100 dwarf years, looks 50s human), experienced
+- Build: Short and sturdy (135cm), thick powerful arms, broad back, barrel-chested
+- Face: Weathered square face with coal dust marks, thick gray-brown beard to waist (single thick braid), tired but determined brown eyes
+- Hair: Hidden under helmet, beard shows gray streaking through brown
+- Skin: Covered in rock dust and coal smudges, calloused hands
+- Helmet: Heavy iron mining helmet with lit oil lantern mounted on front (orange flame glow), leather straps
+- Clothing: Filthy brown work shirt (torn and patched), thick canvas pants with knee patches, heavy leather belt
+- Boots: Steel-toed mining boots (scuffed and dented), thick leather
+- Tool: Large iron pickaxe (well-used, chipped edge), sturdy oak handle worn smooth
+- Gear: Coil of rope on belt, small ore pouch, water canteen
+- Posture: Hunched from mine work, strong solid stance, ready to swing pickaxe
+- Expression: Tired but proud, determination despite exhaustion, hardworking spirit
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli industrial underground, dark mining palette (browns #654321, iron grays, orange lantern glow #FF8C00)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_miner_east_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Dwarf Miner - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Hardworking male dwarf miner with determined spirit.
+Character details:
+- Age: Older working dwarf (around 100 dwarf years, looks 50s human), experienced
+- Build: Short and sturdy (135cm), thick powerful arms, broad back, barrel-chested
+- Face: Weathered square face with coal dust marks, thick gray-brown beard to waist (single thick braid), tired but determined brown eyes
+- Hair: Hidden under helmet, beard shows gray streaking through brown
+- Skin: Covered in rock dust and coal smudges, calloused hands
+- Helmet: Heavy iron mining helmet with lit oil lantern mounted on front (orange flame glow), leather straps
+- Clothing: Filthy brown work shirt (torn and patched), thick canvas pants with knee patches, heavy leather belt
+- Boots: Steel-toed mining boots (scuffed and dented), thick leather
+- Tool: Large iron pickaxe (well-used, chipped edge), sturdy oak handle worn smooth
+- Gear: Coil of rope on belt, small ore pouch, water canteen
+- Posture: Hunched from mine work, strong solid stance, ready to swing pickaxe
+- Expression: Tired but proud, determination despite exhaustion, hardworking spirit
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli industrial underground, dark mining palette (browns #654321, iron grays, orange lantern glow #FF8C00)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_miner_east_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Dwarf Miner - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Hardworking male dwarf miner with determined spirit.
+Character details:
+- Age: Older working dwarf (around 100 dwarf years, looks 50s human), experienced
+- Build: Short and sturdy (135cm), thick powerful arms, broad back, barrel-chested
+- Face: Weathered square face with coal dust marks, thick gray-brown beard to waist (single thick braid), tired but determined brown eyes
+- Hair: Hidden under helmet, beard shows gray streaking through brown
+- Skin: Covered in rock dust and coal smudges, calloused hands
+- Helmet: Heavy iron mining helmet with lit oil lantern mounted on front (orange flame glow), leather straps
+- Clothing: Filthy brown work shirt (torn and patched), thick canvas pants with knee patches, heavy leather belt
+- Boots: Steel-toed mining boots (scuffed and dented), thick leather
+- Tool: Large iron pickaxe (well-used, chipped edge), sturdy oak handle worn smooth
+- Gear: Coil of rope on belt, small ore pouch, water canteen
+- Posture: Hunched from mine work, strong solid stance, ready to swing pickaxe
+- Expression: Tired but proud, determination despite exhaustion, hardworking spirit
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli industrial underground, dark mining palette (browns #654321, iron grays, orange lantern glow #FF8C00)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_miner_east_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Dwarf Miner - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Hardworking male dwarf miner with determined spirit.
+Character details:
+- Age: Older working dwarf (around 100 dwarf years, looks 50s human), experienced
+- Build: Short and sturdy (135cm), thick powerful arms, broad back, barrel-chested
+- Face: Weathered square face with coal dust marks, thick gray-brown beard to waist (single thick braid), tired but determined brown eyes
+- Hair: Hidden under helmet, beard shows gray streaking through brown
+- Skin: Covered in rock dust and coal smudges, calloused hands
+- Helmet: Heavy iron mining helmet with lit oil lantern mounted on front (orange flame glow), leather straps
+- Clothing: Filthy brown work shirt (torn and patched), thick canvas pants with knee patches, heavy leather belt
+- Boots: Steel-toed mining boots (scuffed and dented), thick leather
+- Tool: Large iron pickaxe (well-used, chipped edge), sturdy oak handle worn smooth
+- Gear: Coil of rope on belt, small ore pouch, water canteen
+- Posture: Hunched from mine work, strong solid stance, ready to swing pickaxe
+- Expression: Tired but proud, determination despite exhaustion, hardworking spirit
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli industrial underground, dark mining palette (browns #654321, iron grays, orange lantern glow #FF8C00)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+

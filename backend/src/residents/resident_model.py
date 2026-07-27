@@ -14,8 +14,8 @@ from enum import Enum
 from typing import Optional, Dict, List
 from datetime import datetime
 
-from foundation import generate_ulid, WorldCoordinate, RealTime
-from world import Race, Profession
+from ..foundation import generate_ulid, WorldCoordinate, RealTime
+from ..world import Race, Profession
 
 
 # ==================== 性别和年龄 ====================

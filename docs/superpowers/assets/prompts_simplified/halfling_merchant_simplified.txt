@@ -1,0 +1,492 @@
+# Halfling Merchant - Simplified Prompts
+# Total: 9 prompts (3 directions × 3 states)
+# Naming: halfling_merchant_{direction}_{state}.png
+
+================================================================================
+
+## halfling_merchant_north_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Halfling Merchant - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Cheerful male halfling merchant with jovial personality.
+Character details:
+- Age: Young adult (around 30), youthful energy
+- Build: Short and round (105cm), child-sized with slight belly, chubby cheeks
+- Face: Round baby face with dimples, bright green eyes full of mischief, button nose, constant wide smile
+- Hair: Curly brown hair (almost afro-like), unruly and bouncy, sideburns
+- Feet: Large furry feet (barefoot as tradition), brown hair on top
+- Clothing: Colorful patchwork vest (reds #DC143C, blues #4169E1, yellows #FFD700, greens #32CD32 in squares), white puffy shirt with ruffled collar, brown corduroy pants
+- Accessory: Many coin pouches on belt (copper, silver, gold), small leather ledger book in pocket, golden pocket watch chain
+- Tool: Leather coin purse in hand, abacus hanging from belt, merchant's scales (small brass)
+- Posture: Bouncy energetic stance, often on toes with excitement, animated gestures
+- Expression: Huge welcoming grin, eyes crinkled with genuine joy, very animated
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli cheerful bright, vibrant rainbow palette (reds #DC143C, golds #FFD700, multiple bright colors)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## halfling_merchant_north_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Halfling Merchant - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Cheerful male halfling merchant with jovial personality.
+Character details:
+- Age: Young adult (around 30), youthful energy
+- Build: Short and round (105cm), child-sized with slight belly, chubby cheeks
+- Face: Round baby face with dimples, bright green eyes full of mischief, button nose, constant wide smile
+- Hair: Curly brown hair (almost afro-like), unruly and bouncy, sideburns
+- Feet: Large furry feet (barefoot as tradition), brown hair on top
+- Clothing: Colorful patchwork vest (reds #DC143C, blues #4169E1, yellows #FFD700, greens #32CD32 in squares), white puffy shirt with ruffled collar, brown corduroy pants
+- Accessory: Many coin pouches on belt (copper, silver, gold), small leather ledger book in pocket, golden pocket watch chain
+- Tool: Leather coin purse in hand, abacus hanging from belt, merchant's scales (small brass)
+- Posture: Bouncy energetic stance, often on toes with excitement, animated gestures
+- Expression: Huge welcoming grin, eyes crinkled with genuine joy, very animated
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli cheerful bright, vibrant rainbow palette (reds #DC143C, golds #FFD700, multiple bright colors)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## halfling_merchant_north_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Halfling Merchant - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Cheerful male halfling merchant with jovial personality.
+Character details:
+- Age: Young adult (around 30), youthful energy
+- Build: Short and round (105cm), child-sized with slight belly, chubby cheeks
+- Face: Round baby face with dimples, bright green eyes full of mischief, button nose, constant wide smile
+- Hair: Curly brown hair (almost afro-like), unruly and bouncy, sideburns
+- Feet: Large furry feet (barefoot as tradition), brown hair on top
+- Clothing: Colorful patchwork vest (reds #DC143C, blues #4169E1, yellows #FFD700, greens #32CD32 in squares), white puffy shirt with ruffled collar, brown corduroy pants
+- Accessory: Many coin pouches on belt (copper, silver, gold), small leather ledger book in pocket, golden pocket watch chain
+- Tool: Leather coin purse in hand, abacus hanging from belt, merchant's scales (small brass)
+- Posture: Bouncy energetic stance, often on toes with excitement, animated gestures
+- Expression: Huge welcoming grin, eyes crinkled with genuine joy, very animated
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli cheerful bright, vibrant rainbow palette (reds #DC143C, golds #FFD700, multiple bright colors)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## halfling_merchant_south_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Halfling Merchant - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Cheerful male halfling merchant with jovial personality.
+Character details:
+- Age: Young adult (around 30), youthful energy
+- Build: Short and round (105cm), child-sized with slight belly, chubby cheeks
+- Face: Round baby face with dimples, bright green eyes full of mischief, button nose, constant wide smile
+- Hair: Curly brown hair (almost afro-like), unruly and bouncy, sideburns
+- Feet: Large furry feet (barefoot as tradition), brown hair on top
+- Clothing: Colorful patchwork vest (reds #DC143C, blues #4169E1, yellows #FFD700, greens #32CD32 in squares), white puffy shirt with ruffled collar, brown corduroy pants
+- Accessory: Many coin pouches on belt (copper, silver, gold), small leather ledger book in pocket, golden pocket watch chain
+- Tool: Leather coin purse in hand, abacus hanging from belt, merchant's scales (small brass)
+- Posture: Bouncy energetic stance, often on toes with excitement, animated gestures
+- Expression: Huge welcoming grin, eyes crinkled with genuine joy, very animated
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli cheerful bright, vibrant rainbow palette (reds #DC143C, golds #FFD700, multiple bright colors)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## halfling_merchant_south_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Halfling Merchant - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Cheerful male halfling merchant with jovial personality.
+Character details:
+- Age: Young adult (around 30), youthful energy
+- Build: Short and round (105cm), child-sized with slight belly, chubby cheeks
+- Face: Round baby face with dimples, bright green eyes full of mischief, button nose, constant wide smile
+- Hair: Curly brown hair (almost afro-like), unruly and bouncy, sideburns
+- Feet: Large furry feet (barefoot as tradition), brown hair on top
+- Clothing: Colorful patchwork vest (reds #DC143C, blues #4169E1, yellows #FFD700, greens #32CD32 in squares), white puffy shirt with ruffled collar, brown corduroy pants
+- Accessory: Many coin pouches on belt (copper, silver, gold), small leather ledger book in pocket, golden pocket watch chain
+- Tool: Leather coin purse in hand, abacus hanging from belt, merchant's scales (small brass)
+- Posture: Bouncy energetic stance, often on toes with excitement, animated gestures
+- Expression: Huge welcoming grin, eyes crinkled with genuine joy, very animated
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli cheerful bright, vibrant rainbow palette (reds #DC143C, golds #FFD700, multiple bright colors)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## halfling_merchant_south_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Halfling Merchant - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Cheerful male halfling merchant with jovial personality.
+Character details:
+- Age: Young adult (around 30), youthful energy
+- Build: Short and round (105cm), child-sized with slight belly, chubby cheeks
+- Face: Round baby face with dimples, bright green eyes full of mischief, button nose, constant wide smile
+- Hair: Curly brown hair (almost afro-like), unruly and bouncy, sideburns
+- Feet: Large furry feet (barefoot as tradition), brown hair on top
+- Clothing: Colorful patchwork vest (reds #DC143C, blues #4169E1, yellows #FFD700, greens #32CD32 in squares), white puffy shirt with ruffled collar, brown corduroy pants
+- Accessory: Many coin pouches on belt (copper, silver, gold), small leather ledger book in pocket, golden pocket watch chain
+- Tool: Leather coin purse in hand, abacus hanging from belt, merchant's scales (small brass)
+- Posture: Bouncy energetic stance, often on toes with excitement, animated gestures
+- Expression: Huge welcoming grin, eyes crinkled with genuine joy, very animated
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli cheerful bright, vibrant rainbow palette (reds #DC143C, golds #FFD700, multiple bright colors)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## halfling_merchant_east_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Halfling Merchant - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Cheerful male halfling merchant with jovial personality.
+Character details:
+- Age: Young adult (around 30), youthful energy
+- Build: Short and round (105cm), child-sized with slight belly, chubby cheeks
+- Face: Round baby face with dimples, bright green eyes full of mischief, button nose, constant wide smile
+- Hair: Curly brown hair (almost afro-like), unruly and bouncy, sideburns
+- Feet: Large furry feet (barefoot as tradition), brown hair on top
+- Clothing: Colorful patchwork vest (reds #DC143C, blues #4169E1, yellows #FFD700, greens #32CD32 in squares), white puffy shirt with ruffled collar, brown corduroy pants
+- Accessory: Many coin pouches on belt (copper, silver, gold), small leather ledger book in pocket, golden pocket watch chain
+- Tool: Leather coin purse in hand, abacus hanging from belt, merchant's scales (small brass)
+- Posture: Bouncy energetic stance, often on toes with excitement, animated gestures
+- Expression: Huge welcoming grin, eyes crinkled with genuine joy, very animated
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli cheerful bright, vibrant rainbow palette (reds #DC143C, golds #FFD700, multiple bright colors)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## halfling_merchant_east_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Halfling Merchant - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Cheerful male halfling merchant with jovial personality.
+Character details:
+- Age: Young adult (around 30), youthful energy
+- Build: Short and round (105cm), child-sized with slight belly, chubby cheeks
+- Face: Round baby face with dimples, bright green eyes full of mischief, button nose, constant wide smile
+- Hair: Curly brown hair (almost afro-like), unruly and bouncy, sideburns
+- Feet: Large furry feet (barefoot as tradition), brown hair on top
+- Clothing: Colorful patchwork vest (reds #DC143C, blues #4169E1, yellows #FFD700, greens #32CD32 in squares), white puffy shirt with ruffled collar, brown corduroy pants
+- Accessory: Many coin pouches on belt (copper, silver, gold), small leather ledger book in pocket, golden pocket watch chain
+- Tool: Leather coin purse in hand, abacus hanging from belt, merchant's scales (small brass)
+- Posture: Bouncy energetic stance, often on toes with excitement, animated gestures
+- Expression: Huge welcoming grin, eyes crinkled with genuine joy, very animated
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli cheerful bright, vibrant rainbow palette (reds #DC143C, golds #FFD700, multiple bright colors)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## halfling_merchant_east_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Halfling Merchant - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Cheerful male halfling merchant with jovial personality.
+Character details:
+- Age: Young adult (around 30), youthful energy
+- Build: Short and round (105cm), child-sized with slight belly, chubby cheeks
+- Face: Round baby face with dimples, bright green eyes full of mischief, button nose, constant wide smile
+- Hair: Curly brown hair (almost afro-like), unruly and bouncy, sideburns
+- Feet: Large furry feet (barefoot as tradition), brown hair on top
+- Clothing: Colorful patchwork vest (reds #DC143C, blues #4169E1, yellows #FFD700, greens #32CD32 in squares), white puffy shirt with ruffled collar, brown corduroy pants
+- Accessory: Many coin pouches on belt (copper, silver, gold), small leather ledger book in pocket, golden pocket watch chain
+- Tool: Leather coin purse in hand, abacus hanging from belt, merchant's scales (small brass)
+- Posture: Bouncy energetic stance, often on toes with excitement, animated gestures
+- Expression: Huge welcoming grin, eyes crinkled with genuine joy, very animated
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli cheerful bright, vibrant rainbow palette (reds #DC143C, golds #FFD700, multiple bright colors)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+

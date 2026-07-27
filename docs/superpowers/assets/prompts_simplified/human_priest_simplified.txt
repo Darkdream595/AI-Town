@@ -1,0 +1,492 @@
+# Human Priest - Simplified Prompts
+# Total: 9 prompts (3 directions × 3 states)
+# Naming: human_priest_{direction}_{state}.png
+
+================================================================================
+
+## human_priest_north_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Priest - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Serene female human priest radiating peace.
+Character details:
+- Age: Mature (around 35-40), spiritual wisdom
+- Build: Average height (165cm), slender graceful form, gentle movements
+- Face: Peaceful oval face, kind hazel eyes with inner light, gentle smile, smooth complexion
+- Hair: Long chestnut brown hair parted in middle, pulled back in simple bun, some strands frame face
+- Clothing: Pure white robes (cream white #FFFDD0) floor-length with gold trim at hems, wide sleeves, simple cut
+- Hood: White hood resting on shoulders, can be pulled up
+- Accessory: Large golden holy symbol (sun with rays) on chest hanging from gold chain, simple silver ring
+- Tool: Leather-bound prayer book with gold leaf pages, wooden rosary beads at belt
+- Posture: Serene upright stance, hands often in prayer position, peaceful aura
+- Expression: Gentle compassionate smile, eyes radiate kindness and understanding, tranquil
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli divine aesthetic, pure holy palette (whites #FFFDD0, golds #FFD700, soft glows)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_north_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Priest - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Serene female human priest radiating peace.
+Character details:
+- Age: Mature (around 35-40), spiritual wisdom
+- Build: Average height (165cm), slender graceful form, gentle movements
+- Face: Peaceful oval face, kind hazel eyes with inner light, gentle smile, smooth complexion
+- Hair: Long chestnut brown hair parted in middle, pulled back in simple bun, some strands frame face
+- Clothing: Pure white robes (cream white #FFFDD0) floor-length with gold trim at hems, wide sleeves, simple cut
+- Hood: White hood resting on shoulders, can be pulled up
+- Accessory: Large golden holy symbol (sun with rays) on chest hanging from gold chain, simple silver ring
+- Tool: Leather-bound prayer book with gold leaf pages, wooden rosary beads at belt
+- Posture: Serene upright stance, hands often in prayer position, peaceful aura
+- Expression: Gentle compassionate smile, eyes radiate kindness and understanding, tranquil
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli divine aesthetic, pure holy palette (whites #FFFDD0, golds #FFD700, soft glows)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_north_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Priest - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Serene female human priest radiating peace.
+Character details:
+- Age: Mature (around 35-40), spiritual wisdom
+- Build: Average height (165cm), slender graceful form, gentle movements
+- Face: Peaceful oval face, kind hazel eyes with inner light, gentle smile, smooth complexion
+- Hair: Long chestnut brown hair parted in middle, pulled back in simple bun, some strands frame face
+- Clothing: Pure white robes (cream white #FFFDD0) floor-length with gold trim at hems, wide sleeves, simple cut
+- Hood: White hood resting on shoulders, can be pulled up
+- Accessory: Large golden holy symbol (sun with rays) on chest hanging from gold chain, simple silver ring
+- Tool: Leather-bound prayer book with gold leaf pages, wooden rosary beads at belt
+- Posture: Serene upright stance, hands often in prayer position, peaceful aura
+- Expression: Gentle compassionate smile, eyes radiate kindness and understanding, tranquil
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli divine aesthetic, pure holy palette (whites #FFFDD0, golds #FFD700, soft glows)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_south_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Priest - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Serene female human priest radiating peace.
+Character details:
+- Age: Mature (around 35-40), spiritual wisdom
+- Build: Average height (165cm), slender graceful form, gentle movements
+- Face: Peaceful oval face, kind hazel eyes with inner light, gentle smile, smooth complexion
+- Hair: Long chestnut brown hair parted in middle, pulled back in simple bun, some strands frame face
+- Clothing: Pure white robes (cream white #FFFDD0) floor-length with gold trim at hems, wide sleeves, simple cut
+- Hood: White hood resting on shoulders, can be pulled up
+- Accessory: Large golden holy symbol (sun with rays) on chest hanging from gold chain, simple silver ring
+- Tool: Leather-bound prayer book with gold leaf pages, wooden rosary beads at belt
+- Posture: Serene upright stance, hands often in prayer position, peaceful aura
+- Expression: Gentle compassionate smile, eyes radiate kindness and understanding, tranquil
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli divine aesthetic, pure holy palette (whites #FFFDD0, golds #FFD700, soft glows)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_south_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Priest - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Serene female human priest radiating peace.
+Character details:
+- Age: Mature (around 35-40), spiritual wisdom
+- Build: Average height (165cm), slender graceful form, gentle movements
+- Face: Peaceful oval face, kind hazel eyes with inner light, gentle smile, smooth complexion
+- Hair: Long chestnut brown hair parted in middle, pulled back in simple bun, some strands frame face
+- Clothing: Pure white robes (cream white #FFFDD0) floor-length with gold trim at hems, wide sleeves, simple cut
+- Hood: White hood resting on shoulders, can be pulled up
+- Accessory: Large golden holy symbol (sun with rays) on chest hanging from gold chain, simple silver ring
+- Tool: Leather-bound prayer book with gold leaf pages, wooden rosary beads at belt
+- Posture: Serene upright stance, hands often in prayer position, peaceful aura
+- Expression: Gentle compassionate smile, eyes radiate kindness and understanding, tranquil
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli divine aesthetic, pure holy palette (whites #FFFDD0, golds #FFD700, soft glows)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_south_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Priest - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Serene female human priest radiating peace.
+Character details:
+- Age: Mature (around 35-40), spiritual wisdom
+- Build: Average height (165cm), slender graceful form, gentle movements
+- Face: Peaceful oval face, kind hazel eyes with inner light, gentle smile, smooth complexion
+- Hair: Long chestnut brown hair parted in middle, pulled back in simple bun, some strands frame face
+- Clothing: Pure white robes (cream white #FFFDD0) floor-length with gold trim at hems, wide sleeves, simple cut
+- Hood: White hood resting on shoulders, can be pulled up
+- Accessory: Large golden holy symbol (sun with rays) on chest hanging from gold chain, simple silver ring
+- Tool: Leather-bound prayer book with gold leaf pages, wooden rosary beads at belt
+- Posture: Serene upright stance, hands often in prayer position, peaceful aura
+- Expression: Gentle compassionate smile, eyes radiate kindness and understanding, tranquil
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli divine aesthetic, pure holy palette (whites #FFFDD0, golds #FFD700, soft glows)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_east_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Priest - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Serene female human priest radiating peace.
+Character details:
+- Age: Mature (around 35-40), spiritual wisdom
+- Build: Average height (165cm), slender graceful form, gentle movements
+- Face: Peaceful oval face, kind hazel eyes with inner light, gentle smile, smooth complexion
+- Hair: Long chestnut brown hair parted in middle, pulled back in simple bun, some strands frame face
+- Clothing: Pure white robes (cream white #FFFDD0) floor-length with gold trim at hems, wide sleeves, simple cut
+- Hood: White hood resting on shoulders, can be pulled up
+- Accessory: Large golden holy symbol (sun with rays) on chest hanging from gold chain, simple silver ring
+- Tool: Leather-bound prayer book with gold leaf pages, wooden rosary beads at belt
+- Posture: Serene upright stance, hands often in prayer position, peaceful aura
+- Expression: Gentle compassionate smile, eyes radiate kindness and understanding, tranquil
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli divine aesthetic, pure holy palette (whites #FFFDD0, golds #FFD700, soft glows)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_east_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Priest - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Serene female human priest radiating peace.
+Character details:
+- Age: Mature (around 35-40), spiritual wisdom
+- Build: Average height (165cm), slender graceful form, gentle movements
+- Face: Peaceful oval face, kind hazel eyes with inner light, gentle smile, smooth complexion
+- Hair: Long chestnut brown hair parted in middle, pulled back in simple bun, some strands frame face
+- Clothing: Pure white robes (cream white #FFFDD0) floor-length with gold trim at hems, wide sleeves, simple cut
+- Hood: White hood resting on shoulders, can be pulled up
+- Accessory: Large golden holy symbol (sun with rays) on chest hanging from gold chain, simple silver ring
+- Tool: Leather-bound prayer book with gold leaf pages, wooden rosary beads at belt
+- Posture: Serene upright stance, hands often in prayer position, peaceful aura
+- Expression: Gentle compassionate smile, eyes radiate kindness and understanding, tranquil
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli divine aesthetic, pure holy palette (whites #FFFDD0, golds #FFD700, soft glows)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_priest_east_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Priest - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Serene female human priest radiating peace.
+Character details:
+- Age: Mature (around 35-40), spiritual wisdom
+- Build: Average height (165cm), slender graceful form, gentle movements
+- Face: Peaceful oval face, kind hazel eyes with inner light, gentle smile, smooth complexion
+- Hair: Long chestnut brown hair parted in middle, pulled back in simple bun, some strands frame face
+- Clothing: Pure white robes (cream white #FFFDD0) floor-length with gold trim at hems, wide sleeves, simple cut
+- Hood: White hood resting on shoulders, can be pulled up
+- Accessory: Large golden holy symbol (sun with rays) on chest hanging from gold chain, simple silver ring
+- Tool: Leather-bound prayer book with gold leaf pages, wooden rosary beads at belt
+- Posture: Serene upright stance, hands often in prayer position, peaceful aura
+- Expression: Gentle compassionate smile, eyes radiate kindness and understanding, tranquil
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli divine aesthetic, pure holy palette (whites #FFFDD0, golds #FFD700, soft glows)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+

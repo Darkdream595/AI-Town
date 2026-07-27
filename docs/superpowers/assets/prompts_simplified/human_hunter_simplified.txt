@@ -1,0 +1,501 @@
+# Human Hunter - Simplified Prompts
+# Total: 9 prompts (3 directions × 3 states)
+# Naming: human_hunter_{direction}_{state}.png
+
+================================================================================
+
+## human_hunter_north_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Hunter - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Rugged male human hunter with wilderness skills.
+Character details:
+- Age: Prime hunting age (around 28-32), weathered by outdoors
+- Build: Lean and athletic (178cm), wiry strong muscles, agile build
+- Face: Angular face with sharp features, intense hazel eyes scanning, several days stubble, weathered tan skin
+- Hair: Shaggy brown hair to collar, practical but unkempt, falls over forehead
+- Clothing: Dark brown leather tunic (#5C4033) with camouflage pattern, forest green hooded cloak (#228B22), worn brown pants tucked into boots
+- Hood: Green hood often up, helps blend with forest
+- Gear: Leather quiver on back with 12 visible arrows (gray fletching), leather bracers on forearms
+- Weapon: Wooden longbow (as tall as him) in strong hand, curved with carved notches for kills
+- Boots: Tall leather hunting boots with silent soles
+- Posture: Crouched slightly, ready to move silently, weight on balls of feet, alert scanning
+- Expression: Serious focused intensity, eyes sharp like hawk, survival instincts visible
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli wilderness survival, forest palette (browns #5C4033, greens #228B22, earth tones)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_hunter_north_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Hunter - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Rugged male human hunter with wilderness skills.
+Character details:
+- Age: Prime hunting age (around 28-32), weathered by outdoors
+- Build: Lean and athletic (178cm), wiry strong muscles, agile build
+- Face: Angular face with sharp features, intense hazel eyes scanning, several days stubble, weathered tan skin
+- Hair: Shaggy brown hair to collar, practical but unkempt, falls over forehead
+- Clothing: Dark brown leather tunic (#5C4033) with camouflage pattern, forest green hooded cloak (#228B22), worn brown pants tucked into boots
+- Hood: Green hood often up, helps blend with forest
+- Gear: Leather quiver on back with 12 visible arrows (gray fletching), leather bracers on forearms
+- Weapon: Wooden longbow (as tall as him) in strong hand, curved with carved notches for kills
+- Boots: Tall leather hunting boots with silent soles
+- Posture: Crouched slightly, ready to move silently, weight on balls of feet, alert scanning
+- Expression: Serious focused intensity, eyes sharp like hawk, survival instincts visible
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli wilderness survival, forest palette (browns #5C4033, greens #228B22, earth tones)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_hunter_north_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Hunter - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Rugged male human hunter with wilderness skills.
+Character details:
+- Age: Prime hunting age (around 28-32), weathered by outdoors
+- Build: Lean and athletic (178cm), wiry strong muscles, agile build
+- Face: Angular face with sharp features, intense hazel eyes scanning, several days stubble, weathered tan skin
+- Hair: Shaggy brown hair to collar, practical but unkempt, falls over forehead
+- Clothing: Dark brown leather tunic (#5C4033) with camouflage pattern, forest green hooded cloak (#228B22), worn brown pants tucked into boots
+- Hood: Green hood often up, helps blend with forest
+- Gear: Leather quiver on back with 12 visible arrows (gray fletching), leather bracers on forearms
+- Weapon: Wooden longbow (as tall as him) in strong hand, curved with carved notches for kills
+- Boots: Tall leather hunting boots with silent soles
+- Posture: Crouched slightly, ready to move silently, weight on balls of feet, alert scanning
+- Expression: Serious focused intensity, eyes sharp like hawk, survival instincts visible
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli wilderness survival, forest palette (browns #5C4033, greens #228B22, earth tones)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_hunter_south_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Hunter - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Rugged male human hunter with wilderness skills.
+Character details:
+- Age: Prime hunting age (around 28-32), weathered by outdoors
+- Build: Lean and athletic (178cm), wiry strong muscles, agile build
+- Face: Angular face with sharp features, intense hazel eyes scanning, several days stubble, weathered tan skin
+- Hair: Shaggy brown hair to collar, practical but unkempt, falls over forehead
+- Clothing: Dark brown leather tunic (#5C4033) with camouflage pattern, forest green hooded cloak (#228B22), worn brown pants tucked into boots
+- Hood: Green hood often up, helps blend with forest
+- Gear: Leather quiver on back with 12 visible arrows (gray fletching), leather bracers on forearms
+- Weapon: Wooden longbow (as tall as him) in strong hand, curved with carved notches for kills
+- Boots: Tall leather hunting boots with silent soles
+- Posture: Crouched slightly, ready to move silently, weight on balls of feet, alert scanning
+- Expression: Serious focused intensity, eyes sharp like hawk, survival instincts visible
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli wilderness survival, forest palette (browns #5C4033, greens #228B22, earth tones)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_hunter_south_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Hunter - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Rugged male human hunter with wilderness skills.
+Character details:
+- Age: Prime hunting age (around 28-32), weathered by outdoors
+- Build: Lean and athletic (178cm), wiry strong muscles, agile build
+- Face: Angular face with sharp features, intense hazel eyes scanning, several days stubble, weathered tan skin
+- Hair: Shaggy brown hair to collar, practical but unkempt, falls over forehead
+- Clothing: Dark brown leather tunic (#5C4033) with camouflage pattern, forest green hooded cloak (#228B22), worn brown pants tucked into boots
+- Hood: Green hood often up, helps blend with forest
+- Gear: Leather quiver on back with 12 visible arrows (gray fletching), leather bracers on forearms
+- Weapon: Wooden longbow (as tall as him) in strong hand, curved with carved notches for kills
+- Boots: Tall leather hunting boots with silent soles
+- Posture: Crouched slightly, ready to move silently, weight on balls of feet, alert scanning
+- Expression: Serious focused intensity, eyes sharp like hawk, survival instincts visible
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli wilderness survival, forest palette (browns #5C4033, greens #228B22, earth tones)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_hunter_south_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Hunter - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Rugged male human hunter with wilderness skills.
+Character details:
+- Age: Prime hunting age (around 28-32), weathered by outdoors
+- Build: Lean and athletic (178cm), wiry strong muscles, agile build
+- Face: Angular face with sharp features, intense hazel eyes scanning, several days stubble, weathered tan skin
+- Hair: Shaggy brown hair to collar, practical but unkempt, falls over forehead
+- Clothing: Dark brown leather tunic (#5C4033) with camouflage pattern, forest green hooded cloak (#228B22), worn brown pants tucked into boots
+- Hood: Green hood often up, helps blend with forest
+- Gear: Leather quiver on back with 12 visible arrows (gray fletching), leather bracers on forearms
+- Weapon: Wooden longbow (as tall as him) in strong hand, curved with carved notches for kills
+- Boots: Tall leather hunting boots with silent soles
+- Posture: Crouched slightly, ready to move silently, weight on balls of feet, alert scanning
+- Expression: Serious focused intensity, eyes sharp like hawk, survival instincts visible
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli wilderness survival, forest palette (browns #5C4033, greens #228B22, earth tones)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_hunter_east_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Hunter - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Rugged male human hunter with wilderness skills.
+Character details:
+- Age: Prime hunting age (around 28-32), weathered by outdoors
+- Build: Lean and athletic (178cm), wiry strong muscles, agile build
+- Face: Angular face with sharp features, intense hazel eyes scanning, several days stubble, weathered tan skin
+- Hair: Shaggy brown hair to collar, practical but unkempt, falls over forehead
+- Clothing: Dark brown leather tunic (#5C4033) with camouflage pattern, forest green hooded cloak (#228B22), worn brown pants tucked into boots
+- Hood: Green hood often up, helps blend with forest
+- Gear: Leather quiver on back with 12 visible arrows (gray fletching), leather bracers on forearms
+- Weapon: Wooden longbow (as tall as him) in strong hand, curved with carved notches for kills
+- Boots: Tall leather hunting boots with silent soles
+- Posture: Crouched slightly, ready to move silently, weight on balls of feet, alert scanning
+- Expression: Serious focused intensity, eyes sharp like hawk, survival instincts visible
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli wilderness survival, forest palette (browns #5C4033, greens #228B22, earth tones)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_hunter_east_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Hunter - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Rugged male human hunter with wilderness skills.
+Character details:
+- Age: Prime hunting age (around 28-32), weathered by outdoors
+- Build: Lean and athletic (178cm), wiry strong muscles, agile build
+- Face: Angular face with sharp features, intense hazel eyes scanning, several days stubble, weathered tan skin
+- Hair: Shaggy brown hair to collar, practical but unkempt, falls over forehead
+- Clothing: Dark brown leather tunic (#5C4033) with camouflage pattern, forest green hooded cloak (#228B22), worn brown pants tucked into boots
+- Hood: Green hood often up, helps blend with forest
+- Gear: Leather quiver on back with 12 visible arrows (gray fletching), leather bracers on forearms
+- Weapon: Wooden longbow (as tall as him) in strong hand, curved with carved notches for kills
+- Boots: Tall leather hunting boots with silent soles
+- Posture: Crouched slightly, ready to move silently, weight on balls of feet, alert scanning
+- Expression: Serious focused intensity, eyes sharp like hawk, survival instincts visible
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli wilderness survival, forest palette (browns #5C4033, greens #228B22, earth tones)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_hunter_east_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Hunter - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Rugged male human hunter with wilderness skills.
+Character details:
+- Age: Prime hunting age (around 28-32), weathered by outdoors
+- Build: Lean and athletic (178cm), wiry strong muscles, agile build
+- Face: Angular face with sharp features, intense hazel eyes scanning, several days stubble, weathered tan skin
+- Hair: Shaggy brown hair to collar, practical but unkempt, falls over forehead
+- Clothing: Dark brown leather tunic (#5C4033) with camouflage pattern, forest green hooded cloak (#228B22), worn brown pants tucked into boots
+- Hood: Green hood often up, helps blend with forest
+- Gear: Leather quiver on back with 12 visible arrows (gray fletching), leather bracers on forearms
+- Weapon: Wooden longbow (as tall as him) in strong hand, curved with carved notches for kills
+- Boots: Tall leather hunting boots with silent soles
+- Posture: Crouched slightly, ready to move silently, weight on balls of feet, alert scanning
+- Expression: Serious focused intensity, eyes sharp like hawk, survival instincts visible
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli wilderness survival, forest palette (browns #5C4033, greens #228B22, earth tones)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+

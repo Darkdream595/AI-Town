@@ -1,0 +1,492 @@
+# Dwarf Blacksmith - Simplified Prompts
+# Total: 9 prompts (3 directions × 3 states)
+# Naming: dwarf_blacksmith_{direction}_{state}.png
+
+================================================================================
+
+## dwarf_blacksmith_north_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Dwarf Blacksmith - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Sturdy male dwarf blacksmith with strong presence.
+Character details:
+- Age: Middle-aged (around 80 in dwarf years, appears 40s in human)
+- Build: Short and broad (130cm tall, very wide shoulders), muscular arms, barrel chest
+- Face: Square jaw with determination, thick brown beard braided with metal beads, deep-set brown eyes with spark
+- Hair: Bald head with shine, massive beard to mid-chest in 3 braids with copper rings
+- Skin: Weathered tan with soot marks, burn scars on forearms
+- Clothing: Heavy leather apron (dark brown #654321) with burn marks and metal studs, thick brown work shirt with rolled sleeves showing muscular arms, worn leather pants
+- Accessory: Thick leather gloves tucked in belt, tool belt with tongs and small hammers
+- Tool: Large iron hammer (oversized, nearly as big as torso), well-worn oak handle, head shows forge marks
+- Posture: Solid stance like mountain, feet planted wide, confident bearing
+- Expression: Proud craftsman's grin, eyes gleam with passion for work
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli industrial fantasy, warm forge palette (browns #654321, iron grays #696969, orange glow #FF4500)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_north_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Dwarf Blacksmith - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Sturdy male dwarf blacksmith with strong presence.
+Character details:
+- Age: Middle-aged (around 80 in dwarf years, appears 40s in human)
+- Build: Short and broad (130cm tall, very wide shoulders), muscular arms, barrel chest
+- Face: Square jaw with determination, thick brown beard braided with metal beads, deep-set brown eyes with spark
+- Hair: Bald head with shine, massive beard to mid-chest in 3 braids with copper rings
+- Skin: Weathered tan with soot marks, burn scars on forearms
+- Clothing: Heavy leather apron (dark brown #654321) with burn marks and metal studs, thick brown work shirt with rolled sleeves showing muscular arms, worn leather pants
+- Accessory: Thick leather gloves tucked in belt, tool belt with tongs and small hammers
+- Tool: Large iron hammer (oversized, nearly as big as torso), well-worn oak handle, head shows forge marks
+- Posture: Solid stance like mountain, feet planted wide, confident bearing
+- Expression: Proud craftsman's grin, eyes gleam with passion for work
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli industrial fantasy, warm forge palette (browns #654321, iron grays #696969, orange glow #FF4500)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_north_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Dwarf Blacksmith - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Sturdy male dwarf blacksmith with strong presence.
+Character details:
+- Age: Middle-aged (around 80 in dwarf years, appears 40s in human)
+- Build: Short and broad (130cm tall, very wide shoulders), muscular arms, barrel chest
+- Face: Square jaw with determination, thick brown beard braided with metal beads, deep-set brown eyes with spark
+- Hair: Bald head with shine, massive beard to mid-chest in 3 braids with copper rings
+- Skin: Weathered tan with soot marks, burn scars on forearms
+- Clothing: Heavy leather apron (dark brown #654321) with burn marks and metal studs, thick brown work shirt with rolled sleeves showing muscular arms, worn leather pants
+- Accessory: Thick leather gloves tucked in belt, tool belt with tongs and small hammers
+- Tool: Large iron hammer (oversized, nearly as big as torso), well-worn oak handle, head shows forge marks
+- Posture: Solid stance like mountain, feet planted wide, confident bearing
+- Expression: Proud craftsman's grin, eyes gleam with passion for work
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli industrial fantasy, warm forge palette (browns #654321, iron grays #696969, orange glow #FF4500)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_south_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Dwarf Blacksmith - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Sturdy male dwarf blacksmith with strong presence.
+Character details:
+- Age: Middle-aged (around 80 in dwarf years, appears 40s in human)
+- Build: Short and broad (130cm tall, very wide shoulders), muscular arms, barrel chest
+- Face: Square jaw with determination, thick brown beard braided with metal beads, deep-set brown eyes with spark
+- Hair: Bald head with shine, massive beard to mid-chest in 3 braids with copper rings
+- Skin: Weathered tan with soot marks, burn scars on forearms
+- Clothing: Heavy leather apron (dark brown #654321) with burn marks and metal studs, thick brown work shirt with rolled sleeves showing muscular arms, worn leather pants
+- Accessory: Thick leather gloves tucked in belt, tool belt with tongs and small hammers
+- Tool: Large iron hammer (oversized, nearly as big as torso), well-worn oak handle, head shows forge marks
+- Posture: Solid stance like mountain, feet planted wide, confident bearing
+- Expression: Proud craftsman's grin, eyes gleam with passion for work
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli industrial fantasy, warm forge palette (browns #654321, iron grays #696969, orange glow #FF4500)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_south_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Dwarf Blacksmith - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Sturdy male dwarf blacksmith with strong presence.
+Character details:
+- Age: Middle-aged (around 80 in dwarf years, appears 40s in human)
+- Build: Short and broad (130cm tall, very wide shoulders), muscular arms, barrel chest
+- Face: Square jaw with determination, thick brown beard braided with metal beads, deep-set brown eyes with spark
+- Hair: Bald head with shine, massive beard to mid-chest in 3 braids with copper rings
+- Skin: Weathered tan with soot marks, burn scars on forearms
+- Clothing: Heavy leather apron (dark brown #654321) with burn marks and metal studs, thick brown work shirt with rolled sleeves showing muscular arms, worn leather pants
+- Accessory: Thick leather gloves tucked in belt, tool belt with tongs and small hammers
+- Tool: Large iron hammer (oversized, nearly as big as torso), well-worn oak handle, head shows forge marks
+- Posture: Solid stance like mountain, feet planted wide, confident bearing
+- Expression: Proud craftsman's grin, eyes gleam with passion for work
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli industrial fantasy, warm forge palette (browns #654321, iron grays #696969, orange glow #FF4500)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_south_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Dwarf Blacksmith - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Sturdy male dwarf blacksmith with strong presence.
+Character details:
+- Age: Middle-aged (around 80 in dwarf years, appears 40s in human)
+- Build: Short and broad (130cm tall, very wide shoulders), muscular arms, barrel chest
+- Face: Square jaw with determination, thick brown beard braided with metal beads, deep-set brown eyes with spark
+- Hair: Bald head with shine, massive beard to mid-chest in 3 braids with copper rings
+- Skin: Weathered tan with soot marks, burn scars on forearms
+- Clothing: Heavy leather apron (dark brown #654321) with burn marks and metal studs, thick brown work shirt with rolled sleeves showing muscular arms, worn leather pants
+- Accessory: Thick leather gloves tucked in belt, tool belt with tongs and small hammers
+- Tool: Large iron hammer (oversized, nearly as big as torso), well-worn oak handle, head shows forge marks
+- Posture: Solid stance like mountain, feet planted wide, confident bearing
+- Expression: Proud craftsman's grin, eyes gleam with passion for work
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli industrial fantasy, warm forge palette (browns #654321, iron grays #696969, orange glow #FF4500)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_east_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Dwarf Blacksmith - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Sturdy male dwarf blacksmith with strong presence.
+Character details:
+- Age: Middle-aged (around 80 in dwarf years, appears 40s in human)
+- Build: Short and broad (130cm tall, very wide shoulders), muscular arms, barrel chest
+- Face: Square jaw with determination, thick brown beard braided with metal beads, deep-set brown eyes with spark
+- Hair: Bald head with shine, massive beard to mid-chest in 3 braids with copper rings
+- Skin: Weathered tan with soot marks, burn scars on forearms
+- Clothing: Heavy leather apron (dark brown #654321) with burn marks and metal studs, thick brown work shirt with rolled sleeves showing muscular arms, worn leather pants
+- Accessory: Thick leather gloves tucked in belt, tool belt with tongs and small hammers
+- Tool: Large iron hammer (oversized, nearly as big as torso), well-worn oak handle, head shows forge marks
+- Posture: Solid stance like mountain, feet planted wide, confident bearing
+- Expression: Proud craftsman's grin, eyes gleam with passion for work
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli industrial fantasy, warm forge palette (browns #654321, iron grays #696969, orange glow #FF4500)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_east_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Dwarf Blacksmith - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Sturdy male dwarf blacksmith with strong presence.
+Character details:
+- Age: Middle-aged (around 80 in dwarf years, appears 40s in human)
+- Build: Short and broad (130cm tall, very wide shoulders), muscular arms, barrel chest
+- Face: Square jaw with determination, thick brown beard braided with metal beads, deep-set brown eyes with spark
+- Hair: Bald head with shine, massive beard to mid-chest in 3 braids with copper rings
+- Skin: Weathered tan with soot marks, burn scars on forearms
+- Clothing: Heavy leather apron (dark brown #654321) with burn marks and metal studs, thick brown work shirt with rolled sleeves showing muscular arms, worn leather pants
+- Accessory: Thick leather gloves tucked in belt, tool belt with tongs and small hammers
+- Tool: Large iron hammer (oversized, nearly as big as torso), well-worn oak handle, head shows forge marks
+- Posture: Solid stance like mountain, feet planted wide, confident bearing
+- Expression: Proud craftsman's grin, eyes gleam with passion for work
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli industrial fantasy, warm forge palette (browns #654321, iron grays #696969, orange glow #FF4500)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## dwarf_blacksmith_east_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Dwarf Blacksmith - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Sturdy male dwarf blacksmith with strong presence.
+Character details:
+- Age: Middle-aged (around 80 in dwarf years, appears 40s in human)
+- Build: Short and broad (130cm tall, very wide shoulders), muscular arms, barrel chest
+- Face: Square jaw with determination, thick brown beard braided with metal beads, deep-set brown eyes with spark
+- Hair: Bald head with shine, massive beard to mid-chest in 3 braids with copper rings
+- Skin: Weathered tan with soot marks, burn scars on forearms
+- Clothing: Heavy leather apron (dark brown #654321) with burn marks and metal studs, thick brown work shirt with rolled sleeves showing muscular arms, worn leather pants
+- Accessory: Thick leather gloves tucked in belt, tool belt with tongs and small hammers
+- Tool: Large iron hammer (oversized, nearly as big as torso), well-worn oak handle, head shows forge marks
+- Posture: Solid stance like mountain, feet planted wide, confident bearing
+- Expression: Proud craftsman's grin, eyes gleam with passion for work
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli industrial fantasy, warm forge palette (browns #654321, iron grays #696969, orange glow #FF4500)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+

@@ -1,0 +1,492 @@
+# Human Guard - Simplified Prompts
+# Total: 9 prompts (3 directions × 3 states)
+# Naming: human_guard_{direction}_{state}.png
+
+================================================================================
+
+## human_guard_north_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Guard - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Alert male human guard with disciplined bearing.
+Character details:
+- Age: Prime of life (around 30), peak physical condition
+- Build: Tall and athletic (180cm), broad shoulders, visible muscle definition, trained physique
+- Face: Strong square jaw, clean-shaven, steel-gray eyes with constant alertness, small scar on left cheek
+- Hair: Short-cropped brown military cut, neat and practical
+- Armor: Polished chain mail shirt (silver #C0C0C0 with sheen) over padded gambeson, red tabard with large gold crown emblem on chest
+- Shield: Wooden kite shield on left arm (dark wood with same crown symbol), metal rim, leather straps visible
+- Weapon: Iron longsword in right hand (well-maintained, sharp), leather-wrapped grip
+- Legs: Chain mail leggings, sturdy leather boots
+- Posture: Military at-attention stance, back straight, vigilant scanning, ready to move
+- Expression: Serious and focused, eyes constantly scanning for threats, professional demeanor
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli military aesthetic, metallic palette (silvers #C0C0C0, reds #8B0000, gold accents #FFD700)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_north_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Guard - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Alert male human guard with disciplined bearing.
+Character details:
+- Age: Prime of life (around 30), peak physical condition
+- Build: Tall and athletic (180cm), broad shoulders, visible muscle definition, trained physique
+- Face: Strong square jaw, clean-shaven, steel-gray eyes with constant alertness, small scar on left cheek
+- Hair: Short-cropped brown military cut, neat and practical
+- Armor: Polished chain mail shirt (silver #C0C0C0 with sheen) over padded gambeson, red tabard with large gold crown emblem on chest
+- Shield: Wooden kite shield on left arm (dark wood with same crown symbol), metal rim, leather straps visible
+- Weapon: Iron longsword in right hand (well-maintained, sharp), leather-wrapped grip
+- Legs: Chain mail leggings, sturdy leather boots
+- Posture: Military at-attention stance, back straight, vigilant scanning, ready to move
+- Expression: Serious and focused, eyes constantly scanning for threats, professional demeanor
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli military aesthetic, metallic palette (silvers #C0C0C0, reds #8B0000, gold accents #FFD700)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_north_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Guard - NORTH view (back view (character facing away from viewer))
+
+DETAILED APPEARANCE:
+Alert male human guard with disciplined bearing.
+Character details:
+- Age: Prime of life (around 30), peak physical condition
+- Build: Tall and athletic (180cm), broad shoulders, visible muscle definition, trained physique
+- Face: Strong square jaw, clean-shaven, steel-gray eyes with constant alertness, small scar on left cheek
+- Hair: Short-cropped brown military cut, neat and practical
+- Armor: Polished chain mail shirt (silver #C0C0C0 with sheen) over padded gambeson, red tabard with large gold crown emblem on chest
+- Shield: Wooden kite shield on left arm (dark wood with same crown symbol), metal rim, leather straps visible
+- Weapon: Iron longsword in right hand (well-maintained, sharp), leather-wrapped grip
+- Legs: Chain mail leggings, sturdy leather boots
+- Posture: Military at-attention stance, back straight, vigilant scanning, ready to move
+- Expression: Serious and focused, eyes constantly scanning for threats, professional demeanor
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- back view (character facing away from viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli military aesthetic, metallic palette (silvers #C0C0C0, reds #8B0000, gold accents #FFD700)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_south_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Guard - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Alert male human guard with disciplined bearing.
+Character details:
+- Age: Prime of life (around 30), peak physical condition
+- Build: Tall and athletic (180cm), broad shoulders, visible muscle definition, trained physique
+- Face: Strong square jaw, clean-shaven, steel-gray eyes with constant alertness, small scar on left cheek
+- Hair: Short-cropped brown military cut, neat and practical
+- Armor: Polished chain mail shirt (silver #C0C0C0 with sheen) over padded gambeson, red tabard with large gold crown emblem on chest
+- Shield: Wooden kite shield on left arm (dark wood with same crown symbol), metal rim, leather straps visible
+- Weapon: Iron longsword in right hand (well-maintained, sharp), leather-wrapped grip
+- Legs: Chain mail leggings, sturdy leather boots
+- Posture: Military at-attention stance, back straight, vigilant scanning, ready to move
+- Expression: Serious and focused, eyes constantly scanning for threats, professional demeanor
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli military aesthetic, metallic palette (silvers #C0C0C0, reds #8B0000, gold accents #FFD700)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_south_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Guard - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Alert male human guard with disciplined bearing.
+Character details:
+- Age: Prime of life (around 30), peak physical condition
+- Build: Tall and athletic (180cm), broad shoulders, visible muscle definition, trained physique
+- Face: Strong square jaw, clean-shaven, steel-gray eyes with constant alertness, small scar on left cheek
+- Hair: Short-cropped brown military cut, neat and practical
+- Armor: Polished chain mail shirt (silver #C0C0C0 with sheen) over padded gambeson, red tabard with large gold crown emblem on chest
+- Shield: Wooden kite shield on left arm (dark wood with same crown symbol), metal rim, leather straps visible
+- Weapon: Iron longsword in right hand (well-maintained, sharp), leather-wrapped grip
+- Legs: Chain mail leggings, sturdy leather boots
+- Posture: Military at-attention stance, back straight, vigilant scanning, ready to move
+- Expression: Serious and focused, eyes constantly scanning for threats, professional demeanor
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli military aesthetic, metallic palette (silvers #C0C0C0, reds #8B0000, gold accents #FFD700)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_south_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Guard - SOUTH view (front view (character facing toward viewer))
+
+DETAILED APPEARANCE:
+Alert male human guard with disciplined bearing.
+Character details:
+- Age: Prime of life (around 30), peak physical condition
+- Build: Tall and athletic (180cm), broad shoulders, visible muscle definition, trained physique
+- Face: Strong square jaw, clean-shaven, steel-gray eyes with constant alertness, small scar on left cheek
+- Hair: Short-cropped brown military cut, neat and practical
+- Armor: Polished chain mail shirt (silver #C0C0C0 with sheen) over padded gambeson, red tabard with large gold crown emblem on chest
+- Shield: Wooden kite shield on left arm (dark wood with same crown symbol), metal rim, leather straps visible
+- Weapon: Iron longsword in right hand (well-maintained, sharp), leather-wrapped grip
+- Legs: Chain mail leggings, sturdy leather boots
+- Posture: Military at-attention stance, back straight, vigilant scanning, ready to move
+- Expression: Serious and focused, eyes constantly scanning for threats, professional demeanor
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- front view (character facing toward viewer)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli military aesthetic, metallic palette (silvers #C0C0C0, reds #8B0000, gold accents #FFD700)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_east_idle.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Guard - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Alert male human guard with disciplined bearing.
+Character details:
+- Age: Prime of life (around 30), peak physical condition
+- Build: Tall and athletic (180cm), broad shoulders, visible muscle definition, trained physique
+- Face: Strong square jaw, clean-shaven, steel-gray eyes with constant alertness, small scar on left cheek
+- Hair: Short-cropped brown military cut, neat and practical
+- Armor: Polished chain mail shirt (silver #C0C0C0 with sheen) over padded gambeson, red tabard with large gold crown emblem on chest
+- Shield: Wooden kite shield on left arm (dark wood with same crown symbol), metal rim, leather straps visible
+- Weapon: Iron longsword in right hand (well-maintained, sharp), leather-wrapped grip
+- Legs: Chain mail leggings, sturdy leather boots
+- Posture: Military at-attention stance, back straight, vigilant scanning, ready to move
+- Expression: Serious and focused, eyes constantly scanning for threats, professional demeanor
+
+CURRENT POSE: IDLE
+standing completely still in relaxed neutral pose, weight evenly distributed
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli military aesthetic, metallic palette (silvers #C0C0C0, reds #8B0000, gold accents #FFD700)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_east_walk1.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Guard - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Alert male human guard with disciplined bearing.
+Character details:
+- Age: Prime of life (around 30), peak physical condition
+- Build: Tall and athletic (180cm), broad shoulders, visible muscle definition, trained physique
+- Face: Strong square jaw, clean-shaven, steel-gray eyes with constant alertness, small scar on left cheek
+- Hair: Short-cropped brown military cut, neat and practical
+- Armor: Polished chain mail shirt (silver #C0C0C0 with sheen) over padded gambeson, red tabard with large gold crown emblem on chest
+- Shield: Wooden kite shield on left arm (dark wood with same crown symbol), metal rim, leather straps visible
+- Weapon: Iron longsword in right hand (well-maintained, sharp), leather-wrapped grip
+- Legs: Chain mail leggings, sturdy leather boots
+- Posture: Military at-attention stance, back straight, vigilant scanning, ready to move
+- Expression: Serious and focused, eyes constantly scanning for threats, professional demeanor
+
+CURRENT POSE: WALK1
+mid-walking pose with RIGHT foot forward (lifted slightly off ground), LEFT foot back on ground, natural walking motion captured
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli military aesthetic, metallic palette (silvers #C0C0C0, reds #8B0000, gold accents #FFD700)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
+## human_guard_east_walk2.png
+
+```
+A single high-quality 1024x1024 pixel sprite for a top-down RPG game.
+
+CHARACTER: Human Guard - EAST view (right side view (character's right side visible))
+
+DETAILED APPEARANCE:
+Alert male human guard with disciplined bearing.
+Character details:
+- Age: Prime of life (around 30), peak physical condition
+- Build: Tall and athletic (180cm), broad shoulders, visible muscle definition, trained physique
+- Face: Strong square jaw, clean-shaven, steel-gray eyes with constant alertness, small scar on left cheek
+- Hair: Short-cropped brown military cut, neat and practical
+- Armor: Polished chain mail shirt (silver #C0C0C0 with sheen) over padded gambeson, red tabard with large gold crown emblem on chest
+- Shield: Wooden kite shield on left arm (dark wood with same crown symbol), metal rim, leather straps visible
+- Weapon: Iron longsword in right hand (well-maintained, sharp), leather-wrapped grip
+- Legs: Chain mail leggings, sturdy leather boots
+- Posture: Military at-attention stance, back straight, vigilant scanning, ready to move
+- Expression: Serious and focused, eyes constantly scanning for threats, professional demeanor
+
+CURRENT POSE: WALK2
+mid-walking pose with LEFT foot forward (lifted slightly off ground), RIGHT foot back on ground, opposite phase of walk1
+
+VIEWING ANGLE:
+- Top-down perspective at 45-degree overhead angle
+- right side view (character's right side visible)
+- Character should appear as they would in a classic 2D RPG
+
+ART STYLE:
+Studio Ghibli inspired hand-painted illustration
+Ghibli military aesthetic, metallic palette (silvers #C0C0C0, reds #8B0000, gold accents #FFD700)
+- Soft painterly shading with clear black outlines (NOT thick, just defining)
+- Warm organic textures, avoid digital/plastic look
+- Expressive but not caricatured
+
+TECHNICAL REQUIREMENTS:
+- Character perfectly centered in 1024x1024 frame
+- Character feet positioned at bottom 20% of image (leaving space above head)
+- TRANSPARENT background (PNG with alpha channel, NO white/colored background)
+- Consistent lighting (soft daylight from upper left)
+- High detail with SHARP CRISP edges (NO blur, NO soft focus, NO motion blur)
+- Character should maintain exact same clothing/colors/features across all poses
+- Shadows cast directly below character (slightly darker ground shadow)
+
+CONSISTENCY CRITICAL:
+- Exact same clothing colors, patterns, accessories in every image
+- Same face features, hair style, body proportions
+- Same weathering/dirt marks, tool appearance
+- This character will be animated - perfect visual consistency required
+```
+
+--------------------------------------------------------------------------------
+
