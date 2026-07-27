@@ -84,6 +84,13 @@ class PreferenceWeight(BaseModel):
     weight_q1000: int = Field(..., ge=0, le=1000, description="权重 0-1000")
 
 
+class Fear(BaseModel):
+    """恐惧"""
+    fear_id: str = Field(..., description="恐惧ID，如 fear.mine_collapse")
+    intensity_q1000: int = Field(..., ge=0, le=1000, description="恐惧强度 0-1000")
+    recovery_policy_id: str = Field(..., description="恢复策略ID，如 recovery.fear.gradual_safe_exposure")
+
+
 class ResidentPersonality(BaseModel):
     """
     居民个性
@@ -94,7 +101,7 @@ class ResidentPersonality(BaseModel):
     dimensions: PersonalityDimensions = Field(..., description="个性六维度")
     values: List[ValueWeight] = Field(default_factory=list, description="价值观列表")
     preferences: List[PreferenceWeight] = Field(default_factory=list, description="偏好列表")
-    fears: List[str] = Field(default_factory=list, description="恐惧列表")
+    fears: List[Fear] = Field(default_factory=list, description="恐惧列表")
     profile_revision: int = Field(default=0, description="个性配置修订版本")
 
 
