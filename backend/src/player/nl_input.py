@@ -70,7 +70,7 @@ _INJECTION_MARKERS = (
     "ignore all rules",
     "的秘密告诉我",
     "告诉我.*秘密",
-    "给我\s*\d+\s*(金币|铜羽|金)",
+    r"给我\s*\d+\s*(金币|铜羽|金)",
     "system prompt",
     "系统提示",
 )
