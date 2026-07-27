@@ -9,8 +9,8 @@ Time Simulation 时间模拟系统
 
 from dataclasses import dataclass
 from typing import Optional, List, Callable
-from foundation import RealTime, GameTime, real_to_game_time
-from world import Season, Month, MONTHS, get_festival_on_date
+from ..foundation import RealTime, GameTime, real_to_game_time
+from ..world import Season, Month, MONTHS, get_festival_on_date
 
 
 @dataclass
@@ -21,7 +21,7 @@ class TimeState:
 
     def get_current_date(self) -> tuple:
         """获取当前日期（年、月、日、时、分）"""
-        from world.calendar import game_minutes_to_date
+        from ..world.calendar import game_minutes_to_date
         return game_minutes_to_date(self.current_game_time)
 
     def get_current_season(self) -> Season:
@@ -65,7 +65,7 @@ class TimeSimulator:
 
     def _check_time_events(self, old_time: int, new_time: int):
         """检查时间事件"""
-        from world.calendar import game_minutes_to_date
+        from ..world.calendar import game_minutes_to_date
 
         old_date = game_minutes_to_date(old_time)
         new_date = game_minutes_to_date(new_time)

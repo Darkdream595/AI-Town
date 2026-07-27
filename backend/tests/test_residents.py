@@ -5,12 +5,8 @@
 """
 
 import pytest
-import sys
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
-
-from residents import (
+from src.residents import (
     Resident,
     Gender,
     NeedType,
@@ -19,8 +15,8 @@ from residents import (
     SkillType,
     HealthStatus,
 )
-from world import Race, Profession
-from foundation import WorldCoordinate, is_valid_ulid
+from src.world import Race, Profession
+from src.foundation import WorldCoordinate, is_valid_ulid
 
 
 class TestResidentCreation:
@@ -71,7 +67,7 @@ class TestPersonality:
 
     def test_personality_range(self):
         """测试个性值范围（0-100）"""
-        from residents.resident_model import Personality
+        from src.residents.resident_model import Personality
 
         # 合法范围
         p = Personality(

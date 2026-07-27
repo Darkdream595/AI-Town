@@ -5,14 +5,10 @@
 """
 
 import pytest
-import sys
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
-
-from time_simulation import TimeSimulator, TimeState
-from foundation import RealTime
-from world import Season
+from src.time_simulation import TimeSimulator, TimeState
+from src.foundation import RealTime
+from src.world import Season
 
 
 class TestTimeState:
@@ -102,9 +98,9 @@ class TestTimeSimulator:
 
         sim.register_handler(handler)
 
-        # 1440 分钟后（1 天），但从第 1 天开始，所以是到第 2 天
+        # 1440 游戏分钟后（1 游戏天）：1 现实秒 = 1 游戏分钟，对应 1440 现实秒
         # 第 0 年 1 月 1 日 → 第 0 年 1 月 2 日
-        current_time = RealTime(timestamp_ms=1000000 + 1440 * 60 * 1000)
+        current_time = RealTime(timestamp_ms=1000000 + 1440 * 1000)
         sim.update(current_time)
 
         assert "day_changed" in events_triggered
@@ -126,9 +122,11 @@ class TestTimeSimulator:
 
         sim.register_handler(handler)
 
-        # 再推进 1 天，跨到第 2 个月
+        # 再推进 1 游戏天（1440 现实秒），跨到第 2 个月
         # 第 0 年 1 月 30 日 → 第 0 年 2 月 1 日
-        current_time = RealTime(timestamp_ms=1000000 + 30 * 1440 * 60 * 1000)
+        # 注意：state 已手动设在第 29 天，real_to_game_time 从世界创建起算，
+        # 因此这里取第 30 天对应的现实时间，使新游戏时间恰为 30 * 1440
+        current_time = RealTime(timestamp_ms=1000000 + 30 * 1440 * 1000)
         sim.update(current_time)
 
         assert "month_changed" in events_triggered
