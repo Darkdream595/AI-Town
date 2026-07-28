@@ -5,7 +5,9 @@ import requests
 import time
 from pathlib import Path
 
-API_KEY = "REMOVED_DASHSCOPE_API_KEY"
+from dashscope_auth import require_dashscope_api_key
+
+API_KEY = require_dashscope_api_key()
 OUTPUT_DIR = Path("frontend/public/assets/sprites/raw")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 

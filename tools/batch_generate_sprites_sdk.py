@@ -11,8 +11,10 @@ import dashscope
 from dashscope import ImageSynthesis
 import requests
 
+from dashscope_auth import require_dashscope_api_key
+
 # API 配置
-API_KEY = "REMOVED_DASHSCOPE_API_KEY"
+API_KEY = require_dashscope_api_key()
 dashscope.api_key = API_KEY
 dashscope.base_http_api_url = "https://llm-quyeui6kpjhryck7.cn-beijing.maas.aliyuncs.com/api/v1"
 

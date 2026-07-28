@@ -11,8 +11,10 @@ from pathlib import Path
 import requests
 from openai import OpenAI
 
+from dashscope_auth import require_dashscope_api_key
+
 # API 配置
-API_KEY = "REMOVED_DASHSCOPE_API_KEY"
+API_KEY = require_dashscope_api_key()
 BASE_URL = "https://llm-quyeui6kpjhryck7.cn-beijing.maas.aliyuncs.com/compatible-mode/v1"
 
 # 输出目录
