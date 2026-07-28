@@ -1,0 +1,6 @@
+# Windows one-folder 构建工具；仅安装到 backend/venv，不进入运行时依赖声明。
+PyInstaller==6.21.0
+pyinstaller-hooks-contrib==2026.6
+altgraph==0.17.5
+pefile==2024.8.26
+pywin32-ctypes==0.2.3

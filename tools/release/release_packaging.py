@@ -14,6 +14,8 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
+import uuid
 import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
@@ -163,13 +165,48 @@ def assemble_package(
         if missing:
             raise ReleasePackagingError(
                 "组装结果缺少固定 layout 文件：" + ", ".join(missing))
-        if package_dir.exists():
-            shutil.rmtree(package_dir)
-        staging.replace(package_dir)
+        _publish_staging_directory(staging, package_dir)
     except Exception:
         shutil.rmtree(staging, ignore_errors=True)
         raise
     return package_dir
+
+
+def _replace_directory_with_retry(
+    source: Path,
+    destination: Path,
+    *,
+    attempts: int = 10,
+    delay_seconds: float = 0.2,
+) -> None:
+    """容忍 Windows 杀毒软件在复制完成后短暂持有目录句柄。"""
+    for attempt in range(attempts):
+        try:
+            os.replace(source, destination)
+            return
+        except PermissionError:
+            if attempt == attempts - 1:
+                raise
+            time.sleep(delay_seconds)
+
+
+def _publish_staging_directory(staging: Path, package_dir: Path) -> None:
+    """原子切换发布目录；切换失败时恢复上一个有效包。"""
+    backup = package_dir.with_name(
+        f".{package_dir.name}-previous-{uuid.uuid4().hex}"
+    )
+    previous_moved = False
+    try:
+        if package_dir.exists():
+            _replace_directory_with_retry(package_dir, backup)
+            previous_moved = True
+        _replace_directory_with_retry(staging, package_dir)
+    except Exception:
+        if previous_moved and backup.exists() and not package_dir.exists():
+            _replace_directory_with_retry(backup, package_dir)
+        raise
+    if backup.exists():
+        shutil.rmtree(backup, ignore_errors=True)
 
 
 def _iter_package_files(package_dir: Path) -> list[Path]:
@@ -396,6 +433,14 @@ def create_reproducible_zip(
 
 
 def _parse_json_object(value: str, option_name: str) -> dict:
+    if value.startswith("@"):
+        source = Path(value[1:])
+        try:
+            value = source.read_text(encoding="utf-8-sig")
+        except OSError as error:
+            raise ReleasePackagingError(
+                f"{option_name} JSON 文件不可读：{source}（{error}）"
+            ) from error
     try:
         parsed = json.loads(value)
     except json.JSONDecodeError as error:
@@ -438,6 +483,10 @@ def _build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: Iterable[str] | None = None) -> int:
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure is not None:
+            reconfigure(encoding="utf-8")
     args = _build_parser().parse_args(argv)
     try:
         if args.command == "preflight":

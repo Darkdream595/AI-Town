@@ -13,10 +13,15 @@ param(
     [string]$OutputRoot = "",
     [string]$BuildTime = "",
     [string]$MigrationCurrent = '{"app":1,"world":1}',
-    [switch]$AllowDirty
+    [switch]$AllowDirty,
+    [switch]$SkipNpmCi
 )
 
 $ErrorActionPreference = "Stop"
+
+if ($SkipNpmCi -and -not $AllowDirty) {
+    throw "-SkipNpmCi 仅允许与 -AllowDirty 一起用于本地调试构建。"
+}
 Set-StrictMode -Version Latest
 $OutputEncoding = [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
 
@@ -44,6 +49,7 @@ $pyinstallerWork = Join-Path $output "_pyinstaller-work"
 $packageDir = Join-Path $output "AI-Town"
 $verifyReport = Join-Path $output "package-verify-report.json"
 $archivePath = Join-Path $output "AI-Town-$PackageVersion.zip"
+$migrationFile = Join-Path $output "migration-current.json"
 
 if (-not (Test-Path -LiteralPath $python -PathType Leaf)) {
     throw "Python 构建解释器不存在：$python"
@@ -65,11 +71,20 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 New-Item -ItemType Directory -Force -Path $output | Out-Null
+[System.IO.File]::WriteAllText(
+    $migrationFile,
+    $MigrationCurrent,
+    [System.Text.UTF8Encoding]::new($false)
+)
 
 Push-Location $frontendRoot
 try {
-    & npm ci
-    if ($LASTEXITCODE -ne 0) { throw "npm ci 失败。" }
+    if (-not $SkipNpmCi) {
+        & npm ci
+        if ($LASTEXITCODE -ne 0) { throw "npm ci 失败。" }
+    } else {
+        Write-Host "跳过 npm ci；使用当前已验证的 node_modules。"
+    }
     & npm run build
     if ($LASTEXITCODE -ne 0) { throw "frontend build 失败。" }
 } finally {
@@ -111,7 +126,7 @@ if (-not $BuildTime) {
     --package-version $PackageVersion `
     --build-id $BuildId `
     --build-time $BuildTime `
-    --migration-current $MigrationCurrent
+    --migration-current "@$migrationFile"
 if ($LASTEXITCODE -ne 0) { throw "release-manifest 生成失败。" }
 
 & $python $packagingTool verify $packageDir --report $verifyReport

@@ -13,6 +13,7 @@ import pytest
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 TOOL_PATH = PROJECT_ROOT / "tools" / "release" / "release_packaging.py"
+ENTRY_PATH = PROJECT_ROOT / "tools" / "release" / "backend_entry.py"
 SPEC_PATH = PROJECT_ROOT / "release" / "AI-Town.spec"
 BUILD_SCRIPT_PATH = PROJECT_ROOT / "release" / "build-release.ps1"
 
@@ -22,6 +23,14 @@ def _load_tool():
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+def _load_entry():
+    spec = importlib.util.spec_from_file_location("backend_entry", ENTRY_PATH)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
 
@@ -95,6 +104,56 @@ def test_assemble_package_replaces_stale_output_and_has_fixed_layout(tmp_path):
     assert (package_dir / "启动AI小镇.bat").is_file()
 
 
+def test_replace_directory_retries_transient_windows_lock(tmp_path, monkeypatch):
+    tool = _load_tool()
+    source = tmp_path / "source"
+    destination = tmp_path / "destination"
+    source.mkdir()
+    calls = []
+    real_replace = tool.os.replace
+
+    def transient_replace(current_source, current_destination):
+        calls.append((current_source, current_destination))
+        if len(calls) < 3:
+            raise PermissionError("temporarily locked")
+        real_replace(current_source, current_destination)
+
+    monkeypatch.setattr(tool.os, "replace", transient_replace)
+    monkeypatch.setattr(tool.time, "sleep", lambda _seconds: None)
+
+    tool._replace_directory_with_retry(source, destination)
+
+    assert len(calls) == 3
+    assert destination.is_dir()
+
+
+def test_publish_staging_restores_previous_package_on_swap_failure(
+    tmp_path, monkeypatch
+):
+    tool = _load_tool()
+    staging = tmp_path / "staging"
+    destination = tmp_path / "AI-Town"
+    staging.mkdir()
+    destination.mkdir()
+    (staging / "new.txt").write_text("new", encoding="utf-8")
+    (destination / "old.txt").write_text("old", encoding="utf-8")
+    real_replace = tool.os.replace
+
+    def fail_new_package(source, target):
+        if Path(source) == staging and Path(target) == destination:
+            raise PermissionError("staging is temporarily locked")
+        real_replace(source, target)
+
+    monkeypatch.setattr(tool.os, "replace", fail_new_package)
+    monkeypatch.setattr(tool.time, "sleep", lambda _seconds: None)
+
+    with pytest.raises(PermissionError, match="temporarily locked"):
+        tool._publish_staging_directory(staging, destination)
+
+    assert (destination / "old.txt").read_text(encoding="utf-8") == "old"
+    assert (staging / "new.txt").read_text(encoding="utf-8") == "new"
+
+
 def test_assemble_rejects_frontend_sourcemaps_and_missing_notices(tmp_path):
     tool = _load_tool()
     sources = _make_sources(tmp_path)
@@ -137,6 +196,16 @@ def test_manifest_is_sorted_complete_and_hashes_every_file(tmp_path):
     assert exe["sha256"] == hashlib.sha256(b"MZ-test").hexdigest()
     assert manifest["package_version"] == "1.2.3"
     assert manifest["build_id"] == "abc1234"
+
+
+def test_json_object_argument_can_be_loaded_from_utf8_file(tmp_path):
+    tool = _load_tool()
+    source = tmp_path / "migration.json"
+    source.write_text('{"app":1,"world":1}', encoding="utf-8")
+
+    assert tool._parse_json_object(
+        f"@{source}", "--migration-current"
+    ) == {"app": 1, "world": 1}
 
 
 def test_verify_package_detects_tampering_extra_blacklist_and_secret(tmp_path):
@@ -242,6 +311,25 @@ def test_archive_is_reproducible_and_contains_single_package_root(tmp_path):
                    for info in archive.infolist())
 
 
+def test_crash_log_failure_does_not_mask_launcher_error(monkeypatch):
+    entry = _load_entry()
+    original_error = RuntimeError("launcher failed")
+    monkeypatch.setattr(entry.multiprocessing, "freeze_support", lambda: None)
+    monkeypatch.setattr(
+        entry, "_configure_release_environment",
+        lambda: (_ for _ in ()).throw(original_error),
+    )
+    monkeypatch.setattr(
+        entry, "_write_crash_log",
+        lambda _error: (_ for _ in ()).throw(OSError("disk full")),
+    )
+
+    with pytest.raises(RuntimeError, match="launcher failed") as captured:
+        entry.main()
+
+    assert captured.value is original_error
+
+
 def test_spec_and_build_script_encode_offline_onefolder_pipeline():
     spec_text = SPEC_PATH.read_text(encoding="utf-8")
     entry_text = (PROJECT_ROOT / "tools" / "release" / "backend_entry.py").read_text(
@@ -254,12 +342,15 @@ def test_spec_and_build_script_encode_offline_onefolder_pipeline():
     assert "from src.release_entry import run_launcher" in entry_text
     assert "from src.main import main" not in entry_text
     assert 'package_root / "assets" / "web"' in entry_text
+    assert "launcher-crash.log" in entry_text
 
     script = BUILD_SCRIPT_PATH.read_text(encoding="utf-8")
     assert "$PSScriptRoot" in script
     assert "-m PyInstaller --version" in script
     assert "-m PyInstaller" in script
     assert "npm ci" in script
+    assert "SkipNpmCi" in script
+    assert "$SkipNpmCi -and -not $AllowDirty" in script
     assert "npm run build" in script
     assert "release_packaging.py" in script
     assert "pip install" not in script.lower()

@@ -151,6 +151,20 @@ def _default_assemble(
     return create_app(assembled.app_context), assembled
 
 
+def _create_uvicorn_server(application, port: int):
+    """Windowed EXE 没有 stderr，禁用 Uvicorn 的 stream formatter。"""
+    import uvicorn
+
+    uvicorn_config = uvicorn.Config(
+        application,
+        host=LOOPBACK_HOST,
+        port=port,
+        log_config=None,
+        access_log=False,
+    )
+    return uvicorn.Server(uvicorn_config)
+
+
 def _package_root() -> Path:
     executable = Path(sys.executable).resolve()
     if getattr(sys, "frozen", False):
@@ -224,15 +238,7 @@ def run_launcher(
             assembled = None
 
         if server_factory is None:
-            import uvicorn
-
-            uvicorn_config = uvicorn.Config(
-                application,
-                host=LOOPBACK_HOST,
-                port=port,
-                log_level="info",
-            )
-            server = uvicorn.Server(uvicorn_config)
+            server = _create_uvicorn_server(application, port)
         else:
             server = server_factory(application)
         server_ref["server"] = server

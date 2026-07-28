@@ -13,11 +13,12 @@
 | `REQ-RENDER-012` 正式性能门禁 | NOT RUN | 缺两台指定硬件、每台 3×60 s、raw trace、texture ledger 与完整 overlay 证据 |
 | Launcher 核心生命周期 | PASS（测试） | random loopback port、single instance、instance.json、health polling、浏览器打开、安全关闭已实现 |
 | Release 离线工具链 | PASS（测试） | one-folder spec、确定性组装、hash manifest、Secret/黑名单/篡改校验与可复现 ZIP 已实现 |
-| 可分发 EXE / G9 | BLOCKED | 当前环境无 PyInstaller、无审核后的 `release/licenses`，且尚未在 clean Win10/Win11 VM 验收 |
+| 个人可玩 EXE | PASS（本机） | PyInstaller one-folder 包已构建；双击 EXE 可启动随机本地端口、打开浏览器，健康检查与安全停止均实测通过 |
+| 正式对外发行 G9 | OPTIONAL / NOT RUN | clean Win10/Win11 VM 与跨硬件长时 QA 仅用于正式公开发行，不阻塞本次个人双击游玩目标 |
 | 托盘四项菜单 | NOT IMPLEMENTED | 当前仓库无离线可用托盘依赖；停止脚本与 `/shutdown` 可用，但不等价于规格中的托盘常驻 |
 
-因此，本次可以关闭 P17 的本地实现与测试工作，但不能把正式 Visual QA gate
-或 Release G9 标记为通过。
+因此，本次可以关闭 P17 的本地实现、测试和个人可玩 EXE 交付工作。正式
+Visual QA gate 与 Release G9 未执行，但不属于本次验收范围。
 
 ## 2. 自动化验证
 
@@ -27,8 +28,8 @@
 | `tsc --noEmit` | exit 0 |
 | `tsc -p tsconfig.build.json` | exit 0 |
 | `vite build` | exit 0；仅有 bundle >500 kB warning |
-| `python -m pytest backend/tests -q` | 2217 passed |
-| Release entry / packaging / launcher focused | 35 passed |
+| `python -m pytest backend/tests -q` | 2222 passed |
+| Release entry / packaging / launcher focused | 40 passed |
 | scoped `ruff check` | exit 0 |
 | 三份 PowerShell parser | 0 errors；UTF-8 BOM 兼容 Windows PowerShell 5.1 |
 | `git diff --check` | exit 0 |

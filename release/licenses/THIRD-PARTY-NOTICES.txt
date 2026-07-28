@@ -1,0 +1,35 @@
+AI Town third-party notices
+===========================
+
+This local Windows build bundles CPython and Python packages required by the
+AI Town backend. Selected directly redistributed license texts are included
+in this directory.
+
+Core runtime components:
+
+- FastAPI 0.109.0 — MIT
+- Starlette — BSD-3-Clause
+- Uvicorn 0.27.0 — BSD-3-Clause
+- Pydantic 2.5.3 / pydantic-core 2.14.6 — MIT
+- AnyIO — MIT
+- Click — BSD-3-Clause
+- h11 — MIT
+- websockets 12.0 — BSD-3-Clause
+- HTTPX 0.26.0 / HTTPCore — BSD-3-Clause
+- aiosqlite 0.19.0 — MIT
+- python-multipart 0.0.6 — Apache-2.0
+- python-ulid 2.2.0 — MIT
+- python-dateutil 2.8.2 — Apache-2.0 or BSD-3-Clause
+
+Build components:
+
+- PyInstaller 6.21.0 — GPL-2.0-or-later with the PyInstaller bootloader
+  exception permitting distribution of bundled applications
+- pyinstaller-hooks-contrib 2026.6 — Apache-2.0 or GPL-2.0-or-later
+- altgraph 0.17.5 — MIT
+- pefile 2024.8.26 — MIT
+- pywin32-ctypes 0.2.3 — BSD-3-Clause
+
+This notice is informational and does not replace the accompanying license
+texts. The current package targets local personal use and has not completed
+the exhaustive third-party attribution audit required for public distribution.

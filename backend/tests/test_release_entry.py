@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import json
 import socket
+import sys
+from types import SimpleNamespace
 
 from src import release_entry
 
@@ -44,6 +46,37 @@ def test_runtime_directory_uses_localappdata(tmp_path):
     assert release_entry.resolve_runtime_dir(
         {"LOCALAPPDATA": str(tmp_path)}
     ) == tmp_path / "AI-Town" / "runtime"
+
+
+def test_windowed_uvicorn_disables_stream_logging(monkeypatch):
+    captured = {}
+
+    class FakeConfig:
+        def __init__(self, application, **kwargs):
+            captured["application"] = application
+            captured.update(kwargs)
+
+    class FakeServer:
+        def __init__(self, config):
+            self.config = config
+
+    monkeypatch.setitem(
+        sys.modules,
+        "uvicorn",
+        SimpleNamespace(Config=FakeConfig, Server=FakeServer),
+    )
+
+    application = object()
+    server = release_entry._create_uvicorn_server(application, 43123)
+
+    assert server.config is not None
+    assert captured == {
+        "application": application,
+        "host": "127.0.0.1",
+        "port": 43123,
+        "log_config": None,
+        "access_log": False,
+    }
 
 
 def test_second_instance_only_reopens_existing_loopback_url(tmp_path):
