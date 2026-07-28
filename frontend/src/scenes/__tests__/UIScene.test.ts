@@ -6,7 +6,7 @@
  * - RenderEventEnvelope 契约（DES-RENDER-001）
  */
 
-import { describe, it, expect } from 'vitest';
+import { afterEach, describe, it, expect, vi } from 'vitest';
 import type { RenderEventEnvelope, RenderEventPayload } from '../../types/rendering';
 
 /** 构造符合 DES-RENDER-001 的 envelope，仅 render 部分按用例变化 */
@@ -127,5 +127,129 @@ describe('UIScene', () => {
         }
       }
     });
+  });
+});
+
+afterEach(() => {
+  vi.doUnmock('phaser');
+  vi.doUnmock('../../ui/PhaserDomBridge');
+  vi.resetModules();
+});
+
+describe('UIScene lifecycle cleanup', () => {
+  it('binds cleanup to SHUTDOWN and removes EventBus, keyboard, and bridge listeners once', async () => {
+    type Handler = (...args: any[]) => void;
+
+    class FakeEmitter {
+      private listeners = new Map<string, Set<Handler>>();
+      private onceWrappers = new Map<Handler, Handler>();
+
+      on(event: string, handler: Handler): this {
+        const handlers = this.listeners.get(event) ?? new Set();
+        handlers.add(handler);
+        this.listeners.set(event, handlers);
+        return this;
+      }
+
+      once(event: string, handler: Handler): this {
+        const wrapper: Handler = (...args) => {
+          this.off(event, wrapper);
+          handler(...args);
+        };
+        this.onceWrappers.set(handler, wrapper);
+        return this.on(event, wrapper);
+      }
+
+      off(event: string, handler: Handler): this {
+        const wrapper = this.onceWrappers.get(handler);
+        this.listeners.get(event)?.delete(wrapper ?? handler);
+        this.onceWrappers.delete(handler);
+        return this;
+      }
+
+      emit(event: string, ...args: any[]): void {
+        for (const handler of [...(this.listeners.get(event) ?? [])]) {
+          handler(...args);
+        }
+      }
+
+      listenerCount(event: string): number {
+        return this.listeners.get(event)?.size ?? 0;
+      }
+    }
+
+    const bridges: Array<{
+      patch: ReturnType<typeof vi.fn>;
+      dispose: ReturnType<typeof vi.fn>;
+      onLayoutChanged?: (layout: { width: number; height: number }) => void;
+    }> = [];
+    const scaleResize = vi.fn();
+
+    vi.doMock('phaser', () => ({
+      default: {
+        Scene: class {
+          public readonly events = new FakeEmitter();
+          public readonly input = { keyboard: new FakeEmitter() };
+          public readonly scale = { resize: scaleResize };
+        },
+        Scenes: {
+          Events: {
+            SHUTDOWN: 'shutdown',
+            DESTROY: 'destroy',
+          },
+        },
+      },
+    }));
+    vi.doMock('../../ui/PhaserDomBridge', () => ({
+      PhaserDomBridge: class {
+        public readonly patch = vi.fn();
+        public readonly dispose = vi.fn();
+
+        constructor(
+          _gate?: unknown,
+          _inputCallback?: unknown,
+          onLayoutChanged?: (layout: { width: number; height: number }) => void,
+        ) {
+          this.onLayoutChanged = onLayoutChanged;
+          bridges.push(this);
+        }
+        public onLayoutChanged?: (layout: { width: number; height: number }) => void;
+      },
+    }));
+
+    const [{ UIScene }, { EventBus }] = await Promise.all([
+      import('../UIScene'),
+      import('../../core/EventBus'),
+    ]);
+    const scene = new UIScene();
+    const sceneInternals = scene as unknown as {
+      events: FakeEmitter;
+      input: { keyboard: FakeEmitter };
+    };
+
+    scene.create();
+    expect(bridges[0].patch).toHaveBeenCalledTimes(1);
+    expect(sceneInternals.input.keyboard.listenerCount('keydown-F3')).toBe(1);
+    bridges[0].onLayoutChanged?.({ width: 1920, height: 1080 });
+    expect(scaleResize).toHaveBeenCalledWith(1920, 1080);
+
+    sceneInternals.events.emit('shutdown');
+    sceneInternals.events.emit('destroy');
+    EventBus.emit('ui:update', {
+      protocol_version: 'ui.v1',
+      world_id: 'world',
+      revision: 1,
+      game_time: 0,
+      hud: {
+        player_name: 'Player',
+        season: 'Spring',
+        weather: 'Clear',
+        time_display: '09:00',
+      },
+    });
+
+    expect(bridges[0].dispose).toHaveBeenCalledTimes(1);
+    expect(bridges[0].patch).toHaveBeenCalledTimes(1);
+    expect(sceneInternals.input.keyboard.listenerCount('keydown-F3')).toBe(0);
   });
 });

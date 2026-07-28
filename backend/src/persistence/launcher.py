@@ -135,8 +135,7 @@ class HealthPoller:
             if isinstance(status, dict):
                 state = status.get("process_state")
                 if state == "ready":
-                    version = status.get("package_version",
-                                         expected_package_version)
+                    version = status.get("package_version")
                     if version == expected_package_version:
                         return {"outcome": "ready", "attempts": attempts,
                                 "elapsed_ms": int(elapsed * 1000)}

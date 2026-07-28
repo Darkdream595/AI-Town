@@ -9,19 +9,159 @@
  */
 
 import type { UiRenderProjection, DialogueProjection } from '../types/ui_projection';
+import {
+  UiInputGate,
+  computeSafeArea,
+  computeTextScale,
+  isCompactLayout,
+  planFullscreenRequest,
+} from '../render/ui_layout';
+
+export interface UiLayoutTransaction {
+  width: number;
+  height: number;
+}
 
 export class PhaserDomBridge {
   private overlayElement: HTMLElement;
+  private gameShellElement: HTMLElement;
+  private fullscreenButton: HTMLElement | null;
+  private resizeObserver: ResizeObserver | null = null;
+  private layoutFrame: number | null = null;
   private currentRevision: number = -1;
   private savedActiveElement: Element | null = null;
   private currentModal: HTMLElement | null = null;
+  private focusTrapHandler: ((event: KeyboardEvent) => void) | null = null;
+  private escapeHandler: ((event: KeyboardEvent) => void) | null = null;
+  private disposed = false;
+  private readonly handleResize = (): void => {
+    this.scheduleLayout();
+  };
+  private readonly handleFullscreenChange = (): void => {
+    this.updateFullscreenControl();
+    this.scheduleLayout();
+  };
+  private readonly handleFullscreenToggle = (): void => {
+    void this.toggleFullscreenFromUserGesture();
+  };
+  private readonly handleFocusIn = (): void => {
+    this.inputGate.setDomFocusActive(true);
+    this.notifyInputGate();
+  };
+  private readonly handleFocusOut = (): void => {
+    queueMicrotask(() => {
+      if (this.disposed) {
+        return;
+      }
+      const activeElement = document.activeElement;
+      const focusRemainsInside =
+        activeElement instanceof Node &&
+        this.overlayElement.contains(activeElement);
+      this.inputGate.setDomFocusActive(focusRemainsInside);
+      this.notifyInputGate();
+    });
+  };
 
-  constructor() {
+  constructor(
+    private readonly inputGate = new UiInputGate(),
+    private readonly onWorldInputAllowedChanged?: (allowed: boolean) => void,
+    private readonly onLayoutChanged?: (layout: UiLayoutTransaction) => void,
+  ) {
     const overlay = document.getElementById('ui-overlay');
     if (!overlay) {
       throw new Error('#ui-overlay not found in DOM');
     }
     this.overlayElement = overlay;
+    const gameShell = document.getElementById('game-shell');
+    if (!gameShell) {
+      throw new Error('#game-shell not found in DOM');
+    }
+    this.gameShellElement = gameShell;
+    this.fullscreenButton = document.getElementById('fullscreen-toggle');
+    this.overlayElement.addEventListener('focusin', this.handleFocusIn);
+    this.overlayElement.addEventListener('focusout', this.handleFocusOut);
+    this.fullscreenButton?.addEventListener(
+      'click',
+      this.handleFullscreenToggle,
+    );
+    document.addEventListener(
+      'fullscreenchange',
+      this.handleFullscreenChange,
+    );
+    if (typeof ResizeObserver !== 'undefined') {
+      this.resizeObserver = new ResizeObserver(this.handleResize);
+      this.resizeObserver.observe(this.gameShellElement);
+    }
+    this.applyLayout();
+    this.updateFullscreenControl();
+  }
+
+  private scheduleLayout(): void {
+    if (this.disposed || this.layoutFrame !== null) {
+      return;
+    }
+    let completedSynchronously = false;
+    const frame = requestAnimationFrame(() => {
+      completedSynchronously = true;
+      this.layoutFrame = null;
+      this.applyLayout();
+    });
+    if (!completedSynchronously) {
+      this.layoutFrame = frame;
+    }
+  }
+
+  private applyLayout(): void {
+    const viewport = {
+      width: this.gameShellElement.clientWidth,
+      height: this.gameShellElement.clientHeight,
+    };
+    this.overlayElement.style.setProperty(
+      '--ui-safe-area',
+      `${computeSafeArea(viewport)}px`,
+    );
+    this.overlayElement.style.setProperty(
+      '--ui-text-scale',
+      String(computeTextScale(viewport)),
+    );
+    this.overlayElement.classList.toggle(
+      'ui-layout-compact',
+      isCompactLayout(viewport),
+    );
+    this.onLayoutChanged?.(viewport);
+  }
+
+  private async toggleFullscreenFromUserGesture(): Promise<void> {
+    const decision = planFullscreenRequest(
+      true,
+      document.fullscreenElement === this.gameShellElement,
+    );
+    try {
+      if (decision.action === 'request') {
+        await this.gameShellElement.requestFullscreen();
+      } else if (decision.action === 'exit') {
+        await document.exitFullscreen();
+      }
+    } catch {
+      this.fullscreenButton?.setAttribute(
+        'data-fullscreen-status',
+        'failed',
+      );
+    }
+  }
+
+  private updateFullscreenControl(): void {
+    const fullscreen =
+      document.fullscreenElement === this.gameShellElement;
+    this.fullscreenButton?.setAttribute(
+      'aria-pressed',
+      String(fullscreen),
+    );
+    if (this.fullscreenButton) {
+      this.fullscreenButton.textContent = fullscreen
+        ? '退出全屏'
+        : '进入全屏';
+    }
   }
 
   /**
@@ -30,6 +170,10 @@ export class PhaserDomBridge {
    * @param projection UI 投影数据
    */
   public patch(projection: UiRenderProjection): void {
+    if (this.disposed) {
+      return;
+    }
+
     // RULE: 只接受同 Revision 或更高 Revision 的 projection
     if (projection.revision < this.currentRevision) {
       console.warn(`Rejected stale UI projection: ${projection.revision} < ${this.currentRevision}`);
@@ -38,11 +182,15 @@ export class PhaserDomBridge {
 
     this.currentRevision = projection.revision;
 
+    // A projection replaces the complete DOM projection. Close the previous
+    // modal first so its document listeners and input-gate state cannot outlive it.
+    this.closeModal();
+
     // 清空并重建（简化版 keyed patch，真实实现应该用 diff）
     this.overlayElement.innerHTML = '';
 
     // 渲染 HUD
-    this.renderHUD(projection.hud, projection.game_time);
+    this.renderHUD(projection.hud);
 
     // 渲染对话框（如果存在）
     if (projection.dialogue) {
@@ -55,7 +203,7 @@ export class PhaserDomBridge {
     }
   }
 
-  private renderHUD(hud: any, gameTime: number): void {
+  private renderHUD(hud: any): void {
     const hudContainer = document.createElement('div');
     hudContainer.className = 'hud-container';
     hudContainer.setAttribute('role', 'banner');
@@ -171,9 +319,15 @@ export class PhaserDomBridge {
    * 打开 Modal，保存焦点并设置 focus trap
    */
   private openModal(modalElement: HTMLElement): void {
+    if (this.currentModal) {
+      this.closeModal();
+    }
+
     // 保存当前焦点元素
     this.savedActiveElement = document.activeElement;
     this.currentModal = modalElement;
+    this.inputGate.setModalActive(true);
+    this.notifyInputGate();
 
     // 聚焦第一个可操作元素
     const firstFocusable = modalElement.querySelector('[data-autofocus], button:not([disabled]), input, textarea, select') as HTMLElement;
@@ -185,13 +339,12 @@ export class PhaserDomBridge {
     this.setupFocusTrap(modalElement);
 
     // Esc 关闭
-    const escapeHandler = (e: KeyboardEvent) => {
+    this.escapeHandler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         this.closeModal();
-        document.removeEventListener('keydown', escapeHandler);
       }
     };
-    document.addEventListener('keydown', escapeHandler);
+    document.addEventListener('keydown', this.escapeHandler);
   }
 
   /**
@@ -199,9 +352,20 @@ export class PhaserDomBridge {
    */
   private closeModal(): void {
     if (this.currentModal) {
+      if (this.focusTrapHandler) {
+        this.currentModal.removeEventListener('keydown', this.focusTrapHandler);
+        this.focusTrapHandler = null;
+      }
       this.currentModal.remove();
       this.currentModal = null;
     }
+    if (this.escapeHandler) {
+      document.removeEventListener('keydown', this.escapeHandler);
+      this.escapeHandler = null;
+    }
+    this.inputGate.setModalActive(false);
+    this.inputGate.setDomFocusActive(false);
+    this.notifyInputGate();
 
     // 恢复焦点
     if (this.savedActiveElement && this.savedActiveElement instanceof HTMLElement) {
@@ -209,10 +373,9 @@ export class PhaserDomBridge {
       if (document.contains(this.savedActiveElement)) {
         this.savedActiveElement.focus();
       } else {
-        // 元素已不存在，聚焦 #game-container
-        const gameContainer = document.getElementById('game-container');
-        if (gameContainer) {
-          gameContainer.focus();
+        const gameShell = document.getElementById('game-shell');
+        if (gameShell) {
+          gameShell.focus();
         }
       }
       this.savedActiveElement = null;
@@ -225,7 +388,7 @@ export class PhaserDomBridge {
   private setupFocusTrap(container: HTMLElement): void {
     const focusableSelector = 'button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), a[href]';
 
-    const handleTab = (e: KeyboardEvent) => {
+    this.focusTrapHandler = (e: KeyboardEvent) => {
       if (e.key !== 'Tab') return;
 
       const focusableElements = Array.from(container.querySelectorAll(focusableSelector)) as HTMLElement[];
@@ -249,7 +412,7 @@ export class PhaserDomBridge {
       }
     };
 
-    container.addEventListener('keydown', handleTab);
+    container.addEventListener('keydown', this.focusTrapHandler);
   }
 
   private handleDialogueOption(optionId: string): void {
@@ -262,5 +425,39 @@ export class PhaserDomBridge {
     const div = document.createElement('div');
     div.textContent = str;
     return div.innerHTML;
+  }
+
+  public dispose(): void {
+    if (this.disposed) {
+      return;
+    }
+    this.disposed = true;
+    this.closeModal();
+    this.overlayElement.removeEventListener('focusin', this.handleFocusIn);
+    this.overlayElement.removeEventListener('focusout', this.handleFocusOut);
+    this.fullscreenButton?.removeEventListener(
+      'click',
+      this.handleFullscreenToggle,
+    );
+    document.removeEventListener(
+      'fullscreenchange',
+      this.handleFullscreenChange,
+    );
+    this.resizeObserver?.disconnect();
+    this.resizeObserver = null;
+    if (this.layoutFrame !== null) {
+      cancelAnimationFrame(this.layoutFrame);
+      this.layoutFrame = null;
+    }
+    this.inputGate.reset();
+    this.notifyInputGate();
+    this.overlayElement.replaceChildren();
+    this.fullscreenButton = null;
+  }
+
+  private notifyInputGate(): void {
+    this.onWorldInputAllowedChanged?.(
+      this.inputGate.isWorldInputAllowed(),
+    );
   }
 }

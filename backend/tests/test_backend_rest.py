@@ -33,8 +33,8 @@ class TestRouteCatalog:
     def test_catalog_self_audit_clean(self):
         assert audit_catalog() == []
 
-    def test_catalog_has_22_routes_with_unique_method_path(self):
-        assert len(ROUTE_CATALOG) == 22
+    def test_catalog_has_23_routes_with_unique_method_path(self):
+        assert len(ROUTE_CATALOG) == 23
         keys = [(entry.method, entry.path) for entry in ROUTE_CATALOG]
         assert len(set(keys)) == len(keys)
 
@@ -65,7 +65,7 @@ class TestRouteCatalog:
         """所有写方法端点（除 bootstrap 的 session 颁发）都要求 Session+CSRF"""
         for entry in ROUTE_CATALOG:
             if entry.method in ("POST", "PUT", "DELETE"):
-                if entry.path == "/api/v1/session":
+                if entry.path in ("/api/v1/session", "/api/v1/shutdown"):
                     assert entry.auth == AUTH_BOOTSTRAP
                 else:
                     assert entry.auth == AUTH_SESSION_CSRF, entry.path

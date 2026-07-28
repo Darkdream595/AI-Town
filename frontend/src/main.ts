@@ -7,6 +7,15 @@ import { BootScene } from './scenes/BootScene';
 import { PreloadScene } from './scenes/PreloadScene';
 import { WorldScene } from './scenes/WorldScene';
 import { UIScene } from './scenes/UIScene';
+import {
+  installQaFixtureCoordinator,
+  requestedQaFixtureId,
+} from './qa/render_fixture';
+import { installQaRuntimeExposure } from './qa/runtime';
+
+const requestedFixtureId = requestedQaFixtureId(window.location.search);
+const disposeQaFixture = installQaFixtureCoordinator(window.location.search);
+const disposeQaRuntime = installQaRuntimeExposure(window, requestedFixtureId);
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -39,6 +48,11 @@ window.addEventListener('load', () => {
   if (loading) {
     loading.style.display = 'none';
   }
+});
+
+window.addEventListener('beforeunload', () => {
+  disposeQaFixture();
+  disposeQaRuntime();
 });
 
 // 全屏提示

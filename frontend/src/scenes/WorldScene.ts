@@ -16,19 +16,37 @@
  */
 
 import Phaser from 'phaser';
+import { EventBus } from '../core/EventBus';
 import type {
+  AnimationState,
   RenderFrameInput,
+  RenderEventEnvelope,
   EntityProjection,
   WorldPoint,
 } from '../types/rendering';
 import { calculateEntityDepth, facingToDirection } from '../types/rendering';
+import { SnapshotGate } from '../render/snapshot_gate';
+import { EventSequencer } from '../render/event_sequencer';
+import {
+  AnimationMachine,
+  type AnimationKind,
+  type ResolvedAnimation,
+} from '../render/animation_sm';
+import {
+  planMapSlices,
+  type MapSlicePlan,
+  type MapSlicePlanResult,
+  type WorldBounds,
+} from '../render/map_slices';
 import { SpriteLoader } from '../utils/SpriteLoader';
 
 interface EntitySprite {
   sprite: Phaser.GameObjects.Sprite;
   projection: EntityProjection;
+  animationMachine: AnimationMachine;
   /** 最后一次出现在 Snapshot 中的 revision，用于识别已离场实体 */
   lastSeenRevision: number;
+  characterName: string | null;
 }
 
 export class WorldScene extends Phaser.Scene {
@@ -42,8 +60,51 @@ export class WorldScene extends Phaser.Scene {
   private structureForegroundLayer!: Phaser.GameObjects.Container;
 
   // 当前场景信息
-  private currentSceneId: string = '';
-  private sceneRevision: number = 0;
+  private snapshotGate: SnapshotGate | null = null;
+  private eventSequencer: EventSequencer | null = null;
+  private cleanupCompleted = false;
+  private worldInputAllowed = true;
+  private currentMapSlicePlan: MapSlicePlan | null = null;
+  private lastMapPlanInputSignature: string | null = null;
+  private lastMapPlanFailureSignature: string | null = null;
+  private readonly sceneBounds: WorldBounds = {
+    left_wu: 0,
+    top_wu: 0,
+    right_wu: 4096,
+    bottom_wu: 4096,
+  };
+  private readonly handleWorldInputAllowed = (allowed: boolean): void => {
+    this.worldInputAllowed = allowed;
+  };
+  private readonly handleLifecycleCleanup = (): void => {
+    this.cleanup();
+  };
+  private readonly handleRenderFrame = (frame: RenderFrameInput): void => {
+    this.updateFrame(frame);
+  };
+  private readonly handleRenderEvent = (event: RenderEventEnvelope): void => {
+    this.updateEvent(event);
+  };
+  private readonly handleWheel = (
+    _pointer: Phaser.Input.Pointer,
+    _gameObjects: Phaser.GameObjects.GameObject[],
+    _deltaX: number,
+    deltaY: number,
+  ): void => {
+    if (!this.worldInputAllowed) {
+      return;
+    }
+    const camera = this.cameras.main;
+    const zoomDelta = deltaY > 0 ? -0.1 : 0.1;
+    camera.setZoom(
+      Phaser.Math.Clamp(
+        camera.zoom + zoomDelta,
+        this.MIN_ZOOM,
+        this.MAX_ZOOM,
+      ),
+    );
+    this.refreshMapSlicePlan();
+  };
 
   // 相机配置（RULE-RENDER-009）
   private readonly MIN_ZOOM = 0.75;
@@ -57,6 +118,7 @@ export class WorldScene extends Phaser.Scene {
 
   create(): void {
     console.log('[WorldScene] Initializing...');
+    this.cleanupCompleted = false;
 
     // 创建渲染层（RULE-RENDER-007: 固定顺序）
     this.createRenderLayers();
@@ -66,67 +128,15 @@ export class WorldScene extends Phaser.Scene {
 
     // 设置输入处理
     this.setupInput();
-
-    // 测试：显示所有10个角色
-    this.createTestCharacters();
+    EventBus.on('ui:world-input-allowed', this.handleWorldInputAllowed);
+    EventBus.on('render:frame:update', this.handleRenderFrame);
+    EventBus.on('render:event', this.handleRenderEvent);
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.handleLifecycleCleanup);
+    this.events.once(Phaser.Scenes.Events.DESTROY, this.handleLifecycleCleanup);
+    this.refreshMapSlicePlan();
 
     console.log('[WorldScene] Ready');
-  }
-
-  /**
-   * 创建测试角色（用于验证美术资源）
-   */
-  private createTestCharacters(): void {
-    const characters = SpriteLoader.getSupportedCharacters();
-    const startX = 200;
-    const startY = 300;
-    const spacing = 150;
-
-    characters.forEach((character, index) => {
-      const x = startX + (index % 5) * spacing;
-      const y = startY + Math.floor(index / 5) * spacing;
-
-      // 创建角色 sprite
-      const sprite = SpriteLoader.createSprite(this, x, y, character);
-
-      // 添加到实体层
-      this.entityLayer.add(sprite);
-
-      // 添加名字标签
-      const nameText = this.add.text(x, y - 80, character, {
-        fontSize: '12px',
-        color: '#ffffff',
-        backgroundColor: '#000000',
-        padding: { x: 4, y: 2 },
-      }).setOrigin(0.5);
-      this.entityLayer.add(nameText);
-
-      console.log(`[WorldScene] Created test character: ${character} at (${x}, ${y})`);
-
-      // 测试动画切换：每3秒切换一次动作
-      let actionIndex = 0;
-      const actions = ['idle', 'walk', 'run', 'spellcast'];
-      const directions = ['south', 'east', 'north', 'west'];
-      let directionIndex = 0;
-
-      this.time.addEvent({
-        delay: 3000,
-        callback: () => {
-          const action = actions[actionIndex % actions.length];
-          const direction = directions[directionIndex % directions.length];
-
-          SpriteLoader.playAnimation(sprite, character, action, direction);
-
-          actionIndex++;
-          if (actionIndex % actions.length === 0) {
-            directionIndex++;
-          }
-        },
-        loop: true,
-      });
-    });
-
-    console.log(`[WorldScene] Created ${characters.length} test characters`);
+    EventBus.emit('world-scene-ready');
   }
 
   /**
@@ -138,6 +148,9 @@ export class WorldScene extends Phaser.Scene {
     // Layer 1: Ground Art (depth 0)
     this.groundLayer = this.add.container(0, 0);
     this.groundLayer.setDepth(0);
+    const groundImage = this.add.image(0, 0, 'crown_creek_town_base');
+    groundImage.setOrigin(0, 0);
+    this.groundLayer.add(groundImage);
 
     // Layer 2: Structure Background (depth 100)
     this.structureBackgroundLayer = this.add.container(0, 0);
@@ -186,14 +199,7 @@ export class WorldScene extends Phaser.Scene {
    * 设置输入处理
    */
   private setupInput(): void {
-    // 鼠标滚轮缩放
-    this.input.on('wheel', (_pointer: any, _gameObjects: any[], _deltaX: number, deltaY: number) => {
-      const camera = this.cameras.main;
-      const oldZoom = camera.zoom;
-      const zoomDelta = deltaY > 0 ? -0.1 : 0.1;
-      const newZoom = Phaser.Math.Clamp(oldZoom + zoomDelta, this.MIN_ZOOM, this.MAX_ZOOM);
-      camera.setZoom(newZoom);
-    });
+    this.input.on('wheel', this.handleWheel);
 
     // 中键拖拽移动相机（后续实现）
     // 这里暂时留空
@@ -205,21 +211,33 @@ export class WorldScene extends Phaser.Scene {
    * 由外部调用（后续会通过 EventBus 或 WebSocket 接收 RenderFrameInput）
    */
   public updateFrame(frameInput: RenderFrameInput): void {
-    // RULE-RENDER-002: 只接受 revision 不低于当前的 Snapshot，过期输入整帧丢弃而非部分应用
-    if (frameInput.revision < this.sceneRevision) {
-      return;
-    }
-
-    // RULE-RENDER-004: 跨 scene 必须走 Load Gate 重建 Scene，不能在当前 Scene 内静默换图
-    if (this.currentSceneId !== '' && this.currentSceneId !== frameInput.scene_id) {
-      console.warn(
-        `[WorldScene] Rejected snapshot for scene ${frameInput.scene_id}, current scene is ${this.currentSceneId}`
+    if (!this.snapshotGate) {
+      this.snapshotGate = new SnapshotGate(
+        frameInput.world_id,
+        frameInput.scene_id,
       );
+    }
+    const decision = this.snapshotGate.evaluate(frameInput);
+    if (decision.action !== 'apply') {
+      if (decision.action === 'contract_error') {
+        console.warn(`[WorldScene] Rejected snapshot: ${decision.reason}`);
+      }
       return;
     }
+    if (!this.eventSequencer) {
+      this.eventSequencer = new EventSequencer(
+        frameInput.world_id,
+        frameInput.scene_id,
+        frameInput.revision,
+      );
+    } else {
+      this.eventSequencer.onSnapshotApplied(frameInput.revision);
+    }
 
-    this.sceneRevision = frameInput.revision;
-    this.currentSceneId = frameInput.scene_id;
+    this.cameras.main.centerOn(
+      frameInput.camera_target.x_wu,
+      frameInput.camera_target.y_wu,
+    );
 
     for (const entityProj of frameInput.entities) {
       this.updateEntity(entityProj, frameInput.revision);
@@ -228,6 +246,113 @@ export class WorldScene extends Phaser.Scene {
     this.removeStaleEntities(frameInput.entities);
 
     this.sortEntitiesByDepth();
+  }
+
+  public updateEvent(event: RenderEventEnvelope): void {
+    if (!this.eventSequencer) {
+      EventBus.emit('render:resync-required', {
+        reason: 'snapshot_required',
+        received_revision: event.revision,
+      });
+      return;
+    }
+    const decision = this.eventSequencer.ingest(event);
+    if (decision.action === 'resync' || decision.action === 'contract_error') {
+      EventBus.emit('render:resync-required', decision);
+      return;
+    }
+    if (decision.action !== 'applied') {
+      return;
+    }
+    for (const appliedEvent of decision.events) {
+      this.applyRenderEvent(appliedEvent);
+    }
+    this.sortEntitiesByDepth();
+  }
+
+  public update(): void {
+    if (this.cleanupCompleted) {
+      return;
+    }
+    this.refreshMapSlicePlan();
+    for (const entitySprite of this.entities.values()) {
+      this.renderResolvedAnimation(
+        entitySprite,
+        entitySprite.animationMachine.tick(),
+      );
+    }
+  }
+
+  public getMapSlicePlan(): MapSlicePlan | null {
+    return this.currentMapSlicePlan;
+  }
+
+  private refreshMapSlicePlan(): void {
+    const camera = this.cameras.main;
+    const input = {
+      viewport_width_px: this.scale.width,
+      viewport_height_px: this.scale.height,
+      camera_zoom: camera.zoom,
+      camera_center_x_wu: camera.midPoint.x,
+      camera_center_y_wu: camera.midPoint.y,
+      scene_bounds: this.sceneBounds,
+    };
+    const inputSignature = JSON.stringify(input);
+    if (inputSignature === this.lastMapPlanInputSignature) {
+      return;
+    }
+    this.lastMapPlanInputSignature = inputSignature;
+    const result: MapSlicePlanResult = planMapSlices(input);
+    if (!result.ok) {
+      const failureSignature = `${result.reason}:${inputSignature}`;
+      if (failureSignature !== this.lastMapPlanFailureSignature) {
+        this.lastMapPlanFailureSignature = failureSignature;
+        EventBus.emit('render:diagnostic', {
+          issue: 'MAP_SLICE_PLAN_FAILED',
+          reason: result.reason,
+        });
+      }
+      return;
+    }
+    this.lastMapPlanFailureSignature = null;
+    this.currentMapSlicePlan = result;
+    EventBus.emit('render:map-slice-plan', result);
+  }
+
+  private applyRenderEvent(event: RenderEventEnvelope): void {
+    const payload = event.render;
+    if (payload.kind === 'entity_spawned') {
+      this.updateEntity(payload, event.revision);
+      return;
+    }
+    const current = this.entities.get(payload.entity_id);
+    if (payload.kind === 'entity_despawned') {
+      current?.sprite.destroy();
+      this.entities.delete(payload.entity_id);
+      return;
+    }
+    if (!current) {
+      EventBus.emit('render:resync-required', {
+        reason: 'entity_projection_missing',
+        entity_id: payload.entity_id,
+        received_revision: event.revision,
+      });
+      return;
+    }
+    const projection: EntityProjection =
+      payload.kind === 'entity_moved'
+        ? {
+            ...current.projection,
+            world_point: payload.world_point,
+            facing_degrees: payload.facing_degrees,
+          }
+        : {
+            ...current.projection,
+            world_point: payload.world_point,
+            facing_degrees: payload.facing_degrees,
+            desired_animation_state: payload.desired_animation_state,
+          };
+    this.updateEntity(projection, event.revision);
   }
 
   /**
@@ -243,7 +368,7 @@ export class WorldScene extends Phaser.Scene {
     }
 
     this.updateEntityPosition(entitySprite, projection.world_point);
-    this.updateEntityAnimation(entitySprite, projection.facing_degrees);
+    this.updateEntityAnimation(entitySprite, projection, revision);
     this.updateEntityDepth(entitySprite, projection.world_point);
 
     entitySprite.projection = projection;
@@ -258,7 +383,12 @@ export class WorldScene extends Phaser.Scene {
   private createEntity(projection: EntityProjection): EntitySprite {
     // 暂时使用 fallback silhouette
     // 后续会根据 sprite_asset_id 加载实际 texture
-    const sprite = this.add.sprite(0, 0, 'fallback_silhouette');
+    const sprite = SpriteLoader.createSpriteForAsset(
+      this,
+      0,
+      0,
+      projection.asset_id,
+    );
 
     // RULE-RENDER-011: anchor 为脚底中点
     sprite.setOrigin(0.5, 1.0);
@@ -266,10 +396,18 @@ export class WorldScene extends Phaser.Scene {
     // 添加到实体层
     this.entityLayer.add(sprite);
 
+    const animationMachine = new AnimationMachine({
+      now: () => this.time.now,
+      exists: animationId => this.anims.exists(animationId),
+      onMissingAnimation: diagnostic =>
+        EventBus.emit('render:diagnostic', diagnostic),
+    });
     return {
       sprite,
       projection,
+      animationMachine,
       lastSeenRevision: 0,
+      characterName: SpriteLoader.resolveCharacterName(projection.asset_id),
     };
   }
 
@@ -293,16 +431,54 @@ export class WorldScene extends Phaser.Scene {
    */
   private updateEntityAnimation(
     entitySprite: EntitySprite,
-    facingDegrees: 0 | 90 | 180 | 270
+    projection: EntityProjection,
+    revision: number,
   ): void {
-    const { sprite } = entitySprite;
-    const direction = facingToDirection(facingDegrees);
+    const direction = facingToDirection(projection.facing_degrees);
+    entitySprite.animationMachine.apply({
+      asset_id: projection.asset_id,
+      scene_id: projection.world_point.scene_id,
+      revision,
+      kind: this.toAnimationKind(projection.desired_animation_state),
+      direction,
+      animation_id: projection.desired_animation_state.animation_id,
+    });
+    this.renderResolvedAnimation(
+      entitySprite,
+      entitySprite.animationMachine.tick(),
+    );
+  }
 
-    // RULE-RENDER-010: 方向只由已确认 facing 转换，不由视觉猜测
-    // atlas 尚未接入，此处仅落定朝向；动画 key 选择在 Sprite 系统接入后补齐
-    // west 有独立朝向帧，翻转 east 只作为缺帧降级手段，因此这里不做 flipX
-    sprite.setFlipX(false);
-    sprite.setData('direction', direction);
+  private toAnimationKind(state: AnimationState): AnimationKind {
+    if (state.state === 'work') {
+      return 'cast';
+    }
+    if (state.state === 'combat') {
+      return 'attack';
+    }
+    return state.state;
+  }
+
+  private renderResolvedAnimation(
+    entitySprite: EntitySprite,
+    animation: ResolvedAnimation,
+  ): void {
+    entitySprite.sprite.setFlipX(false);
+    entitySprite.sprite.setData('direction', animation.direction);
+    entitySprite.sprite.setData('animationId', animation.animation_id);
+    entitySprite.sprite.setData('animationKind', animation.kind);
+    if (entitySprite.characterName !== null) {
+      SpriteLoader.playAnimation(
+        entitySprite.sprite,
+        entitySprite.characterName,
+        animation.kind,
+        animation.direction,
+      );
+      return;
+    }
+    if (this.anims.exists(animation.animation_id)) {
+      entitySprite.sprite.play(animation.animation_id, true);
+    }
   }
 
   /**
@@ -365,23 +541,39 @@ export class WorldScene extends Phaser.Scene {
    * RULE-RENDER-006: 离开区域 5 秒后 Dispose
    */
   public cleanup(): void {
+    if (this.cleanupCompleted) {
+      return;
+    }
+    this.cleanupCompleted = true;
     console.log('[WorldScene] Cleaning up...');
+    this.events?.off(
+      Phaser.Scenes.Events.SHUTDOWN,
+      this.handleLifecycleCleanup,
+    );
+    this.events?.off(
+      Phaser.Scenes.Events.DESTROY,
+      this.handleLifecycleCleanup,
+    );
+    EventBus.off('ui:world-input-allowed', this.handleWorldInputAllowed);
+    EventBus.off('render:frame:update', this.handleRenderFrame);
+    EventBus.off('render:event', this.handleRenderEvent);
+    this.input?.off('wheel', this.handleWheel);
 
     // 销毁所有实体
     for (const entitySprite of this.entities.values()) {
       entitySprite.sprite.destroy();
     }
     this.entities.clear();
+    this.snapshotGate?.reset();
+    this.snapshotGate = null;
+    this.eventSequencer = null;
+    this.currentMapSlicePlan = null;
+    this.lastMapPlanInputSignature = null;
+    this.lastMapPlanFailureSignature = null;
 
     // 清空地图层
-    this.groundLayer.removeAll(true);
-    this.structureBackgroundLayer.removeAll(true);
-    this.structureForegroundLayer.removeAll(true);
+    this.groundLayer?.removeAll(true);
+    this.structureBackgroundLayer?.removeAll(true);
+    this.structureForegroundLayer?.removeAll(true);
   }
 }
-
-// TODO: 实现地图切片加载逻辑（DOC-RENDER-003）
-// - 根据 camera visible bounds 计算 visible slice bounds
-// - 扩展 preload ring（四边各扩一格）
-// - 加载 Ground Art 和 Structure 切片
-// - 处理 LOD 切换（>20 cells 或 >160 MiB 切到 LOD1）

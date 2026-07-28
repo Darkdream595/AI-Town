@@ -132,6 +132,14 @@ export class PreloadScene extends Phaser.Scene {
    * DOC-RENDER-011: Asset Manifest 与 fallback
    */
   private loadTestAssets(): void {
+    this.load.image(
+      'crown_creek_town_base',
+      'assets/maps/crown_creek_town_base.png',
+    );
+    this.load.image(
+      'asset.fallback.resident_silhouette',
+      'assets/sprites/extracted/human_farmer/human_farmer_idle_south_0.png',
+    );
     // 加载角色 sprite frames
     // 10个角色的所有动画帧
     const characters = [

@@ -20,9 +20,19 @@ export interface WorldPoint {
 /**
  * 动画状态
  */
+export type RenderAnimationState =
+  | 'idle'
+  | 'walk'
+  | 'work'
+  | 'combat'
+  | 'cast'
+  | 'attack'
+  | 'hurt'
+  | 'downed';
+
 export interface AnimationState {
   animation_id: string;
-  state: 'idle' | 'walk' | 'work' | 'combat';
+  state: RenderAnimationState;
   loop: boolean;
   since_revision: number;
 }

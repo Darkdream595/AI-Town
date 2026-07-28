@@ -8,6 +8,7 @@ REST 用例层（DOC-BACKEND-004 §5 端点目录）
 
 from __future__ import annotations
 
+import hmac
 from dataclasses import dataclass, field
 from typing import Callable, Dict, List, Optional, Tuple
 
@@ -19,8 +20,8 @@ from ..orchestrator.worlds import WorldRegistry
 from ..security.confirmations import ConfirmationService
 from ..security.secrets import SECRET_KIND_DEEPSEEK, SecretService
 from ..security.sessions import SessionService
-from ..security.tickets import WsTicketService, ticket_fingerprint
-from .catalog import DESTRUCTIVE_ACTIONS, RouteEntry, path_params
+from ..security.tickets import WsTicketService
+from .catalog import path_params
 from .pipeline import RestContext
 
 APP_VERSION = "0.1.0"
@@ -117,6 +118,8 @@ class RestServices:
     monotonic_ms: Callable[[], int]
     metrics_snapshot: Callable[[], dict]
     diagnostics_builder: Optional[Callable[[dict], str]] = None  # → result_ref
+    shutdown_token: Optional[str] = None
+    shutdown_request: Optional[Callable[[], None]] = None
 
 
 def _require_world_write(services: RestServices) -> None:
@@ -152,6 +155,30 @@ def dispatch(ctx: RestContext, services: RestServices) -> RestResponse:
             "app_version": APP_VERSION,
             "protocol_version": 1,
             "build_fingerprint": BUILD_FINGERPRINT,
+            "package_version": services.runtime.package_version,
+            "build_id": services.runtime.build_id,
+            "current_revision": services.runtime.current_revision,
+        })
+    if path == "/api/v1/shutdown":
+        expected_token = services.shutdown_token
+        received_token = body.get("shutdown_token")
+        is_loopback = ctx.request.client in ("127.0.0.1", "::1", "localhost",
+                                             "testclient")
+        token_matches = (
+            isinstance(expected_token, str)
+            and isinstance(received_token, str)
+            and hmac.compare_digest(received_token, expected_token)
+        )
+        if not is_loopback or not token_matches:
+            raise ApiError("BACKEND_FORBIDDEN",
+                           {"reason_code": "shutdown_not_authorized"})
+        if services.runtime.state != "draining":
+            services.runtime.begin_drain()
+            if services.shutdown_request is not None:
+                services.shutdown_request()
+        return RestResponse(202, {
+            "schema_version": 1,
+            "status": "shutting_down",
         })
 
     # -- session ---------------------------------------------------------------

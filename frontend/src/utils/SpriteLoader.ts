@@ -8,6 +8,18 @@
  */
 
 import Phaser from 'phaser';
+import {
+  lintSpriteSpec,
+  type SpriteCatalogSpec,
+  type SpriteLintDiagnostic,
+} from '../render/sprite_lint';
+
+const FALLBACK_SILHOUETTE_TEXTURE = 'asset.fallback.resident_silhouette';
+
+export interface SpriteCatalogRegistration {
+  accepted: boolean;
+  diagnostics: SpriteLintDiagnostic[];
+}
 
 /**
  * 角色动画配置
@@ -45,6 +57,26 @@ interface AtlasConfig {
  * 角色 Sprite 加载器
  */
 export class SpriteLoader {
+  private static readonly catalogRegistrations =
+    new Map<string, SpriteCatalogRegistration>();
+
+  /**
+   * Registers and validates the catalog contract consumed by subsequent
+   * load/create calls for this character.
+   */
+  static registerCharacterCatalog(
+    characterName: string,
+    spec: SpriteCatalogSpec,
+  ): SpriteCatalogRegistration {
+    const diagnostics = lintSpriteSpec(spec);
+    const registration = {
+      accepted: diagnostics.length === 0,
+      diagnostics,
+    };
+    SpriteLoader.catalogRegistrations.set(characterName, registration);
+    return registration;
+  }
+
   /**
    * 加载角色的所有动画帧
    *
@@ -52,6 +84,13 @@ export class SpriteLoader {
    * @param characterName 角色名称（如 human_farmer）
    */
   static loadCharacter(scene: Phaser.Scene, characterName: string): void {
+    if (!SpriteLoader.isCatalogAccepted(characterName)) {
+      console.warn(
+        `[SpriteLoader] Rejected invalid sprite catalog for ${characterName}; using silhouette fallback`,
+      );
+      return;
+    }
+
     // 加载 atlas 和动画配置
     const atlasKey = `${characterName}_atlas`;
     const animKey = `${characterName}_animations`;
@@ -79,7 +118,7 @@ export class SpriteLoader {
 
     // 等待加载完成后创建动画
     scene.load.once('complete', () => {
-      SpriteLoader.createAnimations(scene, characterName, atlasConfig, animConfig);
+      SpriteLoader.createAnimations(scene, characterName, animConfig);
     });
 
     scene.load.start();
@@ -90,13 +129,11 @@ export class SpriteLoader {
    *
    * @param scene Phaser Scene
    * @param characterName 角色名称
-   * @param atlasConfig Atlas 配置
    * @param animConfig 动画配置
    */
   private static createAnimations(
     scene: Phaser.Scene,
     characterName: string,
-    atlasConfig: AtlasConfig,
     animConfig: Record<string, AnimationConfig>
   ): void {
     // 为每个动画创建 Phaser 动画
@@ -140,6 +177,16 @@ export class SpriteLoader {
     y: number,
     characterName: string
   ): Phaser.GameObjects.Sprite {
+    if (!SpriteLoader.isCatalogAccepted(characterName)) {
+      const fallbackSprite = scene.add.sprite(
+        x,
+        y,
+        FALLBACK_SILHOUETTE_TEXTURE,
+      );
+      fallbackSprite.setOrigin(0.5, 1.0);
+      return fallbackSprite;
+    }
+
     // 使用 idle_south 的第一帧作为初始纹理
     const initialTexture = `${characterName}_idle_south_0`;
 
@@ -158,6 +205,39 @@ export class SpriteLoader {
     return sprite;
   }
 
+  static resolveCharacterName(assetId: string): string | null {
+    const prefix = 'sprite.resident.';
+    if (!assetId.startsWith(prefix)) {
+      return null;
+    }
+    const characterName = assetId.slice(prefix.length);
+    return SpriteLoader.getSupportedCharacters().includes(characterName)
+      ? characterName
+      : null;
+  }
+
+  static createSpriteForAsset(
+    scene: Phaser.Scene,
+    x: number,
+    y: number,
+    assetId: string,
+  ): Phaser.GameObjects.Sprite {
+    const characterName = SpriteLoader.resolveCharacterName(assetId);
+    if (
+      characterName === null ||
+      !scene.textures.exists(`${characterName}_idle_south_0`)
+    ) {
+      const fallbackSprite = scene.add.sprite(
+        x,
+        y,
+        FALLBACK_SILHOUETTE_TEXTURE,
+      );
+      fallbackSprite.setOrigin(0.5, 1);
+      return fallbackSprite;
+    }
+    return SpriteLoader.createSprite(scene, x, y, characterName);
+  }
+
   /**
    * 播放角色动画
    *
@@ -174,6 +254,10 @@ export class SpriteLoader {
     action: string,
     direction: string
   ): void {
+    if (!SpriteLoader.isCatalogAccepted(characterName)) {
+      return;
+    }
+
     const animKey = `${characterName}_${action}_${direction}`;
 
     // 检查动画是否存在
@@ -216,5 +300,9 @@ export class SpriteLoader {
       'human_hunter',
       'dwarf_miner',
     ];
+  }
+
+  private static isCatalogAccepted(characterName: string): boolean {
+    return SpriteLoader.catalogRegistrations.get(characterName)?.accepted ?? true;
   }
 }

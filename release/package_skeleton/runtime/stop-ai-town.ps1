@@ -1,4 +1,4 @@
-# AI Town 备用停止脚本（DOC-RELEASE-008 RULE-RELEASE-060）
+﻿# AI Town 备用停止脚本（DOC-RELEASE-008 RULE-RELEASE-060）
 # 读取 instance.json → POST /api/v1/shutdown（携带 shutdown_token）→
 # 15 秒内等待进程退出确认 → 删除 instance.json；
 # 连接失败说明后端已死：清理陈旧 instance.json 后提示。绝不强杀进程。
@@ -16,7 +16,11 @@ $url = "http://127.0.0.1:$($instance.port)/api/v1/shutdown"
 
 try {
     Invoke-RestMethod -Method Post -Uri $url `
-        -Body (@{ shutdown_token = $instance.shutdown_token } | ConvertTo-Json) `
+        -Headers @{ Origin = "http://127.0.0.1:$($instance.port)" } `
+        -Body (@{
+            schema_version = 1
+            shutdown_token = $instance.shutdown_token
+        } | ConvertTo-Json) `
         -ContentType "application/json" -TimeoutSec 5 | Out-Null
 } catch {
     # 后端已死：按陈旧实例清理（RULE-RELEASE-061）

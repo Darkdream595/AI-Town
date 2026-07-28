@@ -17,9 +17,16 @@
             font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
             overflow: hidden;
         }
-        #game-container {
+        #game-shell {
+            position: relative;
             width: 100vw;
             height: 100vh;
+            --ui-safe-area: 16px;
+            --ui-text-scale: 1;
+        }
+        #game-container {
+            width: 100%;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -40,6 +47,27 @@
             font-size: 1rem;
             color: #888;
         }
+        #ui-overlay {
+            font-size: calc(1rem * var(--ui-text-scale));
+        }
+        #ui-overlay .hud-container {
+            padding-inline: var(--ui-safe-area);
+        }
+        #ui-overlay .dialogue-box {
+            bottom: var(--ui-safe-area);
+            max-width: calc(100% - (2 * var(--ui-safe-area)));
+        }
+        #ui-overlay.ui-layout-compact .hud-container {
+            gap: 12px;
+        }
+        #fullscreen-toggle {
+            position: absolute;
+            right: var(--ui-safe-area);
+            bottom: var(--ui-safe-area);
+            z-index: 1100;
+            min-width: 96px;
+            min-height: 40px;
+        }
     </style>
 </head>
 <body>
@@ -47,8 +75,15 @@
         <h1>AI 小镇</h1>
         <p>正在加载...</p>
     </div>
-    <div id="game-container"></div>
-    <div id="ui-overlay"></div>
+    <div id="game-shell" tabindex="-1">
+        <div id="game-container"></div>
+        <div id="ui-overlay"></div>
+        <button
+            id="fullscreen-toggle"
+            type="button"
+            aria-pressed="false"
+        >进入全屏</button>
+    </div>
     <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

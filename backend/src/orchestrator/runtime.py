@@ -13,9 +13,19 @@ PROCESS_STATES = frozenset({"booting", "recovering", "ready", "draining", "stopp
 
 
 class ProcessRuntime:
-    def __init__(self, monotonic_ms: Callable[[], int]) -> None:
+    def __init__(
+        self,
+        monotonic_ms: Callable[[], int],
+        *,
+        package_version: str = "0.1.0",
+        build_id: str = "dev-local",
+        package_integrity: str = "development",
+    ) -> None:
         self._clock = monotonic_ms
         self._started_ms = monotonic_ms()
+        self.package_version = package_version
+        self.build_id = build_id
+        self.package_integrity = package_integrity
         self.state = "booting"
         self.recovery_barrier_active = True
         self.recovery_error: Optional[str] = None
@@ -55,4 +65,7 @@ class ProcessRuntime:
             "current_revision": self.current_revision,
             "uptime_ms": self.uptime_ms(),
             "logging_degraded": self.logging_degraded,
+            "package_version": self.package_version,
+            "build_id": self.build_id,
+            "package_integrity": self.package_integrity,
         }

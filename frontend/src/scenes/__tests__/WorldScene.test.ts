@@ -7,9 +7,101 @@
  * - 渲染层初始化
  */
 
-import { describe, it, expect } from 'vitest';
-import type { RenderFrameInput, EntityProjection, WorldPoint } from '../../types/rendering';
+import { describe, it, expect, vi, afterEach } from 'vitest';
+
+vi.mock('phaser', () => {
+  class Scene {
+    constructor(_configuration?: unknown) {}
+  }
+  return {
+    default: {
+      Scene,
+      Math: {
+        Clamp: (value: number, minimum: number, maximum: number) =>
+          Math.min(maximum, Math.max(minimum, value)),
+      },
+      Scenes: {
+        Events: {
+          SHUTDOWN: 'shutdown',
+          DESTROY: 'destroy',
+        },
+      },
+    },
+  };
+});
+
+import type {
+  RenderEventEnvelope,
+  RenderFrameInput,
+  EntityProjection,
+  WorldPoint,
+} from '../../types/rendering';
 import { calculateEntityDepth } from '../../types/rendering';
+import { EventBus } from '../../core/EventBus';
+import { WorldScene } from '../WorldScene';
+
+const HASH_A = 'a'.repeat(64);
+
+function makeFrame(
+  revision: number,
+  entities: EntityProjection[] = [],
+): RenderFrameInput {
+  return {
+    protocol_version: 'render.v1',
+    snapshot_id: `snapshot-${revision}`,
+    snapshot_content_sha256: HASH_A,
+    world_id: 'world.test',
+    scene_id: 'scene.test',
+    revision,
+    game_time: revision * 100,
+    camera_target: { scene_id: 'scene.test', x_wu: 512, y_wu: 512 },
+    entities,
+  };
+}
+
+function makeSpawnEvent(
+  revision: number,
+  index: number,
+  count: number,
+  entityId = `entity-${index}`,
+): RenderEventEnvelope {
+  return {
+    protocol_version: 'render.v1',
+    event_id: `event-${revision}-${index}`,
+    world_id: 'world.test',
+    scene_id: 'scene.test',
+    revision,
+    game_time: revision * 100,
+    causation_id: 'cause',
+    correlation_id: 'correlation',
+    transaction_event_index: index,
+    transaction_event_count: count,
+    render: {
+      kind: 'entity_spawned',
+      entity_id: entityId,
+      asset_id: 'sprite.resident.test',
+      world_point: { scene_id: 'scene.test', x_wu: 10, y_wu: 20 },
+      facing_degrees: 90,
+      desired_animation_state: {
+        animation_id: 'anim.resident.idle_south',
+        state: 'idle',
+        loop: true,
+        since_revision: revision,
+      },
+    },
+  };
+}
+
+function defineSceneDependency(scene: WorldScene, name: string, value: unknown): void {
+  Object.defineProperty(scene, name, {
+    configurable: true,
+    value,
+  });
+}
+
+afterEach(() => {
+  EventBus.clear();
+});
 
 describe('WorldScene', () => {
   describe('深度计算', () => {
@@ -249,6 +341,264 @@ describe('WorldScene', () => {
       };
 
       expect(frame.entities).toHaveLength(100);
+    });
+  });
+
+  describe('真实 WorldScene 协议路径', () => {
+    it('Snapshot stale 和 duplicate 不会重复更新实体', () => {
+      const scene = new WorldScene();
+      const updateEntity = vi.fn();
+      (scene as any).updateEntity = updateEntity;
+      (scene as any).removeStaleEntities = vi.fn();
+      (scene as any).sortEntitiesByDepth = vi.fn();
+      defineSceneDependency(scene, 'cameras', {
+        main: { centerOn: vi.fn() },
+      });
+
+      const entity = makeSpawnEvent(1, 0, 1).render as EntityProjection;
+      scene.updateFrame(makeFrame(1, [entity]));
+      scene.updateFrame(makeFrame(1, [entity]));
+      scene.updateFrame({ ...makeFrame(0, [entity]), snapshot_content_sha256: 'b'.repeat(64) });
+
+      expect(updateEntity).toHaveBeenCalledTimes(1);
+    });
+
+    it('event transaction 仅完整时应用，并在 revision gap 时请求 resync', () => {
+      const scene = new WorldScene();
+      (scene as any).updateEntity = vi.fn();
+      (scene as any).removeStaleEntities = vi.fn();
+      (scene as any).sortEntitiesByDepth = vi.fn();
+      defineSceneDependency(scene, 'cameras', {
+        main: { centerOn: vi.fn() },
+      });
+      const applyRenderEvent = vi.fn();
+      (scene as any).applyRenderEvent = applyRenderEvent;
+      const resync = vi.fn();
+      EventBus.on('render:resync-required', resync);
+
+      scene.updateFrame(makeFrame(1));
+      scene.updateEvent(makeSpawnEvent(2, 1, 2));
+      expect(applyRenderEvent).not.toHaveBeenCalled();
+
+      scene.updateEvent(makeSpawnEvent(2, 0, 2));
+      expect(applyRenderEvent).toHaveBeenCalledTimes(2);
+
+      scene.updateEvent(makeSpawnEvent(4, 0, 1));
+      expect(resync).toHaveBeenCalledWith(
+        expect.objectContaining({
+          action: 'resync',
+          expected_revision: 3,
+          received_revision: 4,
+        }),
+      );
+    });
+  });
+
+  describe('Scene lifecycle', () => {
+    it('routes render frame and event bus inputs while active, then unregisters them', () => {
+      const scene = new WorldScene();
+      const updateFrame = vi.spyOn(scene, 'updateFrame').mockImplementation(() => undefined);
+      const updateEvent = vi.spyOn(scene, 'updateEvent').mockImplementation(() => undefined);
+      const lifecycleHandlers = new Map<string, () => void>();
+      defineSceneDependency(scene, 'events', {
+        once: (event: string, handler: () => void) => lifecycleHandlers.set(event, handler),
+        off: vi.fn(),
+      });
+      (scene as any).createRenderLayers = vi.fn();
+      (scene as any).setupCamera = vi.fn();
+      (scene as any).setupInput = vi.fn();
+      (scene as any).refreshMapSlicePlan = vi.fn();
+
+      scene.create();
+      EventBus.emit('render:frame:update', makeFrame(1));
+      EventBus.emit('render:event', makeSpawnEvent(2, 0, 1));
+
+      expect(updateFrame).toHaveBeenCalledWith(makeFrame(1));
+      expect(updateEvent).toHaveBeenCalledWith(makeSpawnEvent(2, 0, 1));
+
+      lifecycleHandlers.get('shutdown')?.();
+      EventBus.emit('render:frame:update', makeFrame(2));
+      EventBus.emit('render:event', makeSpawnEvent(3, 0, 1));
+      expect(updateFrame).toHaveBeenCalledTimes(1);
+      expect(updateEvent).toHaveBeenCalledTimes(1);
+    });
+
+    it('create 不生成本地测试角色，并绑定 shutdown/destroy cleanup', () => {
+      const scene = new WorldScene();
+      const createTestCharacters = vi.fn();
+      const cleanup = vi.spyOn(scene, 'cleanup');
+      const lifecycleHandlers = new Map<string, () => void>();
+      const lifecycleOff = vi.fn();
+      defineSceneDependency(scene, 'events', {
+        once: (event: string, handler: () => void) => {
+          lifecycleHandlers.set(event, handler);
+        },
+        off: lifecycleOff,
+      });
+      (scene as any).createRenderLayers = vi.fn();
+      (scene as any).setupCamera = vi.fn();
+      (scene as any).setupInput = vi.fn();
+      (scene as any).refreshMapSlicePlan = vi.fn();
+      (scene as any).createTestCharacters = createTestCharacters;
+
+      scene.create();
+
+      expect(createTestCharacters).not.toHaveBeenCalled();
+      expect(lifecycleHandlers.has('shutdown')).toBe(true);
+      expect(lifecycleHandlers.has('destroy')).toBe(true);
+      lifecycleHandlers.get('shutdown')?.();
+      lifecycleHandlers.get('destroy')?.();
+      expect(cleanup).toHaveBeenCalledTimes(2);
+      expect(lifecycleOff).toHaveBeenCalledWith(
+        'shutdown',
+        expect.any(Function),
+      );
+      expect(lifecycleOff).toHaveBeenCalledWith(
+        'destroy',
+        expect.any(Function),
+      );
+    });
+
+    it('cleanup 可幂等调用且只销毁资源一次', () => {
+      const scene = new WorldScene();
+      const sprite = { destroy: vi.fn() };
+      (scene as any).entities.set('entity', {
+        sprite,
+        projection: makeSpawnEvent(1, 0, 1).render,
+        lastSeenRevision: 1,
+      });
+      const groundRemoveAll = vi.fn();
+      const backgroundRemoveAll = vi.fn();
+      const foregroundRemoveAll = vi.fn();
+      (scene as any).groundLayer = { removeAll: groundRemoveAll };
+      (scene as any).structureBackgroundLayer = { removeAll: backgroundRemoveAll };
+      (scene as any).structureForegroundLayer = { removeAll: foregroundRemoveAll };
+
+      scene.cleanup();
+      scene.cleanup();
+
+      expect(sprite.destroy).toHaveBeenCalledTimes(1);
+      expect(groundRemoveAll).toHaveBeenCalledTimes(1);
+      expect(backgroundRemoveAll).toHaveBeenCalledTimes(1);
+      expect(foregroundRemoveAll).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('Ground rendering', () => {
+    it('adds the loaded Crown Creek base image to the ground layer', () => {
+      const scene = new WorldScene();
+      const groundAdd = vi.fn();
+      const containers = [
+        { setDepth: vi.fn().mockReturnThis(), add: groundAdd },
+        { setDepth: vi.fn().mockReturnThis(), add: vi.fn() },
+        { setDepth: vi.fn().mockReturnThis(), add: vi.fn() },
+        { setDepth: vi.fn().mockReturnThis(), add: vi.fn() },
+      ];
+      const groundImage = { setOrigin: vi.fn().mockReturnThis() };
+      defineSceneDependency(scene, 'add', {
+        container: vi.fn(() => containers.shift()),
+        image: vi.fn(() => groundImage),
+      });
+
+      (scene as any).createRenderLayers();
+
+      expect((scene as any).add.image).toHaveBeenCalledWith(
+        0,
+        0,
+        'crown_creek_town_base',
+      );
+      expect(groundImage.setOrigin).toHaveBeenCalledWith(0, 0);
+      expect(groundAdd).toHaveBeenCalledWith(groundImage);
+    });
+  });
+
+  describe('地图切片接入', () => {
+    it('根据真实相机状态生成并发布 map slice plan', () => {
+      const scene = new WorldScene();
+      defineSceneDependency(scene, 'scale', { width: 1280, height: 720 });
+      defineSceneDependency(scene, 'cameras', {
+        main: { zoom: 1, midPoint: { x: 2048, y: 2048 } },
+      });
+      const plans: unknown[] = [];
+      EventBus.on('render:map-slice-plan', plan => plans.push(plan));
+
+      (scene as any).refreshMapSlicePlan();
+
+      expect(scene.getMapSlicePlan()).toEqual(
+        expect.objectContaining({ ok: true, lod: 0 }),
+      );
+      expect(plans).toHaveLength(1);
+    });
+
+    it('无效 viewport 只发出一次稳定 diagnostic', () => {
+      const scene = new WorldScene();
+      defineSceneDependency(scene, 'scale', { width: 4000, height: 720 });
+      defineSceneDependency(scene, 'cameras', {
+        main: { zoom: 1, midPoint: { x: 2048, y: 2048 } },
+      });
+      const diagnostics: unknown[] = [];
+      EventBus.on('render:diagnostic', diagnostic => diagnostics.push(diagnostic));
+
+      (scene as any).refreshMapSlicePlan();
+      (scene as any).refreshMapSlicePlan();
+
+      expect(diagnostics).toEqual([
+        expect.objectContaining({
+          issue: 'MAP_SLICE_PLAN_FAILED',
+          reason: 'invalid_input',
+        }),
+      ]);
+    });
+  });
+
+  describe('AnimationMachine 接入', () => {
+    it('消费 projection desired state 并在 900ms 后回退 idle', () => {
+      const scene = new WorldScene();
+      let now = 0;
+      defineSceneDependency(scene, 'time', { get now() { return now; } });
+      defineSceneDependency(scene, 'anims', {
+        exists: (animationId: string) =>
+          animationId === 'anim.resident.attack_south' ||
+          animationId === 'anim.resident.idle_south',
+      });
+      const sprite = {
+        depth: 0,
+        setOrigin: vi.fn().mockReturnThis(),
+        setPosition: vi.fn().mockReturnThis(),
+        setFlipX: vi.fn().mockReturnThis(),
+        setData: vi.fn().mockReturnThis(),
+        setDepth(value: number) {
+          this.depth = value;
+          return this;
+        },
+        play: vi.fn().mockReturnThis(),
+        destroy: vi.fn(),
+      };
+      defineSceneDependency(scene, 'add', { sprite: vi.fn(() => sprite) });
+      (scene as any).entityLayer = {
+        add: vi.fn(),
+        bringToTop: vi.fn(),
+      };
+      (scene as any).refreshMapSlicePlan = vi.fn();
+      const projection: EntityProjection = {
+        entity_id: 'entity-1',
+        asset_id: 'sprite.resident.test',
+        world_point: { scene_id: 'scene.test', x_wu: 10, y_wu: 20 },
+        facing_degrees: 90,
+        desired_animation_state: {
+          animation_id: 'anim.resident.attack_south',
+          state: 'attack',
+          loop: false,
+          since_revision: 1,
+        },
+      };
+
+      (scene as any).updateEntity(projection, 1);
+      expect(sprite.setData).toHaveBeenCalledWith('animationKind', 'attack');
+
+      now = 900;
+      scene.update();
+      expect(sprite.setData).toHaveBeenLastCalledWith('animationKind', 'idle');
     });
   });
 });

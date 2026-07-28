@@ -13,9 +13,23 @@ import { PhaserDomBridge } from '../ui/PhaserDomBridge';
 import type { UiRenderProjection } from '../types/ui_projection';
 
 export class UIScene extends Phaser.Scene {
-  private domBridge!: PhaserDomBridge;
+  private domBridge: PhaserDomBridge | null = null;
   private currentRevision: number = -1;
   private debugEnabled: boolean = false;
+  private lifecycleActive = false;
+  private readonly handleUiUpdateBound = (projection: UiRenderProjection): void =>
+    this.handleUiUpdate(projection);
+  private readonly handleShowDialogueBound = (
+    data: { speaker: string; text: string },
+  ): void => this.handleShowDialogue(data);
+  private readonly handleShowMayorPanelBound = (): void =>
+    this.handleShowMayorPanel();
+  private readonly handleDebugToggleBound = (): void => {
+    this.debugEnabled = !this.debugEnabled;
+    EventBus.emit('ui:toggle-debug', this.debugEnabled);
+  };
+  private readonly handleLifecycleCleanupBound = (): void =>
+    this.cleanupLifecycle();
 
   constructor() {
     super({ key: 'UIScene' });
@@ -23,20 +37,39 @@ export class UIScene extends Phaser.Scene {
 
   create(): void {
     console.log('UIScene created');
+    if (this.lifecycleActive) {
+      this.cleanupLifecycle();
+    }
+    this.lifecycleActive = true;
+    this.currentRevision = -1;
+    this.debugEnabled = false;
 
     // 初始化 DOM Bridge
-    this.domBridge = new PhaserDomBridge();
+    this.domBridge = new PhaserDomBridge(
+      undefined,
+      allowed => {
+        EventBus.emit('ui:world-input-allowed', allowed);
+      },
+      ({ width, height }) => {
+        this.scale.resize(width, height);
+      },
+    );
 
     // 监听 EventBus 事件
-    EventBus.on('ui:update', this.handleUiUpdate.bind(this));
-    EventBus.on('ui:show-dialogue', this.handleShowDialogue.bind(this));
-    EventBus.on('ui:show-mayor-panel', this.handleShowMayorPanel.bind(this));
+    EventBus.on('ui:update', this.handleUiUpdateBound);
+    EventBus.on('ui:show-dialogue', this.handleShowDialogueBound);
+    EventBus.on('ui:show-mayor-panel', this.handleShowMayorPanelBound);
 
     // F3 切换调试信息
-    this.input.keyboard?.on('keydown-F3', () => {
-      this.debugEnabled = !this.debugEnabled;
-      EventBus.emit('ui:toggle-debug', this.debugEnabled);
-    });
+    this.input.keyboard?.on('keydown-F3', this.handleDebugToggleBound);
+    this.events.once(
+      Phaser.Scenes.Events.SHUTDOWN,
+      this.handleLifecycleCleanupBound,
+    );
+    this.events.once(
+      Phaser.Scenes.Events.DESTROY,
+      this.handleLifecycleCleanupBound,
+    );
 
     // 初始 UI projection（占位数据）
     this.updateUI({
@@ -121,7 +154,7 @@ export class UIScene extends Phaser.Scene {
    * 更新 UI（通过 DOM Bridge）
    */
   private updateUI(projection: UiRenderProjection): void {
-    this.domBridge.patch(projection);
+    this.domBridge?.patch(projection);
     this.currentRevision = projection.revision;
   }
 
@@ -192,8 +225,27 @@ export class UIScene extends Phaser.Scene {
   }
 
   shutdown(): void {
-    EventBus.off('ui:update', this.handleUiUpdate.bind(this));
-    EventBus.off('ui:show-dialogue', this.handleShowDialogue.bind(this));
-    EventBus.off('ui:show-mayor-panel', this.handleShowMayorPanel.bind(this));
+    this.cleanupLifecycle();
+  }
+
+  private cleanupLifecycle(): void {
+    if (!this.lifecycleActive) {
+      return;
+    }
+    this.lifecycleActive = false;
+    this.events.off(
+      Phaser.Scenes.Events.SHUTDOWN,
+      this.handleLifecycleCleanupBound,
+    );
+    this.events.off(
+      Phaser.Scenes.Events.DESTROY,
+      this.handleLifecycleCleanupBound,
+    );
+    EventBus.off('ui:update', this.handleUiUpdateBound);
+    EventBus.off('ui:show-dialogue', this.handleShowDialogueBound);
+    EventBus.off('ui:show-mayor-panel', this.handleShowMayorPanelBound);
+    this.input.keyboard?.off('keydown-F3', this.handleDebugToggleBound);
+    this.domBridge?.dispose();
+    this.domBridge = null;
   }
 }

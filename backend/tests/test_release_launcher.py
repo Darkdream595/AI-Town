@@ -109,6 +109,14 @@ class TestHealthPollingAndBrowserPolicy:  # TEST-RELEASE-030：
         result = poller.poll("0.1.0")
         assert result["outcome"] == "timeout"  # 版本不匹配不算 ready
 
+    def test_ready_without_package_version_never_false_passes(self):
+        """缺失版本字段不是兼容成功，避免启动器打开错误构建。"""
+        ticks = []
+        poller = self._poller(
+            lambda: {"process_state": "ready"}, ticks)
+        result = poller.poll("0.1.0")
+        assert result["outcome"] == "timeout"
+
     def test_timeout_at_60_seconds(self):
         ticks = []
         poller = self._poller(lambda: None, ticks)

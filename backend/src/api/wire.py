@@ -38,6 +38,15 @@ REST_REQUEST_SCHEMAS = {
         make_object_schema({"schema_version": _SV}, ("schema_version",)),
         {"schema_version": 1},
     ),
+    "ShutdownRequestV1": (
+        make_object_schema({
+            "schema_version": _SV,
+            "shutdown_token": {
+                "type": "string", "minLength": 32, "maxLength": 128,
+            },
+        }, ("schema_version", "shutdown_token")),
+        {"schema_version": 1, "shutdown_token": "a" * 32},
+    ),
     "WsTicketRequestV1": (
         make_object_schema({"schema_version": _SV, "world_id": _ID},
                            ("schema_version", "world_id")),
@@ -183,13 +192,19 @@ REST_RESPONSE_SCHEMAS = {
             "current_revision": _INT,
             "uptime_ms": _INT,
             "logging_degraded": _BOOL,
+            "package_version": {"type": "string"},
+            "build_id": {"type": "string"},
+            "package_integrity": {"type": "string"},
         }, ("schema_version", "process_state", "recovery_barrier_active",
             "recovery_error", "open_world_id", "current_revision",
-            "uptime_ms", "logging_degraded")),
+            "uptime_ms", "logging_degraded", "package_version", "build_id",
+            "package_integrity")),
         {"schema_version": 1, "process_state": "ready",
          "recovery_barrier_active": False, "recovery_error": None,
          "open_world_id": "world-000001", "current_revision": 42,
-         "uptime_ms": 1234, "logging_degraded": False},
+         "uptime_ms": 1234, "logging_degraded": False,
+         "package_version": "0.1.0", "build_id": "build.test",
+         "package_integrity": "verified"},
     ),
     "AppMetaV1": (
         make_object_schema({
@@ -197,10 +212,23 @@ REST_RESPONSE_SCHEMAS = {
             "app_version": {"type": "string"},
             "protocol_version": _SV,
             "build_fingerprint": {"type": "string"},
+            "package_version": {"type": "string"},
+            "build_id": {"type": "string"},
+            "current_revision": _INT,
         }, ("schema_version", "app_version", "protocol_version",
-            "build_fingerprint")),
+            "build_fingerprint", "package_version", "build_id",
+            "current_revision")),
         {"schema_version": 1, "app_version": "0.1.0",
-         "protocol_version": 1, "build_fingerprint": "dev"},
+         "protocol_version": 1, "build_fingerprint": "dev",
+         "package_version": "0.1.0", "build_id": "build.test",
+         "current_revision": 42},
+    ),
+    "ShutdownStatusV1": (
+        make_object_schema({
+            "schema_version": _SV,
+            "status": {"type": "string", "enum": ["shutting_down"]},
+        }, ("schema_version", "status")),
+        {"schema_version": 1, "status": "shutting_down"},
     ),
     "SessionInfoV1": (
         make_object_schema({
