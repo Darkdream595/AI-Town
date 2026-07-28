@@ -47,6 +47,6 @@ if ($stopped) {
     Write-Host "AI Town 已安全停止，存档已保存。"
 } else {
     Write-Host "停止请求已发送但进程未在 15 秒内退出。"
-    Write-Host "请在系统托盘中选择「保存并退出」，"
-    Write-Host "或在任务管理器结束 AI-Town.exe（下次启动将按崩溃恢复处理）。"
+    Write-Host "请稍后再次运行 关闭AI-Town.bat，"
+    Write-Host "仍无法退出时可在任务管理器结束 AI-Town.exe（下次启动将按崩溃恢复处理）。"
 }

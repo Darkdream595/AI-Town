@@ -140,6 +140,7 @@ class TestTrayExitAndStopScript:  # TEST-RELEASE-031：
         assert "taskkill" not in lowered
         assert "stop-process" not in lowered  # 绝不强杀
         assert "kill" not in lowered.replace("skill", "")
+        assert "系统托盘" not in text
 
     def test_ps1_cleans_stale_instance_on_unreachable(self):
         """连接失败按陈旧实例清理（脚本注释与分支）"""
