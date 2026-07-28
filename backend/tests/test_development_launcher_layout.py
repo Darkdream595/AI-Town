@@ -18,3 +18,13 @@ def test_development_launcher_resolves_project_root_from_its_own_path() -> None:
 
     assert 'set "PROJECT_ROOT=%~dp0..\\.."' in script
     assert 'cd /d "%PROJECT_ROOT%"' in script
+
+
+def test_development_launcher_starts_backend_as_an_importable_module() -> None:
+    script = DEVELOPMENT_LAUNCHER.read_text(encoding="utf-8")
+
+    assert (
+        "python -m uvicorn src.main:app --app-dir backend "
+        "--host 127.0.0.1 --port 8000"
+    ) in script
+    assert "python backend\\src\\main.py" not in script

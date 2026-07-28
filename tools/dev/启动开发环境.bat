@@ -60,7 +60,7 @@ echo 按 Ctrl+C 可停止服务
 echo.
 
 REM 启动后端（新窗口）
-start "AI Town Backend" /D "%PROJECT_ROOT%" cmd /k "call backend\venv\Scripts\activate.bat && python backend\src\main.py"
+start "AI Town Backend" /D "%PROJECT_ROOT%" cmd /k "call backend\venv\Scripts\activate.bat && python -m uvicorn src.main:app --app-dir backend --host 127.0.0.1 --port 8000"
 
 REM 等待后端启动
 timeout /t 3 /nobreak >nul
