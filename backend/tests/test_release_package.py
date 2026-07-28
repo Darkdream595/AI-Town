@@ -1,7 +1,6 @@
 """TEST-RELEASE-033..036：发布包布局与清单（DOC-RELEASE-009）"""
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 import pytest
@@ -19,9 +18,9 @@ MIGRATION_CURRENT = {"app": {"current": 1, "min_supported": 1},
 
 def _make_package(root: Path) -> Path:
     """构造最小合法包目录（DES-RELEASE-018 布局子集）"""
-    (root / "runtime" / "backend" / "_internal").mkdir(parents=True)
-    (root / "runtime" / "backend" / "AI-Town.exe").write_bytes(b"MZ-fake")
-    (root / "runtime" / "backend" / "_internal" / "app.py").write_text(
+    (root / "_internal").mkdir(parents=True)
+    (root / "AI-Town.exe").write_bytes(b"MZ-fake")
+    (root / "_internal" / "app.py").write_text(
         "print('hi')", encoding="utf-8")
     (root / "assets" / "web").mkdir(parents=True)
     (root / "assets" / "web" / "index.html").write_text(
@@ -38,10 +37,11 @@ def _make_package(root: Path) -> Path:
 
 class TestPackageLayout:  # TEST-RELEASE-033：RULE-RELEASE-063..065
     def test_skeleton_entries_present(self):
-        """骨架含玩家可见四件套；manifest 由流水线生成故不在骨架"""
+        """骨架含关闭入口和说明；EXE 及 manifest 由流水线生成"""
         names = {p.name for p in SKELETON_DIR.iterdir()}
-        assert {"启动AI小镇.bat", "停止AI小镇.bat",
-                "README-开始游戏.txt", "runtime"} <= names
+        assert {"关闭AI-Town.bat", "README-开始游戏.txt", "runtime"} <= names
+        assert "启动AI小镇.bat" not in names
+        assert "停止AI小镇.bat" not in names
         assert (SKELETON_DIR / "runtime" / "stop-ai-town.ps1").is_file()
 
     def test_skeleton_contains_no_dev_artifacts(self):
@@ -100,7 +100,9 @@ class TestManifestConsistency:  # TEST-RELEASE-034：RULE-RELEASE-066/067
         # 逐文件 SHA-256 + 大小；清单自身不列入
         paths = {f["path"] for f in manifest["files"]}
         assert "release-manifest.json" not in paths
-        assert "runtime/backend/AI-Town.exe" in paths
+        assert "AI-Town.exe" in paths
+        assert "_internal/app.py" in paths
+        assert not any(path.startswith("runtime/backend/") for path in paths)
         for entry in manifest["files"]:
             assert len(entry["sha256"]) == 64
             assert entry["size_bytes"] >= 0
@@ -130,12 +132,12 @@ class TestManifestConsistency:  # TEST-RELEASE-034：RULE-RELEASE-066/067
         manifest = release_manifest.build_manifest(
             package, package_version="0.1.0", build_id="abc",
             migration_current=MIGRATION_CURRENT)
-        (package / "runtime" / "backend" / "AI-Town.exe").unlink()
+        (package / "AI-Town.exe").unlink()
         (package / "assets" / "web" / "sneaky.js").write_text(
             "x", encoding="utf-8")
         result = release_manifest.verify_manifest(package, manifest)
         assert result["ok"] is False
-        assert result["missing"] == ["runtime/backend/AI-Town.exe"]
+        assert result["missing"] == ["AI-Town.exe"]
         assert result["extra"] == ["assets/web/sneaky.js"]
 
     def test_version_triplet_comparison(self):
@@ -225,10 +227,9 @@ class TestEncoding:  # TEST-RELEASE-036：RULE-RELEASE-070
         # 常见乱码标志不应出现
         assert "ï»¿" not in text and "锘" not in text
 
-    def test_bat_files_utf8_with_chcp(self):
-        for name in ("启动AI小镇.bat", "停止AI小镇.bat"):
-            raw = (SKELETON_DIR / name).read_bytes()
-            raw.decode("utf-8")  # 必须可 UTF-8 解码
-            result = release_manifest.check_bat_content(SKELETON_DIR / name)
-            assert result["has_chcp"] is True
-            assert result["ok"] is True
+    def test_close_bat_utf8_with_chcp(self):
+        path = SKELETON_DIR / "关闭AI-Town.bat"
+        path.read_bytes().decode("utf-8")  # 必须可 UTF-8 解码
+        result = release_manifest.check_bat_content(path)
+        assert result["has_chcp"] is True
+        assert result["ok"] is True
