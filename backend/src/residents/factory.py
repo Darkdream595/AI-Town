@@ -53,7 +53,7 @@ class ResidentFactory:
                 knowledge=40
             ),
             profession=Profession.FARMER,
-            current_position=WorldCoordinate(x_wu=200, y_wu=300, z_wu=0),
+            current_position=WorldCoordinate(x_wu=200, y_wu=300),
             money_copper=150,
         )
 
@@ -97,7 +97,7 @@ class ResidentFactory:
                 knowledge=90
             ),
             profession=Profession.MAGE,
-            current_position=WorldCoordinate(x_wu=350, y_wu=300, z_wu=0),
+            current_position=WorldCoordinate(x_wu=350, y_wu=300),
             money_copper=200,
         )
 
@@ -140,7 +140,7 @@ class ResidentFactory:
                 knowledge=55
             ),
             profession=Profession.BLACKSMITH,
-            current_position=WorldCoordinate(x_wu=500, y_wu=300, z_wu=0),
+            current_position=WorldCoordinate(x_wu=500, y_wu=300),
             money_copper=250,
         )
 
@@ -183,7 +183,7 @@ class ResidentFactory:
                 knowledge=60
             ),
             profession=Profession.MERCHANT,
-            current_position=WorldCoordinate(x_wu=650, y_wu=300, z_wu=0),
+            current_position=WorldCoordinate(x_wu=650, y_wu=300),
             money_copper=500,
         )
 
@@ -231,7 +231,7 @@ class ResidentFactory:
                 knowledge=45
             ),
             profession=Profession.GUARD,
-            current_position=WorldCoordinate(x_wu=200, y_wu=450, z_wu=0),
+            current_position=WorldCoordinate(x_wu=200, y_wu=450),
             money_copper=120,
         )
 
@@ -274,7 +274,7 @@ class ResidentFactory:
                 knowledge=70
             ),
             profession=Profession.PRIEST,
-            current_position=WorldCoordinate(x_wu=350, y_wu=450, z_wu=0),
+            current_position=WorldCoordinate(x_wu=350, y_wu=450),
             money_copper=100,
         )
 
@@ -322,7 +322,7 @@ class ResidentFactory:
                 knowledge=50
             ),
             profession=Profession.INNKEEPER,
-            current_position=WorldCoordinate(x_wu=500, y_wu=450, z_wu=0),
+            current_position=WorldCoordinate(x_wu=500, y_wu=450),
             money_copper=300,
         )
 
@@ -370,7 +370,7 @@ class ResidentFactory:
                 knowledge=95
             ),
             profession=Profession.ALCHEMIST,
-            current_position=WorldCoordinate(x_wu=650, y_wu=450, z_wu=0),
+            current_position=WorldCoordinate(x_wu=650, y_wu=450),
             money_copper=180,
         )
 
@@ -418,7 +418,7 @@ class ResidentFactory:
                 knowledge=55
             ),
             profession=Profession.HUNTER,
-            current_position=WorldCoordinate(x_wu=200, y_wu=600, z_wu=0),
+            current_position=WorldCoordinate(x_wu=200, y_wu=600),
             money_copper=130,
         )
 
@@ -466,7 +466,7 @@ class ResidentFactory:
                 knowledge=50
             ),
             profession=Profession.MINER,
-            current_position=WorldCoordinate(x_wu=350, y_wu=600, z_wu=0),
+            current_position=WorldCoordinate(x_wu=350, y_wu=600),
             money_copper=140,
         )
 
