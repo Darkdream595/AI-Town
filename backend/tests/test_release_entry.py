@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import socket
 import sys
+from pathlib import Path
 from types import SimpleNamespace
 
 from src import release_entry
@@ -30,6 +31,14 @@ class _Server:
     def run(self, *, sockets) -> None:
         self.sockets = sockets
         self.bound_ports = [item.getsockname()[1] for item in sockets]
+
+
+def test_frozen_package_root_is_executable_directory(monkeypatch, tmp_path):
+    executable = tmp_path / "AI-Town.exe"
+    monkeypatch.setattr(sys, "frozen", True, raising=False)
+    monkeypatch.setattr(sys, "executable", str(executable))
+
+    assert release_entry._package_root() == Path(executable).resolve().parent
 
 
 def test_bind_ephemeral_socket_uses_loopback_and_real_os_port():

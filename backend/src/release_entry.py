@@ -168,7 +168,7 @@ def _create_uvicorn_server(application, port: int):
 def _package_root() -> Path:
     executable = Path(sys.executable).resolve()
     if getattr(sys, "frozen", False):
-        return executable.parents[2]
+        return executable.parent
     return Path(__file__).resolve().parents[2]
 
 

@@ -29,11 +29,11 @@ TEXT_EXTENSIONS = frozenset({
     ".ps1", ".py", ".toml", ".txt", ".xml", ".yaml", ".yml",
 })
 REQUIRED_PATHS = (
-    "启动AI小镇.bat",
-    "停止AI小镇.bat",
+    "AI-Town.exe",
+    "_internal/python311.dll",
+    "关闭AI-Town.bat",
     "README-开始游戏.txt",
     "runtime/stop-ai-town.ps1",
-    "runtime/backend/AI-Town.exe",
     "assets/web/index.html",
     "licenses/THIRD-PARTY-NOTICES.txt",
 )
@@ -155,7 +155,7 @@ def assemble_package(
         prefix=f".{package_dir.name}-assembling-", dir=package_dir.parent))
     try:
         _copy_tree(skeleton, staging)
-        _copy_tree(backend_bundle, staging / "runtime" / "backend")
+        _copy_tree(backend_bundle, staging)
         _copy_tree(frontend_dist, staging / "assets" / "web")
         _copy_tree(licenses, staging / "licenses")
         missing = [

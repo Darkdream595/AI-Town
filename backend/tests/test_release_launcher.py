@@ -4,7 +4,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import pytest
 from release_helpers import make_utc_factory  # noqa: F401
 
 from src.persistence import launcher, release_manifest
@@ -16,23 +15,9 @@ SKELETON_DIR = (Path(__file__).resolve().parents[2]
 class TestBatchDelegationAndSingleInstance:  # TEST-RELEASE-029：
     # RULE-RELEASE-055/056/057
     def test_skeleton_bat_files_exist(self):
-        assert (SKELETON_DIR / "启动AI小镇.bat").is_file()
-        assert (SKELETON_DIR / "停止AI小镇.bat").is_file()
+        assert not (SKELETON_DIR / "启动AI小镇.bat").exists()
+        assert (SKELETON_DIR / "关闭AI-Town.bat").is_file()
         assert (SKELETON_DIR / "runtime" / "stop-ai-town.ps1").is_file()
-
-    def test_start_bat_delegates_only(self):
-        """RULE-RELEASE-055：chcp + %~dp0 委派，无注册表/管理员/参数解析"""
-        result = release_manifest.check_bat_content(
-            SKELETON_DIR / "启动AI小镇.bat")
-        assert result["ok"] is True
-        assert result["has_chcp"] is True
-        assert result["delegates_with_dp0"] is True
-        text = (SKELETON_DIR / "启动AI小镇.bat").read_text(encoding="utf-8")
-        lowered = text.lower()
-        assert "reg add" not in lowered and "regedit" not in lowered
-        assert "runas" not in lowered and "net session" not in lowered
-        # 委派目标为包内 Launcher
-        assert 'start "" "%~dp0runtime\\backend\\AI-Town.exe"' in text
 
     def test_instance_record_fields_and_atomic_write(self, tmp_path):
         """RULE-RELEASE-057：端口/pid/started_at/package_version/
@@ -137,10 +122,10 @@ class TestTrayExitAndStopScript:  # TEST-RELEASE-031：
     # RULE-RELEASE-059/060
     def test_stop_bat_delegates_to_ps1_without_taskkill(self):
         result = release_manifest.check_bat_content(
-            SKELETON_DIR / "停止AI小镇.bat")
+            SKELETON_DIR / "关闭AI-Town.bat")
         assert result["ok"] is True
         assert result["no_taskkill"] is True
-        text = (SKELETON_DIR / "停止AI小镇.bat").read_text(encoding="utf-8")
+        text = (SKELETON_DIR / "关闭AI-Town.bat").read_text(encoding="utf-8")
         assert "stop-ai-town.ps1" in text
         assert "%~dp0" in text
 

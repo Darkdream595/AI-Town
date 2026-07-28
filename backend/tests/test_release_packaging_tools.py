@@ -38,9 +38,7 @@ def _load_entry():
 def _make_sources(root: Path) -> dict[str, Path]:
     skeleton = root / "skeleton"
     (skeleton / "runtime").mkdir(parents=True)
-    (skeleton / "启动AI小镇.bat").write_text(
-        "@echo off\nchcp 65001 >nul\n", encoding="utf-8")
-    (skeleton / "停止AI小镇.bat").write_text(
+    (skeleton / "关闭AI-Town.bat").write_text(
         "@echo off\nchcp 65001 >nul\n", encoding="utf-8")
     (skeleton / "README-开始游戏.txt").write_bytes(
         b"\xef\xbb\xbf" + "开始游戏".encode("utf-8"))
@@ -98,10 +96,13 @@ def test_assemble_package_replaces_stale_output_and_has_fixed_layout(tmp_path):
     tool.assemble_package(package_dir=package_dir, **sources)
 
     assert not (package_dir / "stale.txt").exists()
-    assert (package_dir / "runtime" / "backend" / "AI-Town.exe").is_file()
+    assert (package_dir / "AI-Town.exe").is_file()
+    assert (package_dir / "_internal" / "python311.dll").is_file()
+    assert not (package_dir / "runtime" / "backend").exists()
     assert (package_dir / "assets" / "web" / "index.html").is_file()
     assert (package_dir / "licenses" / "python" / "LICENSE.txt").is_file()
-    assert (package_dir / "启动AI小镇.bat").is_file()
+    assert (package_dir / "关闭AI-Town.bat").is_file()
+    assert not (package_dir / "启动AI小镇.bat").exists()
 
 
 def test_replace_directory_retries_transient_windows_lock(tmp_path, monkeypatch):
@@ -192,7 +193,7 @@ def test_manifest_is_sorted_complete_and_hashes_every_file(tmp_path):
         if path.is_file() and path.name != "release-manifest.json"
     )
     exe = next(entry for entry in manifest["files"]
-               if entry["path"] == "runtime/backend/AI-Town.exe")
+               if entry["path"] == "AI-Town.exe")
     assert exe["sha256"] == hashlib.sha256(b"MZ-test").hexdigest()
     assert manifest["package_version"] == "1.2.3"
     assert manifest["build_id"] == "abc1234"
@@ -245,7 +246,7 @@ def test_verify_package_requires_exact_layout_and_path_budget(tmp_path):
     sources = _make_sources(tmp_path)
     package_dir = tmp_path / "AI-Town"
     tool.assemble_package(package_dir=package_dir, **sources)
-    (package_dir / "runtime" / "backend" / "AI-Town.exe").unlink()
+    (package_dir / "AI-Town.exe").unlink()
     long_dir = package_dir / "assets" / "web" / ("长目录" * 40)
     long_dir.mkdir()
     (long_dir / "x.js").write_text("x", encoding="utf-8")
@@ -261,7 +262,7 @@ def test_verify_package_requires_exact_layout_and_path_budget(tmp_path):
 
     report = tool.verify_package(package_dir)
     assert report["ok"] is False
-    assert "runtime/backend/AI-Town.exe" in report["missing_required"]
+    assert "AI-Town.exe" in report["missing_required"]
     assert report["longest_relative_path"] > 120
 
 
@@ -328,6 +329,17 @@ def test_crash_log_failure_does_not_mask_launcher_error(monkeypatch):
         entry.main()
 
     assert captured.value is original_error
+
+
+def test_frozen_backend_entry_package_root_is_executable_directory(
+    monkeypatch, tmp_path
+):
+    entry = _load_entry()
+    executable = tmp_path / "AI-Town.exe"
+    monkeypatch.setattr(entry.sys, "frozen", True, raising=False)
+    monkeypatch.setattr(entry.sys, "executable", str(executable))
+
+    assert entry._package_root() == executable.resolve().parent
 
 
 def test_spec_and_build_script_encode_offline_onefolder_pipeline():
