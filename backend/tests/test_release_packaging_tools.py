@@ -398,4 +398,6 @@ def test_spec_and_build_script_encode_offline_onefolder_pipeline():
     assert "$SkipNpmCi -and -not $AllowDirty" in script
     assert "npm run build" in script
     assert "release_packaging.py" in script
+    assert 'Join-Path $projectRoot "dist"' in script
+    assert 'Join-Path $PSScriptRoot "out"' not in script
     assert "pip install" not in script.lower()

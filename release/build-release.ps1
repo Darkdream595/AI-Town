@@ -40,7 +40,7 @@ $licenseRoot = if ($LicenseSource) {
 $output = if ($OutputRoot) {
     $OutputRoot
 } else {
-    Join-Path $PSScriptRoot "out"
+    Join-Path $projectRoot "dist"
 }
 $frontendRoot = Join-Path $projectRoot "frontend"
 $frontendDist = Join-Path $frontendRoot "dist"
