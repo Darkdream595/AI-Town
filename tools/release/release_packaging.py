@@ -96,6 +96,21 @@ def _copy_tree(source: Path, destination: Path) -> None:
     shutil.copytree(source, destination, dirs_exist_ok=True, copy_function=shutil.copy2)
 
 
+def _find_file_path_conflicts(
+    skeleton: Path,
+    backend_bundle: Path,
+) -> list[str]:
+    conflicts: list[str] = []
+    for backend_path in backend_bundle.rglob("*"):
+        relative = backend_path.relative_to(backend_bundle)
+        skeleton_path = skeleton / relative
+        if skeleton_path.exists() and (
+            not skeleton_path.is_dir() or not backend_path.is_dir()
+        ):
+            conflicts.append(relative.as_posix())
+    return sorted(conflicts)
+
+
 def _validate_assembly_inputs(
     skeleton: Path,
     backend_bundle: Path,
@@ -109,9 +124,16 @@ def _validate_assembly_inputs(
         (licenses, "licenses"),
     ):
         _require_directory(path, description)
-    if not (backend_bundle / "AI-Town.exe").is_file():
+    for relative in ("AI-Town.exe", "_internal/python311.dll"):
+        if not (backend_bundle / Path(relative)).is_file():
+            raise ReleasePackagingError(
+                f"PyInstaller bundle 缺少 {relative}：{backend_bundle}")
+    conflicts = _find_file_path_conflicts(skeleton, backend_bundle)
+    if conflicts:
         raise ReleasePackagingError(
-            f"PyInstaller bundle 缺少 AI-Town.exe：{backend_bundle}")
+            "package skeleton 与 PyInstaller bundle 路径冲突："
+            + ", ".join(conflicts)
+        )
     if not (frontend_dist / "index.html").is_file():
         raise ReleasePackagingError(
             f"frontend dist 缺少 index.html：{frontend_dist}")

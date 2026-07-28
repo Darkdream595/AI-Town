@@ -105,6 +105,39 @@ def test_assemble_package_replaces_stale_output_and_has_fixed_layout(tmp_path):
     assert not (package_dir / "启动AI小镇.bat").exists()
 
 
+def test_assemble_rejects_skeleton_backend_file_path_conflict(tmp_path):
+    tool = _load_tool()
+    sources = _make_sources(tmp_path)
+    relative = Path("_internal") / "shared.cfg"
+    (sources["skeleton"] / relative).parent.mkdir(parents=True)
+    (sources["skeleton"] / relative).write_text(
+        "skeleton", encoding="utf-8")
+    (sources["backend_bundle"] / relative).write_text(
+        "backend", encoding="utf-8")
+
+    with pytest.raises(
+        tool.ReleasePackagingError,
+        match=r"路径冲突.*_internal/shared\.cfg",
+    ):
+        tool.assemble_package(package_dir=tmp_path / "package", **sources)
+
+
+def test_assemble_requires_dll_from_backend_bundle(tmp_path):
+    tool = _load_tool()
+    sources = _make_sources(tmp_path)
+    backend_dll = sources["backend_bundle"] / "_internal" / "python311.dll"
+    backend_dll.unlink()
+    skeleton_dll = sources["skeleton"] / "_internal" / "python311.dll"
+    skeleton_dll.parent.mkdir(parents=True)
+    skeleton_dll.write_bytes(b"fake-dll")
+
+    with pytest.raises(
+        tool.ReleasePackagingError,
+        match=r"PyInstaller bundle 缺少 _internal[/\\]python311\.dll",
+    ):
+        tool.assemble_package(package_dir=tmp_path / "package", **sources)
+
+
 def test_replace_directory_retries_transient_windows_lock(tmp_path, monkeypatch):
     tool = _load_tool()
     source = tmp_path / "source"
