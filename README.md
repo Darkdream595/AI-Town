@@ -108,16 +108,18 @@ AI_Town/
 运行后端测试：
 
 ```powershell
-Set-Location backend
+Push-Location backend
 venv/Scripts/python.exe -m pytest tests -q
+Pop-Location
 ```
 
 运行前端测试与构建：
 
 ```powershell
-Set-Location frontend
+Push-Location frontend
 npm test -- --run --exclude src/tests/residents-api.test.ts
 npm run build
+Pop-Location
 ```
 
 `src/tests/residents-api.test.ts` 是需要本地后端配合的手动 API 检查脚本，不属于 Vitest 自动化测试集。
@@ -125,7 +127,7 @@ npm run build
 在干净的 Git 工作区中构建 Windows 发布包：
 
 ```powershell
-.\release\build-release.ps1 -PackageVersion 0.1.0 -BuildId <当前 Git commit SHA>
+.\release\build-release.ps1 -PackageVersion 0.1.0 -BuildId (git rev-parse HEAD)
 ```
 
 构建结果写入根目录 `dist/`，包括可解压游玩的 `AI-Town/` 目录与版本压缩包。
