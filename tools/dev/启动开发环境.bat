@@ -1,9 +1,17 @@
 @echo off
 chcp 65001 >nul
-title AI 小镇
+title AI 小镇开发环境启动器
+
+set "PROJECT_ROOT=%~dp0..\.."
+cd /d "%PROJECT_ROOT%" || (
+    echo [错误] 无法进入项目根目录："%PROJECT_ROOT%"
+    pause
+    exit /b 1
+)
+set "PROJECT_ROOT=%CD%"
 
 echo ========================================
-echo           AI 小镇启动器
+echo       AI 小镇开发环境启动器
 echo ========================================
 echo.
 
@@ -52,13 +60,13 @@ echo 按 Ctrl+C 可停止服务
 echo.
 
 REM 启动后端（新窗口）
-start "AI Town Backend" cmd /k "cd /d %CD% && backend\venv\Scripts\activate && python backend\src\main.py"
+start "AI Town Backend" /D "%PROJECT_ROOT%" cmd /k "call backend\venv\Scripts\activate.bat && python backend\src\main.py"
 
 REM 等待后端启动
 timeout /t 3 /nobreak >nul
 
 REM 启动前端（新窗口）
-start "AI Town Frontend" cmd /k "cd /d %CD%\frontend && npm run dev"
+start "AI Town Frontend" /D "%PROJECT_ROOT%\frontend" cmd /k "npm run dev"
 
 REM 等待前端启动
 timeout /t 5 /nobreak >nul
